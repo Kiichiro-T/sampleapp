@@ -1,8 +1,15 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, only: [:new]
+  before_action :authenticate_user!, only: [:new, :create, :show]
+
+  def index
+    @user = User.find(current_user.id)
+    @events = Event.where(user_id: @user.id)
+  end
 
   def show
     @event = Event.find(params[:id])
+    @user = User.find(current_user.id)
+    @transactions = Transaction.where(event_id: @event.id)
   end
 
   def new

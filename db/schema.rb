@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_15_062104) do
+ActiveRecord::Schema.define(version: 2019_11_15_075949) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -18,6 +18,19 @@ ActiveRecord::Schema.define(version: 2019_11_15_062104) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "event_id"
+    t.string "debtor"
+    t.datetime "deadline"
+    t.integer "debt"
+    t.boolean "repayment", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_transactions_on_event_id"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -34,4 +47,6 @@ ActiveRecord::Schema.define(version: 2019_11_15_062104) do
   end
 
   add_foreign_key "events", "users"
+  add_foreign_key "transactions", "events"
+  add_foreign_key "transactions", "users"
 end

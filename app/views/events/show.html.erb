@@ -1,1 +1,17 @@
-<h1><%= @event.name %></h1>
+<h1>イベント名： <%= @event.name %></h1>
+<h2>作成者： <%= @user.name %></h4>
+<h2><%=  link_to "貸した？", new_event_transaction_path(event_id: @event.id) %></h4>
+
+<% if @transactions.any? %>
+  <% @transactions.each do |transaction| %>
+    <p>借りた人： <%= transaction.debtor %></p>
+    <p>金額： <%= transaction.debt %>円</p>
+    <p>返済期限： <%= transaction.deadline %></p>
+    <% if transaction.repayment%>
+      <p>支払い済み</p>
+    <% else %>
+      <p>未払い</p>
+    <% end %>
+    <hr>
+  <% end %>
+<% end %>
