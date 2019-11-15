@@ -1,9 +1,9 @@
-<%= form_for(@transaction, url: event_transactions_path) do |f| %>
+<%= form_for(@transaction, url: event_transactions_path(event_id: @event.id)) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
 
     <%= f.hidden_field :user_id, :value => current_user.id %>
-    <%= f.hidden_field :event_id, :value => current_user.id %>
+    <%= f.hidden_field :event_id, :value => @event.id %>
 
     <%= f.label :debtor, "支払う人" %> <br />
     <%= f.text_field :debtor, class: "form-control", placeholder: "例）田中　太郎" %> <br />

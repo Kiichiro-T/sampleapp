@@ -19,7 +19,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     if @event.save
-      flash[:succes] = "イベント作成成功！"
+      flash[:success] = "イベント作成成功！"
       redirect_to @event
     else
       render 'new'
