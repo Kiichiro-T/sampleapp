@@ -1,0 +1,12 @@
+<%= form_for(@event) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+
+    <%= f.hidden_field :user_id, :value => current_user.id %> 
+
+    <%= f.label :name, "イベント名" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "例）夏合宿・飲み会" %>
+
+    <%= f.submit "作成"%>
+  </div>
+<% end %>
