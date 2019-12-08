@@ -6,9 +6,9 @@
   <% @transactions.each do |transaction| %>
     <p>借りた人： <%= transaction.debtor %></p>
     <p>金額： <%= transaction.debt %>円</p>
-    <p>返済期限： <%= transaction.deadline %></p>
+    <p>返済期限： <%= transaction.deadline.strftime("%Y年%m月%d日") %></p>
     <% if transaction.repayment%>
-      <p>支払い済み</p>
+      <p>支払い済み(<%= link_to "領収書発行", pdf_path(event_id: transaction.event_id, id: transaction.id, format: "pdf") %>)</p>
     <% else %>
       <p>未払い</p>
     <% end %>
