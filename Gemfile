@@ -38,6 +38,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'jquery-rails', '4.3.1'
 gem 'bootstrap-sass', '3.4.1'
 gem 'devise'
+gem 'prawn'
+gem 'prawn-table'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
