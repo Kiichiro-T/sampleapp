@@ -23,7 +23,7 @@
       <p><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></p>
 
       <script
-        src="https://www.paypal.com/sdk/js?client-id=AZR6iii5MSSwkNDYMHwXBAisU7U7EseHtRKIBE5gnxIflczZyT2Z9cZjpO1CXPNPb0aNub4lXCKQDE3Q"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
+        src="https://www.paypal.com/sdk/js?client-id=AZR6iii5MSSwkNDYMHwXBAisU7U7EseHtRKIBE5gnxIflczZyT2Z9cZjpO1CXPNPb0aNub4lXCKQDE3Q&currency=JPY"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
       </script>
 
       <div id="paypal-button-container"></div>
@@ -35,7 +35,7 @@
             return actions.order.create({
               purchase_units: [{
                 amount: {
-                  value: '0.01'
+                  value: '500'
                 }
               }]
             });
