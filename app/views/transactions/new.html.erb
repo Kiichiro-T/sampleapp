@@ -2,20 +2,18 @@
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
 
-    <%= f.hidden_field :user_id, :value => current_user.id %>
+    <%= f.hidden_field :creditor_id, :value => current_user.id %>
     <%= f.hidden_field :event_id, :value => @event.id %>
+    <%= f.hidden_field :group_id, :value => @event.group_id %>
 
-    <%= f.label :debtor, "支払う人" %> <br />
-    <%= f.text_field :debtor, class: "form-control", placeholder: "例）田中　太郎" %> <br />
+    <%= f.label :debtor_id, "支払う人" %> <br />
+    <%#= f.text_field :debtor, class: "form-control", placeholder: "例）田中　太郎" %> <br /> <%# これから設定していく　%>
 
     <%= f.label :debt, "金額" %> <br />
     <%= f.number_field :debt, class: "form-control" %> <br />
 
     <%= f.label :deadline, "支払い期限" %> <br />
     <%= f.date_field :deadline, class: "form-control" %> <br />
-    
-    <%= f.label :repayment, "支払い済みかどうか" %> <br />
-    <%= f.check_box :repayment, {}, "true", "false"  %> <br />
 
     
     <%= f.submit "作成"%>
