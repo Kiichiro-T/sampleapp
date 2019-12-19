@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   root 'homes#index'
   get 'homes/index'
-  get 'events/:event_id/transactions/:id', to: 'receipt_pdfs#show', as: 'pdf'
+  get 'events/:event_id/transactions/:id/receipt', to: 'receipt_pdfs#show', as: 'pdf'
   resources :events do
     resources :transactions, only: [:new, :create]
   end
