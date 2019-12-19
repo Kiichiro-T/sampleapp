@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_19_030015) do
+ActiveRecord::Schema.define(version: 2019_12_19_041456) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -30,15 +30,19 @@ ActiveRecord::Schema.define(version: 2019_12_19_030015) do
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "event_id"
-    t.string "debtor", null: false
     t.datetime "deadline"
     t.integer "debt", null: false
+    t.integer "payment", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "debtor_id"
+    t.bigint "creditor_id"
+    t.bigint "event_id"
+    t.bigint "group_id"
+    t.index ["creditor_id"], name: "index_transactions_on_creditor_id"
+    t.index ["debtor_id"], name: "index_transactions_on_debtor_id"
     t.index ["event_id"], name: "index_transactions_on_event_id"
-    t.index ["user_id"], name: "index_transactions_on_user_id"
+    t.index ["group_id"], name: "index_transactions_on_group_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -59,6 +63,8 @@ ActiveRecord::Schema.define(version: 2019_12_19_030015) do
   add_foreign_key "events", "users"
   add_foreign_key "groups", "users", column: "leader_id"
   add_foreign_key "transactions", "events"
-  add_foreign_key "transactions", "users"
+  add_foreign_key "transactions", "groups"
+  add_foreign_key "transactions", "users", column: "creditor_id"
+  add_foreign_key "transactions", "users", column: "debtor_id"
   add_foreign_key "users", "groups"
 end
