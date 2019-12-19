@@ -1,0 +1,6 @@
+<% @groups.each do |group| %>
+  <p><%= group.name %></p>
+  <% leader = User.find(group.leader_id) %>
+  <p><%= leader.name %></p>
+  <p><%= group.email %></p>
+<% end %>

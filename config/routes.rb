@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'homes#index'
   get 'homes/index'
   get 'events/:event_id/transactions/:id/receipt', to: 'receipt_pdfs#show', as: 'pdf'
+  resources :groups
   resources :events do
     resources :transactions, only: [:new, :create]
   end

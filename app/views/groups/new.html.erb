@@ -1,0 +1,15 @@
+<%= form_for(@group) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.hidden_field :leader_id, :value => current_user.id %> 
+
+    <%= f.label :name, "グループ名" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "例）○○テニスサークル" %>
+
+    <%= f.label :email, "メールアドレス" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <p>メールアドレスはサークル口座用に作成したPayPalアカウントと同じものを使用することをおすすめします！</p>
+
+    <%= f.submit "作成"%>
+  </div>
+<% end %>

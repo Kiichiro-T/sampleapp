@@ -21,6 +21,8 @@
           <ul class="nav navbar-nav navbar-right">
             <% if user_signed_in? %>
             　<li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
+              <li><%= link_to "グループ一覧", groups_path %></li>
+              <li><%= link_to "グループ新規作成", new_group_path %></li>
               <li><%= link_to "イベント一覧", events_path %></li>
               <li><%= link_to "イベント新規作成", new_event_path %></li>
             <% else %>

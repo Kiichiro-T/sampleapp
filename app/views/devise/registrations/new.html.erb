@@ -21,6 +21,8 @@
     <%= f.password_field :password, autocomplete: "new-password" %>
   </div>
 
+  <%# 登録の際はまだグループidは決めない、編集の時でいいか？ %>
+
   <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
