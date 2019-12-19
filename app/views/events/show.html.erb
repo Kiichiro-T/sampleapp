@@ -4,13 +4,14 @@
 
 <% if @transactions.any? %>
   <% @transactions.each do |transaction| %>
-    <p>借りた人： <%= transaction.debtor %></p>
+    <% debtor = User.find(transaction.debtor_id) %>
+    <p>借りた人： <%= debtor.name %></p>
     <p>金額： <%= transaction.debt %>円</p>
     <p>返済期限： <%= transaction.deadline.strftime("%Y年%m月%d日") %></p>
-    <% if transaction.repayment%>
+    <% if transaction.debt == transaction.payment %>
       <p>支払い済み(<%= link_to "領収書発行", pdf_path(event_id: transaction.event_id, id: transaction.id, format: "pdf") %>)</p>
     <% else %>
-      <p>未払い</p>
+      <p>支払いは完了していません</p>
     <% end %>
     <hr>
   <% end %>

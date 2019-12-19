@@ -10,27 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_15_075949) do
+ActiveRecord::Schema.define(version: 2019_12_19_044607) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "group_id"
+    t.index ["group_id"], name: "index_events_on_group_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
-  create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "event_id"
-    t.string "debtor"
-    t.datetime "deadline"
-    t.integer "debt"
-    t.boolean "repayment", default: false, null: false
+  create_table "groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.bigint "leader_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["leader_id"], name: "index_groups_on_leader_id"
+  end
+
+  create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "deadline"
+    t.integer "debt", null: false
+    t.integer "payment", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "debtor_id"
+    t.bigint "creditor_id"
+    t.bigint "event_id"
+    t.bigint "group_id"
+    t.index ["creditor_id"], name: "index_transactions_on_creditor_id"
+    t.index ["debtor_id"], name: "index_transactions_on_debtor_id"
     t.index ["event_id"], name: "index_transactions_on_event_id"
-    t.index ["user_id"], name: "index_transactions_on_user_id"
+    t.index ["group_id"], name: "index_transactions_on_group_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -41,12 +55,19 @@ ActiveRecord::Schema.define(version: 2019_11_15_075949) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
+    t.string "name", null: false
+    t.bigint "group_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "events", "groups"
   add_foreign_key "events", "users"
+  add_foreign_key "groups", "users", column: "leader_id"
   add_foreign_key "transactions", "events"
-  add_foreign_key "transactions", "users"
+  add_foreign_key "transactions", "groups"
+  add_foreign_key "transactions", "users", column: "creditor_id"
+  add_foreign_key "transactions", "users", column: "debtor_id"
+  add_foreign_key "users", "groups"
 end
