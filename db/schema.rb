@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_19_024519) do
+ActiveRecord::Schema.define(version: 2019_12_19_030015) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_024519) do
 
   create_table "groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
-    t.string "email"
+    t.string "email", null: false
     t.bigint "leader_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -32,10 +32,9 @@ ActiveRecord::Schema.define(version: 2019_12_19_024519) do
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "event_id"
-    t.string "debtor"
+    t.string "debtor", null: false
     t.datetime "deadline"
-    t.integer "debt"
-    t.boolean "repayment", default: false, null: false
+    t.integer "debt", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_transactions_on_event_id"
@@ -50,8 +49,10 @@ ActiveRecord::Schema.define(version: 2019_12_19_024519) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
+    t.string "name", null: false
+    t.bigint "group_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -59,4 +60,5 @@ ActiveRecord::Schema.define(version: 2019_12_19_024519) do
   add_foreign_key "groups", "users", column: "leader_id"
   add_foreign_key "transactions", "events"
   add_foreign_key "transactions", "users"
+  add_foreign_key "users", "groups"
 end
