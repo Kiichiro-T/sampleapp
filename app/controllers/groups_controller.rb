@@ -12,6 +12,8 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     if @group.save
       flash[:success] = "グループ作成成功！"
+      current_user.update_attributes(group_id: @group.id)
+      # 後からストロングパラメータの設定をする
       redirect_to groups_url
     else
       render 'new'
@@ -23,4 +25,8 @@ class GroupsController < ApplicationController
     def group_params
       params.require(:group).permit(:name, :leader_id, :email)
     end
+
+    #def user_group_id_params
+    #  params.require(:user).permit(:group_id)
+    #end
 end
