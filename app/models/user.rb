@@ -11,9 +11,15 @@ class User < ApplicationRecord
   validates :group_id, presence: true, allow_nil: true
 
     def self.import(file, group)
+      added_user_count = 0
       CSV.foreach(file.path, headers: true, skip_blanks: true) do |row|
         name = row['name']
-        User.create!(name: name, email: "#{name}@test.com", password: "password", group_id: group.id)
+        user = User.new(name: name, email: "#{name}@test.com", password: "password", group_id: group.id)
+        if user.valid?
+          user.save!
+          added_user_count += 1
+        end
       end
+      added_user_count
     end
 end
