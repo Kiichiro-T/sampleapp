@@ -1,0 +1,9 @@
+<% @users.each do |user| %>
+  <% group = Group.find(user.group_id) %>
+  <p><%= user.id %></p>
+  <p><%= user.name %></p>
+  <p><%= user.email %></p>
+  <% if group %>
+    <p><%= group.name %></p>
+  <% end %>
+<% end %>
