@@ -9,4 +9,20 @@ class User < ApplicationRecord
   # has_manyもある？とりあえず一旦は一つのグループに所属している方針で設計する
   validates :name, presence: true, length: { maximum: 100 }
   validates :group_id, presence: true, allow_nil: true
+
+    def self.import!(file, group)
+      added_user_count = 0
+      self.transaction do
+        CSV.foreach(file.path, headers: true, skip_blanks: true, encoding: "CP932:UTF-8") do |row|
+          name = row['name']
+          email = SecureRandom.hex(10)
+          password = SecureRandom.hex(4)
+          user = User.new(name: name, email: "#{email}@tmp.com", password: password, group_id: group.id)
+          user.save!
+          added_user_count += 1
+        end
+      end
+        added_user_count
+        # 例外処理は今度書く
+    end
 end

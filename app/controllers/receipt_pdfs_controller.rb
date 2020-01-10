@@ -1,4 +1,5 @@
 class ReceiptPdfsController < ApplicationController
+  before_action :authenticate_user!
   def show
     @transaction = Transaction.find_by(id: params[:id], event_id: params[:event_id])
     @user = User.find_by(id: @transaction.creditor_id)

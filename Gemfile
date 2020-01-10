@@ -40,7 +40,11 @@ gem 'bootstrap-sass', '3.4.1'
 gem 'devise'
 gem 'prawn'
 gem 'prawn-table'
+# paypal sdk for checkout
 gem 'paypal-checkout-sdk'
+# bulk insert
+gem 'roo'
+gem 'activerecord-import'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
