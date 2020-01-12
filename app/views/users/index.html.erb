@@ -1,5 +1,5 @@
 <h2><%= @group.name %></h2>
-<p><%= link_to "共有する", share_path(format: :csv), class: "btn btn-primary" %></p>
+<p><%= link_to "共有する", share_group_users_path(format: :csv, group_id: @group.id), class: "btn btn-primary" %></p>
 <% @users.each do |user| %>
   <p><%= user.id %></p>
   <p><%= user.name %></p>
