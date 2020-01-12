@@ -9,6 +9,7 @@ class User < ApplicationRecord
   # has_manyもある？とりあえず一旦は一つのグループに所属している方針で設計する
   validates :name, presence: true, length: { maximum: 100 }
   validates :group_id, presence: true, allow_nil: true
+  validates :definitive_registration, inclusion: {in: [true, false]}
 
     def self.import!(file, group)
       added_user_count = 0
@@ -17,7 +18,8 @@ class User < ApplicationRecord
           name = row['name']
           email = SecureRandom.hex(8)
           password = "password"
-          user = User.new(name: name, email: "#{email}@tmp.com", password: password, group_id: group.id)
+          user = User.new(name: name, email: "#{email}@tmp.com", password: password,
+                            group_id: group.id, definitive_registration: false)
           user.skip_confirmation!
           user.save!
           added_user_count += 1

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :confirm_definitive_registration, only: [:new, :batch]
   def index
     @users = User.all
   end 

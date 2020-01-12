@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :show]
+  before_action :authenticate_user!
+  before_action :confirm_definitive_registration
 
   def index
     @user = User.find(current_user.id)

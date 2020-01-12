@@ -63,33 +63,4 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   # end
 
-  private
-=begin
-    def import_users
-      # 登録処理前のレコード数
-      current_user_count = ::User.count
-      users = []
-      # windowsで作られたファイルに対応するので、encoding: "SJIS"を付けている
-      CSV.foreach(params[:bulk_users_file].path, headers: true, encoding: "SJIS") do |row|
-        users << ::User.new({ name: row["name"], email: "", password: "password", group_id: current_user.group_id })
-      end
-      # importメソッドでバルクインサートできる
-      ::User.import users, validation: false
-      # 何レコード登録できたかを返す
-      ::User.count - current_user_count
-    end
-
-    def import_users
-      # 登録処理前のレコード数
-      current_user_count = User.all.count
-      group = Group.find(current_user.group_id)
-      # windowsで作られたファイルに対応するので、encoding: "SJIS"を付けている
-      CSV.foreach(params[:bulk_users_file].path, headers: true, encoding: "SJIS") do |row|
-        user = User.new({ name: row["name"], email: "", password: "password-#{group.id}", group_id: current_user.group_id })
-        user.save
-      end
-      # 何レコード登録できたかを返す
-      ::User.count - current_user_count
-    end
-=end
 end
