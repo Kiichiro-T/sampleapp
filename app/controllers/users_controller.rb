@@ -14,13 +14,16 @@ class UsersController < ApplicationController
       flash[:danger] = "読み込むファイルを選択してください"
       redirect_to new_users_url
       return
-    end
-    if File.extname(params[:file].original_filename) != ".csv"
+    elsif File.extname(params[:file].original_filename) != ".csv"
       flash[:danger] = "csvファイルのみ読み込み可能です"
       redirect_to new_users_url
       return
+    elsif params[:password].blank?
+      flash[:danger] = "パスワードを入力をしてください"
+      redirect_to new_users_url
+      return
     end
-    count = User.import!(params[:file], group)
+    count = User.import!(params[:file], group, params[:password])
     if count <= 0
       flash[:danger] = "データがないまたは間違いがあるので、もう一度ご確認ください"
       redirect_to new_users_url

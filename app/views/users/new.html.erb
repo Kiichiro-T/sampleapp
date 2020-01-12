@@ -1,5 +1,7 @@
 <%= form_tag batch_users_path, multipart: true do %>
   <%= hidden_field_tag :group_id, :value => current_user.group_id %>
   <%= file_field_tag :file %>
+  <%= label :password, "初期パスワード" %>
+  <%= password_field_tag :password %>
   <%= submit_tag "インポート" %>
 <% end %>

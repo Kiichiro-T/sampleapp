@@ -11,13 +11,13 @@ class User < ApplicationRecord
   validates :group_id, presence: true, allow_nil: true
   validates :definitive_registration, inclusion: {in: [true, false]}
 
-    def self.import!(file, group)
+    def self.import!(file, group, pass)
       added_user_count = 0
       self.transaction do
         CSV.foreach(file.path, headers: true, skip_blanks: true, encoding: "CP932:UTF-8") do |row|
           name = row['name']
           email = SecureRandom.hex(8)
-          password = "password"
+          password = pass
           user = User.new(name: name, email: "#{email}@tmp.com", password: password,
                             group_id: group.id, definitive_registration: false)
           user.skip_confirmation!
