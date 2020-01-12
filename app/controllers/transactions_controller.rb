@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
+  before_action :confirm_definitive_registration
 
   def new
     @event = Event.find(params[:event_id])

@@ -1,7 +1,10 @@
 <%= form_for(@group) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
-    <%= f.hidden_field :leader_id, :value => current_user.id %> 
+    <%= f.hidden_field :leader_id, :value => current_user.id %>
+    <%#= f.fields_for :user do |user| %>
+      <%# user.hidden_field :group_id, :value => @group.id %>
+    <%# end %>
 
     <%= f.label :name, "グループ名" %>
     <%= f.text_field :name, class: "form-control", placeholder: "例）○○テニスサークル" %>

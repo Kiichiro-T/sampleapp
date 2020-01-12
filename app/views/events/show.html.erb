@@ -11,7 +11,7 @@
     <% if transaction.debt == transaction.payment %>
       <p>支払い済み(<%= link_to "領収書発行", pdf_path(event_id: transaction.event_id, id: transaction.id, format: "pdf") %>)</p>
     <% else %>
-      <p>支払いは完了していません</p>
+      <p><%= transaction.payment %>円支払い済み</p>
     <% end %>
     <hr>
   <% end %>
