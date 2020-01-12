@@ -1,5 +1,5 @@
 <% @groups.each do |group| %>
-  <p><%= group.name %></p>
+  <p><%= link_to group.name, group_path(group) %></p>
   <% leader = User.find(group.leader_id) %>
   <p>幹事名：  <%= leader.name %></p>
   <p>email：　 <%= group.email %></p>

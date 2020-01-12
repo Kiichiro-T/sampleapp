@@ -12,14 +12,15 @@ Rails.application.routes.draw do
   root 'homes#index'
   get 'homes/index'
   get 'events/:event_id/transactions/:id/receipt', to: 'receipt_pdfs#show', as: 'pdf'
-  get 'users', to: 'users#index', as: 'users'
   get 'users/csv_template', to: 'users#csv_template', as: 'csv_template'
-  resource :users, only: [:new] do
-    collection do
-      post :batch
+  get 'groups/:group_id/users/share', to: 'users#share', as: 'share'
+  resources :groups do
+    resources :users, only: [:index, :new] do
+      collection do
+        post :batch
+      end
     end
   end
-  resources :groups
   resources :events do
     resources :transactions, only: [:new, :create]
   end

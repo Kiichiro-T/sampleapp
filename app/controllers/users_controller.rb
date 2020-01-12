@@ -3,15 +3,38 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :confirm_definitive_registration, only: [:new, :batch]
+
   def index
-    @users = User.all
+    @group = Group.find(params[:group_id])
+    @users = User.where(group_id: @group.id).where(definitive_registration: false)
   end 
 
+  def share
+    group = Group.find(params[:group_id])
+    users = User.where(group_id: group.id).where(definitive_registration: false)
+    respond_to do |format|
+      format.html
+      format.csv do |csv|
+        share_csv(users)
+      end
+    end
+  end
+
   def new
+    @group = Group.find(params[:group_id])
+  end
+
+  def csv_template
+    respond_to do |format|
+      format.html
+      format.csv do |csv|
+        send_template_csv
+      end
+    end
   end
 
   def batch
-    group = Group.find_by(id: current_user.group_id)
+    @group = Group.find(params[:group_id])
     if params[:file].blank?
       flash[:danger] = "読み込むファイルを選択してください"
       redirect_to new_users_url
@@ -25,33 +48,39 @@ class UsersController < ApplicationController
       redirect_to new_users_url
       return
     end
-    count = User.import!(params[:file], group, params[:password])
+    count = User.import!(params[:file], @group, params[:password])
     if count <= 0
       flash[:danger] = "データがないまたは間違いがあるので、もう一度ご確認ください"
       redirect_to new_users_url
     else
       flash[:success] = "#{count.to_s}人のユーザーを追加しました"
-      redirect_to users_url
-    end
-  end
-
-  def csv_template
-    respond_to do |format|
-      format.html
-      format.csv do |csv|
-        send_template_csv
-      end
+      redirect_to group_users_url(group_id: @group.id)
     end
   end
 
   private
 
     def send_template_csv
-      csv = CSV.generate do |csv|
-        csv_column_name = %w(name)
-        csv << csv_column_name
+      # bom = "\uFEFF"
+      csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |csv|
+        header = %w(名前)
+        csv << header
       end
-      send_data(csv, filename: "一括登録用テンプレート.csv", type: 'application/csv')
+      send_data(csv, filename: "template.csv", type: 'application/csv')
+    end
+
+    def share_csv(users)
+      # bom = "\uFEFF"
+      csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |csv|
+        header = %w(名前 メールアドレス)
+        csv << header
+
+        users.each do |user|
+          values = [user.name, user.email]
+          csv << values
+        end
+      end
+      send_data(csv, filename: "share.csv", type: 'application/csv')
     end
 
 end
