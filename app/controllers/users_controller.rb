@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  require 'csv'
+
   before_action :authenticate_user!
   before_action :confirm_definitive_registration, only: [:new, :batch]
   def index
@@ -32,4 +34,24 @@ class UsersController < ApplicationController
       redirect_to users_url
     end
   end
+
+  def csv_template
+    respond_to do |format|
+      format.html
+      format.csv do |csv|
+        send_template_csv
+      end
+    end
+  end
+
+  private
+
+    def send_template_csv
+      csv = CSV.generate do |csv|
+        csv_column_name = %w(name)
+        csv << csv_column_name
+      end
+      send_data(csv, filename: "一括登録用テンプレート.csv", type: 'application/csv')
+    end
+
 end

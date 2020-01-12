@@ -4,4 +4,5 @@
   <%= label :password, "初期パスワード" %>
   <%= password_field_tag :password %>
   <%= submit_tag "インポート" %>
+  <p><%= link_to "テンプレートを使用する", csv_template_path(format: :csv), class: "btn btn-primary" %></p>
 <% end %>

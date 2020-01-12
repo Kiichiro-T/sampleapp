@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'homes/index'
   get 'events/:event_id/transactions/:id/receipt', to: 'receipt_pdfs#show', as: 'pdf'
   get 'users', to: 'users#index', as: 'users'
+  get 'users/csv_template', to: 'users#csv_template', as: 'csv_template'
   resource :users, only: [:new] do
     collection do
       post :batch
