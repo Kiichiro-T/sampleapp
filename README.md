@@ -22,6 +22,6 @@ css(scss)ファイルはapp/assets/stylesheet
 
 ## ブランチモデル
 - git-flow
-master - 本番環境用ブランチ
-develop - 開発用ブランチ
-feature - developブランチから作る(名前はissue-(GitHubのissue番号))
+1. master - 本番環境用ブランチ
+2. develop - 開発用ブランチ
+3. feature - developブランチから作る(名前はissue-(GitHubのissue番号))
