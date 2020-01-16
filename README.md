@@ -1,8 +1,8 @@
 # README
-## 始め方（毎回やる）
+## 始め方
 
 ```
-$ git clone https://github.com/Kiichiro-T/sampleapp.git
+$ git clone https://github.com/Kiichiro-T/sampleapp.git # 初回だけ
 $ docker-compose up -d # コンテナ立ち上げ＆サーバー立ち上げ(localhost:3000)
 $ docker-compose run web bundle exec rails db:create # db作成
 $ docker-compose run web bundle exec rails db:migrate # マイグレーション
