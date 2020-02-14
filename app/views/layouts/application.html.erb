@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AppName</title>
+    <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -31,7 +31,7 @@
               <li><%= link_to "設定", edit_user_registration_path %></li>
             <% else %>
               <li><%= link_to "ログイン", new_user_session_path, class: 'post' %></li>
-              <li><%= link_to "新規登録", new_user_registration_path, class: 'post' %></li>
+              <li><%= link_to "幹事用新規登録", new_user_registration_path, class: 'post' %></li>
             <% end %>
           </ul>
         </nav>
