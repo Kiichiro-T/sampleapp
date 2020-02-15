@@ -30,3 +30,12 @@ User.create!(
     confirmed_at: Time.now
   )
 end
+
+# Group
+
+Group.create!(
+  name: "Group 1",
+  email: "test1@example.com",
+  group_number: "grouptest1",
+  leader_id: 2
+)

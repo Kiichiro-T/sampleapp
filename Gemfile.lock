@@ -236,6 +236,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-import
+  bcrypt
   bootsnap
   bootstrap-sass
   byebug

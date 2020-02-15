@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_11_145614) do
+ActiveRecord::Schema.define(version: 2020_02_15_002010) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2020_01_11_145614) do
     t.bigint "leader_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "group_number", null: false
     t.index ["leader_id"], name: "index_groups_on_leader_id"
   end
 
