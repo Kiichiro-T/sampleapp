@@ -16,9 +16,8 @@ class User < ApplicationRecord
       self.transaction do
         CSV.foreach(file.path, headers: true, skip_blanks: true, encoding: "CP932:UTF-8") do |row|
           name = row['名前']
-          email = SecureRandom.hex(8)
-          password = pass
-          user = User.new(name: name, email: "#{email}@tmp.com", password: password,
+          email = row['メールアドレス']
+          user = User.new(name: name, email: email, password: pass,
                             group_id: group.id, definitive_registration: false)
           user.skip_confirmation!
           user.save!
