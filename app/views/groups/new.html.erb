@@ -7,11 +7,13 @@
     <%# end %>
 
     <%= f.label :name, "グループ名" %>
-    <%= f.text_field :name, class: "form-control", placeholder: "例）○○テニスサークル" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "例）○○テニスサークル" %><br />
 
     <%= f.label :email, " 代表者メールアドレス" %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-    <p>メールアドレスはサークル口座用に作成したPayPalアカウントと同じものを使用することをおすすめします！</p>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %><br />
+
+    <%= f.label :group_number, "グループID(6~25文字)" %>
+    <%= f.text_field :group_number, class: "form-control", placeholder: "英数字と_を使用できます)" %><br />
 
     <%= f.submit "作成"%>
   </div>
