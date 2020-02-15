@@ -29,7 +29,7 @@ class GroupsController < ApplicationController
   private
 
     def group_params
-      params.require(:group).permit(:name, :leader_id, :email)
+      params.require(:group).permit(:name, :email, :group_number, :leader_id)
     end
 
     def one_user_has_one_group
