@@ -48,12 +48,17 @@ class UsersController < ApplicationController
       redirect_to new_users_url
       return
     end
-    count = User.import!(params[:file], @group, params[:password])
+    users = User.import!(params[:file], @group, params[:password])
+    count = users.count
     if count <= 0
       flash[:danger] = "データがないまたは間違いがあります。もう一度ご確認ください。"
       redirect_to new_users_url
     else
-      flash[:success] = "#{count.to_s}人のユーザーを追加しました"
+      users.each do |user|
+        NotificationMailer.send_when_batch_registration(user, current_user).deliver
+      end
+      # メールを送信中がわかるアニメーションが欲しい
+      flash[:success] = "#{count.to_s}人のユーザーを追加し通知メールを送信しました。"
       redirect_to group_users_url(group_id: @group.id)
     end
   end

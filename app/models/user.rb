@@ -12,7 +12,7 @@ class User < ApplicationRecord
   validates :definitive_registration, inclusion: {in: [true, false]}
 
     def self.import!(file, group, pass)
-      added_user_count = 0
+      added_users = []
       self.transaction do
         CSV.foreach(file.path, headers: true, skip_blanks: true, encoding: "CP932:UTF-8") do |row|
           name = row['名前']
@@ -21,10 +21,10 @@ class User < ApplicationRecord
                             group_id: group.id, definitive_registration: false)
           user.skip_confirmation!
           user.save!
-          added_user_count += 1
+          added_users << user
         end
       end
-        added_user_count
+        added_users
         # 例外処理は今度書く
     end
 end
