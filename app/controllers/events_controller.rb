@@ -30,6 +30,15 @@ class EventsController < ApplicationController
     if @event.save
       users.each do |user|
         NotificationMailer.send_when_make_new_event(user, current_user, group, @event).deliver
+        Transaction.create(
+          deadline: @event.pay_deadline,
+          debt: @event.amount,
+          payment: 0,
+          creditor_id: current_user.id,
+          debtor_id: user.id,
+          group_id: group.id,
+          event_id: @event.id
+        )
       end
       flash[:success] = "イベントが作成されました。グループのユーザーにメールで作成を通知しました。"
       redirect_to group_event_url(group_id: group.id, id: @event.id)

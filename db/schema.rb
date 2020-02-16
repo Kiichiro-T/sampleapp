@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(version: 2020_02_16_052123) do
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "deadline"
-    t.integer "debt", null: false
-    t.integer "payment", null: false
+    t.integer "debt"
+    t.integer "payment", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "debtor_id"

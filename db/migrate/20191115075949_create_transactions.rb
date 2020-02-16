@@ -2,8 +2,8 @@ class CreateTransactions < ActiveRecord::Migration[5.2]
   def change
     create_table :transactions do |t|
       t.datetime :deadline
-      t.integer :debt,    null: false
-      t.integer :payment, null: false
+      t.integer :debt
+      t.integer :payment, default: 0
 
       t.timestamps
     end
