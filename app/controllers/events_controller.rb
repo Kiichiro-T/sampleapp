@@ -3,8 +3,8 @@ class EventsController < ApplicationController
   before_action :confirm_definitive_registration
 
   def index
-    @user = User.find(current_user.id)
-    @events = Event.where(user_id: @user.id)
+    @group = Group.find(params[:group_id])
+    @events = Event.where(user_id: current_user.id)
   end
 
   def show
@@ -14,16 +14,14 @@ class EventsController < ApplicationController
   end
 
   def new
-    @group = Group.find(params[:group_id])
     @event = Event.new
   end
 
   def create
-    @group = Group.find(params[:group_id])
     @event = Event.new(event_params)
     if @event.save
       flash[:success] = "イベント作成成功！"
-      redirect_to group_event_url(group_id: @group.id, id: @event.id)
+      redirect_to group_event_url(group_id: params[:event][:group_id], id: @event.id)
     else
       render 'new'
     end
@@ -32,6 +30,7 @@ class EventsController < ApplicationController
   private
 
     def event_params
-      params.require(:event).permit(:name, :user_id, :group_id)
+      params.require(:event).permit(:name, :start_date, :end_date, :amount,
+                                    :description, :pay_deadline, :user_id, :group_id)
     end
 end

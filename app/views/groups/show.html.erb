@@ -1,5 +1,4 @@
 <p><%= @group.id %></p>
 <p><%= @group.name %></p>
 <p><%= link_to "一括登録する", new_group_user_path(group_id: @group.id) %></p>
-<p><%= link_to "イベント新規作成", new_group_event_path(group_id: @group.id) %></p>
 <p><%= link_to "イベント一覧", group_events_path(group_id: @group.id) %></p>
