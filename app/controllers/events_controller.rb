@@ -19,9 +19,20 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
+    group = Group.find(params[:event][:group_id])
+    users = []
+    GroupUser.where(group_id: group.id).each do |relationship|
+      user = User.find(relationship.user_id)
+      unless user == current_user
+        users << user
+      end
+    end
     if @event.save
-      flash[:success] = "イベント作成成功！"
-      redirect_to group_event_url(group_id: params[:event][:group_id], id: @event.id)
+      users.each do |user|
+        NotificationMailer.send_when_make_new_event(user, current_user, group, @event).deliver
+      end
+      flash[:success] = "イベントが作成されました。グループのユーザーにメールで作成を通知しました。"
+      redirect_to group_event_url(group_id: group.id, id: @event.id)
     else
       render 'new'
     end
