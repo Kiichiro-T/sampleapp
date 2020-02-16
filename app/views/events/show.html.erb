@@ -1,6 +1,6 @@
 <h1>イベント名： <%= @event.name %></h1>
 <h2>作成者： <%= current_user.name %></h4>
-<h2><%=  link_to "貸した？", new_group_event_transaction_path(group_id: @group.id, event_id: @event.id) %></h4>
+<h2><%=  link_to "追加！", new_event_transaction_path(event_id: @event.id) %></h4>
 
 <% if @transactions.any? %>
   <% @transactions.each do |transaction| %>

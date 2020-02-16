@@ -14,6 +14,7 @@ class Transaction < ApplicationRecord
   validates :payment, presence: true
   validates :payment, numericality: { only_integer: true}
   validates :payment, numericality: { greater_than_or_equal_to: 0 }
+  validates :type, presence: true
 
   private
 
