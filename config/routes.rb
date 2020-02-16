@@ -27,8 +27,11 @@ Rails.application.routes.draw do
         end
       end
     end
+    resources :transactions, only: [:new, :create, :edit, :update], contrller: 'groups/transactions'
   end
 
-  resources :events, only: [:new, :create]
+  resources :events, only: [:new, :create] do
+    resources :transactions, only: [:new, :create,:edit, :update], contrller: 'events/transactions'
+  end
 
 end
