@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         get  :share
       end
     end
-    resources :events do
+    resources :events, only: [:show, :index] do
       resources :transactions, only: [:new, :create] do
         member do
           get :receipt, to: 'receipt_pdfs#show'
@@ -28,5 +28,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :events, only: [:new, :create]
 
 end
