@@ -1,14 +1,20 @@
-<%= form_for(@transaction, url: event_transactions_path(event_id: @event.id)) do |f| %>
+<%= form_for(@transaction, url: group_event_transactions_path(group_id: @group.id, event_id: @event.id)) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
 
     <%= f.hidden_field :creditor_id, :value => current_user.id %>
     <%= f.hidden_field :event_id, :value => @event.id %>
-    <%= f.hidden_field :group_id, :value => @event.group_id %>
+    <%= f.hidden_field :group_id, :value => @group.id %>
 
     <%= f.label :debtor_id, "支払う人" %> <br />
+    <% users = [] %>
+    <% GroupUser.where(group_id: @group.id).each do |relationship| %>
+      <% unless relationship.user_id == current_user.id %>
+        <% users << User.find(relationship.user_id) %>
+      <% end %>
+    <% end %>
     <%= f.select :debtor_id,
-        options_from_collection_for_select(User.where(group_id: current_user.group_id).where.not(id: current_user.id), :id, :name),
+        options_from_collection_for_select(users, :id, :name), # User.where(id: relationships.user_id).where.not(id: current_user.id)
           {
             class: "form-control", :prompt => "選択できます"
           } 

@@ -1,9 +1,9 @@
-<%= form_for(@event) do |f| %>
+<%= form_for(@event, url: group_events_path(group_id: @group.id)) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
 
     <%= f.hidden_field :user_id,  :value => current_user.id %>
-    <%= f.hidden_field :group_id, :value => current_user.group_id %>
+    <%= f.hidden_field :group_id, :value => @group.id %>
     <%# いずれ自分の所属する複数のグループから選択できるようにする %>
 
     <%= f.label :name, "イベント名" %>

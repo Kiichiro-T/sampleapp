@@ -3,12 +3,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
+
+  has_many :group, through: :group_users
+  has_many :group_users
+  accepts_nested_attributes_for :group_users
   has_many :events, dependent: :destroy
   has_many :transactions, dependent: :destroy
-  belongs_to :group, optional: true
   # has_manyもある？とりあえず一旦は一つのグループに所属している方針で設計する
   validates :name, presence: true, length: { maximum: 100 }
-  validates :group_id, presence: true, allow_nil: true
   validates :definitive_registration, inclusion: {in: [true, false]}
 
     def self.import!(file, group, pass)
@@ -18,9 +20,10 @@ class User < ApplicationRecord
           name = row['名前']
           email = row['メールアドレス']
           user = User.new(name: name, email: email, password: pass,
-                            group_id: group.id, definitive_registration: false)
+                                      definitive_registration: false)
           user.skip_confirmation!
           user.save!
+          GroupUser.create!(group_id: group.id, user_id: user.id, role: 0)
           added_users << user
         end
       end

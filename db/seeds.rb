@@ -12,8 +12,8 @@ User.create!(
 
 # 幹事User
 User.create!(
-  name: "Leader 1",
-  email: "leader1@example.com",
+  name: "Executive 1",
+  email: "executive1@example.com",
   password: "password",
   password_confirmation: "password",
   definitive_registration: true,
@@ -22,8 +22,8 @@ User.create!(
 
 5.times do |i|
   User.create!(
-    name: "Test User #{i}",
-    email: "test#{i}@example.com",
+    name: "General #{i+1}",
+    email: "General#{i+1}@example.com",
     password: "password",
     password_confirmation: "password",
     definitive_registration: true,
@@ -32,10 +32,29 @@ User.create!(
 end
 
 # Group
+2.times do |i|
+  Group.create!(
+    name: "Group #{i+1}",
+    email: "executive1@example.com",
+    group_number: "group_test_#{i+1}",
+  )
+end
 
-Group.create!(
-  name: "Group 1",
-  email: "leader1@example.com",
-  group_number: "group_test_1",
-  leader_id: 2
-)
+# GroupUser
+# Executive 1
+2.times do |i|
+  GroupUser.create!(
+    group_id: i+1,
+    user_id: 2,
+    role: 0,
+  )
+end
+
+# General 1 ~ 5
+5.times do |i|
+  GroupUser.create!(
+    group_id: 1,
+    user_id: i+3,
+    role: 1,
+  )
+end

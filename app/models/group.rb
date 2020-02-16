@@ -1,10 +1,10 @@
 class Group < ApplicationRecord
-  has_many :users
+  has_many :users, through: :group_users
+  has_many :group_users
+  accepts_nested_attributes_for :group_users
   has_many :events, dependent: :destroy
   has_many :transactions, dependent: :destroy
-  belongs_to :leader, class_name: 'User', foreign_key: 'leader_id'
   validates :name, presence: true, length: { maximum: 100 }
-  validates :leader_id, presence: true
   # email
   before_save { self.email = email.downcase }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -15,5 +15,4 @@ class Group < ApplicationRecord
   validates :group_number, presence: true, uniqueness: true,
                            format: { with: VALID_GRPUP_NUMBER_REGEX },
                            length: { in: 6..25 }
-  # emailの認証とバリデーションを後で追加する
 end

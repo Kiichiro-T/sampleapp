@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_15_040604) do
+ActiveRecord::Schema.define(version: 2020_02_16_014148) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -22,15 +22,24 @@ ActiveRecord::Schema.define(version: 2020_02_15_040604) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "group_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "role", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id", "user_id"], name: "index_group_users_on_group_id_and_user_id", unique: true
+    t.index ["group_id"], name: "index_group_users_on_group_id"
+    t.index ["user_id"], name: "index_group_users_on_user_id"
+  end
+
   create_table "groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
-    t.bigint "leader_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "group_number", null: false
     t.index ["group_number"], name: "index_groups_on_group_number", unique: true
-    t.index ["leader_id"], name: "index_groups_on_leader_id"
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -62,19 +71,17 @@ ActiveRecord::Schema.define(version: 2020_02_15_040604) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
-    t.bigint "group_id"
     t.boolean "definitive_registration", default: true, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "events", "groups"
   add_foreign_key "events", "users"
-  add_foreign_key "groups", "users", column: "leader_id"
+  add_foreign_key "group_users", "groups"
+  add_foreign_key "group_users", "users"
   add_foreign_key "transactions", "events"
   add_foreign_key "transactions", "groups"
   add_foreign_key "transactions", "users", column: "creditor_id"
   add_foreign_key "transactions", "users", column: "debtor_id"
-  add_foreign_key "users", "groups"
 end
