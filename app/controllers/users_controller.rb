@@ -6,12 +6,26 @@ class UsersController < ApplicationController
 
   def index
     @group = Group.find(params[:group_id])
-    @users = User.where(group_id: @group.id).where(definitive_registration: false)
+    @users = []
+    GroupUser.where(group_id: @group.id).each do |relationship|
+      user = User.find(relationship.user_id)
+      if user.definitive_registration == false 
+        @users << user
+      end
+    end
+    # @users = User.where(group_id: @group.id).where(definitive_registration: false)
   end 
 
   def share
     group = Group.find(params[:group_id])
-    users = User.where(group_id: group.id).where(definitive_registration: false)
+    users = []
+    GroupUser.where(group_id: group.id).each do |relationship|
+      user = User.find(relationship.user_id)
+      if user.definitive_registration == false
+        users << user
+      end
+    end
+    # users = User.where(group_id: group.id).where(definitive_registration: false)
     respond_to do |format|
       format.html
       format.csv do |csv|

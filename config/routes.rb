@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   root 'homes#index'
   get 'homes/index'
-  get 'events/:event_id/transactions/:id/receipt', to: 'receipt_pdfs#show', as: 'pdf'
   get 'users/csv_template', to: 'users#csv_template', as: 'csv_template'
   #get 'groups/:group_id/users/share', to: 'users#share', as: 'share'
   resources :groups do
@@ -21,9 +20,13 @@ Rails.application.routes.draw do
         get  :share
       end
     end
-  end
-  resources :events do
-    resources :transactions, only: [:new, :create]
+    resources :events do
+      resources :transactions, only: [:new, :create] do
+        member do
+          get :receipt, to: 'receipt_pdfs#show'
+        end
+      end
+    end
   end
 
 end

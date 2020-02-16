@@ -1,7 +1,9 @@
 <% @groups.each do |group| %>
   <p><%= link_to group.name, group_path(group) %></p>
-  <% leader = User.find(group.leader_id) %>
-  <p>幹事名：  <%= leader.name %></p>
-  <p>email：　 <%= group.email %></p>
-  <p>group_id：<%= group.id %></p>
+  <% GroupUser.where(group_id: group.id, role: 0).each do |relationship| %>
+    <% executive = User.find(relationship.user_id) %>
+    <p>幹事名： <%= executive.name %></p>
+  <% end %>
+  <p>email： <%= group.email %></p>
+  <p>group_id： <%= group.id %></p>
 <% end %>

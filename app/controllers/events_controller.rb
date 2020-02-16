@@ -8,20 +8,22 @@ class EventsController < ApplicationController
   end
 
   def show
+    @group = Group.find(params[:group_id])
     @event = Event.find(params[:id])
-    @user = User.find(current_user.id)
-    @transactions = Transaction.where(event_id: @event.id)
+    @transactions = Transaction.where(group_id: @group.id, event_id: @event.id)
   end
 
   def new
+    @group = Group.find(params[:group_id])
     @event = Event.new
   end
 
   def create
+    @group = Group.find(params[:group_id])
     @event = Event.new(event_params)
     if @event.save
       flash[:success] = "イベント作成成功！"
-      redirect_to @event
+      redirect_to group_event_url(group_id: @group.id, id: @event.id)
     else
       render 'new'
     end

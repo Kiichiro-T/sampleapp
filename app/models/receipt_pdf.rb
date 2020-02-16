@@ -1,13 +1,13 @@
 class ReceiptPdf < Prawn::Document
 
-    def initialize(transaction, user, event)
+    def initialize(debtor, event, transaction)
       super(
         page_size: 'A4'
       )
       # stroke_axis
-      @transaction = transaction
-      @user = user
+      @debtor = debtor
       @event = event
+      @transaction = transaction
       font "app/assets/fonts/ipaexm.ttf"
       create_box
     end
@@ -39,7 +39,7 @@ class ReceiptPdf < Prawn::Document
     end
 
     def create_name
-      text "　#{@user.name}　　様", size: 15
+      text "　#{@debtor.name}　　様", size: 15
     end
 
     def create_debt
