@@ -46,6 +46,7 @@ gem 'paypal-checkout-sdk'
 gem 'roo'
 gem 'activerecord-import'
 gem 'sprockets', '3.7.2'
+gem 'cancancan'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

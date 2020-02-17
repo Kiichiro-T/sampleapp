@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  enum role: {
+    admin: 90,  # admin ユーザー
+    general: 10 # 一般ユーザー
+  }
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
