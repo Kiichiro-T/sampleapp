@@ -1,0 +1,26 @@
+<h2><%= @event.name %> | 幹事用収支ページ</h2>
+<p>未払い</p>
+<% if @uncompleted_transactions.any? %>
+  <% @uncompleted_transactions.each do |transaction| %>
+    <% debtor = User.find(transaction.debtor_id) %>
+    <p>名前： <%= debtor.name %></p>
+    <p>金額： <%= transaction.debt %>円</p>
+    <% payment = transaction.payment%>
+    <p>支払った金額： <%= transaction.payment %>円</p>
+    <hr>
+  <% end %>
+<% else %>
+  <p>まだ誰もいません</p>
+<% end %>
+<p>支払い済み</p>
+<% if @completed_transactions.any? %>
+  <% @completed_transactions.each do |transaction| %>
+    <% debtor = User.find(transaction.debtor_id) %>
+    <p>名前： <%= debtor.name %></p>
+    <p>金額： <%= transaction.debt %>円</p>
+    <p><%= link_to "領収書発行", receipt_group_event_transaction_path(group_id: @group.id, event_id: @event.id, id: transaction.id, format: "pdf") %></p>
+    <hr>
+  <% end %>
+<% else %>
+  <p>まだ誰もいません</p>
+<% end %>
