@@ -68,3 +68,17 @@ end
     role: 10,
   )
 end
+
+# Executive 1 & Group 1
+5.times do |i|
+  Event.create!(
+    name: "合宿#{i+1}",
+    user_id: 2,
+    group_id: 1,
+    start_date: Date.today.next_year(3).to_datetime,
+    end_date: Date.today.next_year(3).to_datetime,
+    amount: (i+1)*1000,
+    description: "これは合宿#{i+1}用のテスト説明です。",
+    pay_deadline: Date.today.next_year(3).to_datetime
+  )
+end
