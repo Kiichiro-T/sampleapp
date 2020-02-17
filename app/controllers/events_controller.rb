@@ -19,7 +19,7 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-    group = Group.find(params[:event][:group_id])
+    group = Group.find(@event.group_id)
     users = []
     GroupUser.where(group_id: group.id).each do |relationship|
       user = User.find(relationship.user_id)
@@ -30,7 +30,7 @@ class EventsController < ApplicationController
     if @event.save
       users.each do |user|
         NotificationMailer.send_when_make_new_event(user, current_user, group, @event).deliver
-        Transaction.create(
+        Event::Transaction.create!(
           deadline: @event.pay_deadline,
           debt: @event.amount,
           payment: 0,

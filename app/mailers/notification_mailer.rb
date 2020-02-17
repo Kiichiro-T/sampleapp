@@ -17,7 +17,7 @@ class NotificationMailer < ApplicationMailer
     @group = group
     @event = event
     mail(
-      subject: "仮登録のお知らせ",
+      subject: "新規イベントのお知らせ",
       to: @user.email
     ) do |format|
       format.text

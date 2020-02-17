@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [:new, :create] do
-    resources :transactions, only: [:new, :create,:edit, :update], controller: 'events/transactions'
+    resources :transactions, only: [:index, :new, :create,:edit, :update], controller: 'events/transactions'
   end
 
 end

@@ -1,4 +1,18 @@
 class Events::TransactionsController < TransactionsController
+
+  def index
+    @event = Event.find(params[:event_id])
+    @completed_transactions = []   # 支払い済み
+    @uncompleted_transactions = [] # 未払い
+    Event::Transaction.where(event_id: @event.id).each do |transaction|
+      if transaction.debt == transaction.payment
+        @complieed_transactions << transaction
+      else
+        @uncompleted_transactions << transaction
+      end
+    end
+  end
+
   def new
     @event = Event.find(params[:event_id])
     @group = Group.find(@event.group_id)
