@@ -1,8 +1,4 @@
 class User < ApplicationRecord
-  enum role: {
-    admin: 90,  # admin ユーザー
-    general: 10 # 一般ユーザー
-  }
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -13,7 +9,6 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :group_users
   has_many :events, dependent: :destroy
   has_many :transactions, dependent: :destroy
-  # has_manyもある？とりあえず一旦は一つのグループに所属している方針で設計する
   validates :name, presence: true, length: { maximum: 100 }
   validates :definitive_registration, inclusion: {in: [true, false]}
 
