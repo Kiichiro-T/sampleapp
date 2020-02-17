@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   require 'csv'
 
   before_action :authenticate_user!
-  before_action :confirm_definitive_registration, only: [:new, :batch]
+  before_action :confirm_definitive_registration
 
   def index
     @group = Group.find(params[:group_id])
@@ -17,6 +17,13 @@ class UsersController < ApplicationController
     end
     # @users = User.where(group_id: @group.id).where(definitive_registration: false)
   end 
+
+  def show
+    @groups = []
+    GroupUser.where(user_id: current_user.id).each do |relationship|
+      @groups << Group.find(relationship.group_id)
+    end
+  end
 
   def share
     group = Group.find(params[:group_id])
