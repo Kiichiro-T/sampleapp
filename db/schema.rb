@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_100629) do
+ActiveRecord::Schema.define(version: 2020_02_16_120949) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_100629) do
   create_table "group_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "group_id", null: false
     t.bigint "user_id", null: false
-    t.integer "role", default: 0, null: false
+    t.integer "role", default: 10, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id", "user_id"], name: "index_group_users_on_group_id_and_user_id", unique: true
@@ -78,7 +78,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_100629) do
     t.datetime "updated_at", null: false
     t.string "name", null: false
     t.boolean "definitive_registration", default: true, null: false
-    t.boolean "admin", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

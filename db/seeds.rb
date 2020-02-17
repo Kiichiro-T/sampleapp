@@ -56,7 +56,7 @@ end
   GroupUser.create!(
     group_id: i+1,
     user_id: 2,
-    role: 0,
+    role: 90,
   )
 end
 
@@ -65,6 +65,6 @@ end
   GroupUser.create!(
     group_id: 1,
     user_id: i+3,
-    role: 1,
+    role: 10,
   )
 end
