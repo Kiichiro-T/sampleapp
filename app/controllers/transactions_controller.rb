@@ -1,6 +1,11 @@
 class TransactionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!
   before_action :confirm_definitive_registration
+
+  def index
+    @transactions = Transaction.where(debtor_id: current_user.id)
+    # いずれは、Transaction.where("(creditor_id = ?) OR (debtor_id = ?)", user_id, user_id)
+  end
 
   def new
     #@group = Group.find(params[:group_id])

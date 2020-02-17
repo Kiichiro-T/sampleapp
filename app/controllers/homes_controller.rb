@@ -10,7 +10,7 @@ class HomesController < ApplicationController
         @events << event
       end
     end
-    user_id = current_user.id
-    @transactions = Transaction.where("(creditor_id = ?) OR (debtor_id = ?)", user_id, user_id)
+    @transactions = Transaction.where(debtor_id: current_user.id)
+    # いずれは、Transaction.where("(creditor_id = ?) OR (debtor_id = ?)", user_id, user_id)
   end
 end

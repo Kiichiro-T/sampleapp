@@ -16,26 +16,22 @@
   </head>
   
   <body>
-    <header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="container">
-        <%= link_to "ホーム", root_path, id: "logo" %>
-        <nav class="navbar-right">
-          <ul class="nav navbar-nav navbar-right">
-            <% if user_signed_in? %>
-              <h2><%= current_user.name %>さん</h2>
-            　<li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
-              <% if current_user.definitive_registration %>
-                <li><%= link_to "グループ一覧", groups_path %></li>
-                <li><%= link_to "イベント新規作成", new_event_path %></li>
-              <% end %>
-              <li><%= link_to "設定", edit_user_registration_path %></li>
-            <% else %>
-              <li><%= link_to "ログイン", new_user_session_path, class: 'post' %></li>
-              <li><%= link_to "幹事用新規登録", new_user_registration_path, class: 'post' %></li>
-            <% end %>
-          </ul>
-        </nav>
-      </div>
+    <header>
+      <%= link_to "ホーム", root_path%>
+      <% if user_signed_in? %>
+        <h2><%= current_user.name %>さん</h2>
+        <ul>
+          <p>ナビゲーションバー</p>
+          <% if current_user.definitive_registration %>
+            <li><%= link_to "My収支情報", user_transactions_path(current_user.id) %></li>
+          <% end %>
+          <li><%= link_to "ログアウト（エラーでまだできない）", destroy_user_session_path, method: :delete %></li>
+          <li><%= link_to "設定", edit_user_registration_path %></li>
+      <% else %>
+          <li><%= link_to "ログイン", new_user_session_path %></li>
+          <li><%= link_to "新規登録", new_user_registration_path %></li>
+        </ul>
+      <% end %>
     </header>
     <div class="container">
       <% flash.each do |message_type, message| %>

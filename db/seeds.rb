@@ -69,7 +69,7 @@ end
   )
 end
 
-# Executive 1 & Group 1
+# Executive 1 & Group 1のEvent
 5.times do |i|
   Event.create!(
     name: "合宿#{i+1}",
@@ -81,4 +81,42 @@ end
     description: "これは合宿#{i+1}用のテスト説明です。",
     pay_deadline: Date.today.next_year(3).to_datetime
   )
+end
+
+# Events 1~5のTransaction
+5.times do |n|
+  # Executive 1
+  Event::Transaction.create!(
+    deadline: Date.today.next_year(3).to_datetime,
+    debt: (n+1)*1000,
+    payment: (n+1)*1000,
+    creditor_id: 2,
+    debtor_id: 2,
+    group_id: 1,
+    event_id: n+1
+  )
+  # 支払っている人
+  2.times do |i|
+    Event::Transaction.create!(
+      deadline: Date.today.next_year(3).to_datetime,
+      debt: (n+1)*1000,
+      payment: 500 * (n+1) * (i+1),
+      creditor_id: 2,
+      debtor_id: i+3,
+      group_id: 1,
+      event_id: n+1
+    )
+  end
+
+  3.times do |i|
+    Event::Transaction.create!(
+      deadline: Date.today.next_year(3).to_datetime,
+      debt: (n+1)*1000,
+      payment: 0,
+      creditor_id: 2,
+      debtor_id: i+5,
+      group_id: 1,
+      event_id: n+1
+    )
+  end
 end
