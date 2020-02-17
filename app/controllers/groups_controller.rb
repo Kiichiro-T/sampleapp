@@ -8,6 +8,15 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @executives = []
+    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
+      @executives << User.find(relationship.user_id)
+    end
+    @users = []
+    GroupUser.where(group_id: @group.id).each do |relationship|
+      @users << User.find(relationship.user_id)
+    end
+    @events = Event.where(group_id: @group.id)
   end
   
   def new
