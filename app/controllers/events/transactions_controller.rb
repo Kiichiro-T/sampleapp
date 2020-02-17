@@ -1,4 +1,5 @@
 class Events::TransactionsController < TransactionsController
+  before_action :authenticate_user!
 
   def index
     @event = Event.find(params[:event_id])

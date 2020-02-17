@@ -20,6 +20,7 @@ User.create!(
   confirmed_at: Time.now
 )
 
+
 5.times do |i|
   User.create!(
     name: "General #{i+1}",
@@ -30,6 +31,15 @@ User.create!(
     confirmed_at: Time.now
   )
 end
+
+User.create!(
+  name: "definitive_test_user",
+  email: "definitive_test@example.com",
+  password: "password",
+  password_confirmation: "password",
+  definitive_registration: false,
+  confirmed_at: Time.now
+)
 
 # Group
 2.times do |i|

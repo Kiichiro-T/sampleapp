@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   private
     def confirm_definitive_registration
       unless current_user.definitive_registration
-        flash[:danger] = "現在仮登録状態です。メールアドレスを変更して本登録してください。"
+        flash[:danger] = "アカウントは一括登録後の状態ですので、パスワードまたはメールアドレスを変更するようにしてください。"
         redirect_to edit_user_registration_url
       end
     end
