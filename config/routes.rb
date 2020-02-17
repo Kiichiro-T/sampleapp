@@ -27,7 +27,8 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :transactions, only: [:new, :create, :edit, :update], controller: 'groups/transactions'
+    # resources :transactions, only: [:ibdex, :new, :create, :edit, :update], controller: 'groups/transactions' 
+    # しばらく実装しない
   end
 
   resources :events, only: [:new, :create] do
