@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get 'users/csv_template', to: 'users#csv_template', as: 'csv_template'
   #get 'groups/:group_id/users/share', to: 'users#share', as: 'share'
   resources :groups do
-    resources :users, only: [:new, :show] do
+    resources :users, only: [:new] do
       collection do
         post :batch
         get  :share
@@ -34,6 +34,10 @@ Rails.application.routes.draw do
 
     # resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'groups/transactions' 
     # しばらく実装しない
+  end
+
+  resources :users, only: [:show] do
+    resources :transactions, only: [:index]
   end
 
   resources :events, only: [] do

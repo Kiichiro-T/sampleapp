@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
+  before_action :one_user_cannot_be_some_executives, only: [:new]
   before_action :set_group, only: [:show, :edit, :update, :inherit, :assign, :resign]
   before_action :cannot_access_to_other_groups, only: [:show, :edit, :update, :inherit, :assign, :resign]
   before_action :set_group_for_current_executive
@@ -97,21 +98,33 @@ class GroupsController < ApplicationController
 
   private
 
-  def set_group
-    @group = Group.find(params[:id])
-  end
+    def set_group
+      @group = Group.find(params[:id])
+    end
 
-  # 所属していないグループにはアクセスできない
-  def cannot_access_to_other_groups
-    groups = []
-    GroupUser.where(user_id: current_user.id).each do |relationship|
-      groups << Group.find(relationship.group_id)
+    # 所属していないグループにはアクセスできない
+    def cannot_access_to_other_groups
+      groups = []
+      GroupUser.where(user_id: current_user.id).each do |relationship|
+        groups << Group.find(relationship.group_id)
+      end
+      unless groups.include?(@group)
+        flash[:danger] = "不正な操作です。"
+        redirect_to root_url
+      end
     end
-    unless groups.include?(@group)
-      flash[:danger] = "不正な操作です。"
-      redirect_to root_url
+
+    # １ユーザーにつき１幹事まで
+    def one_user_cannot_be_some_executives
+      relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
+      if relationship
+        @current_executive_group = Group.find(relationship.group_id)
+        if @current_executive_group
+          flash[:danger] = "幹事は複数のグループの幹事を兼任することはできません。複数のグループの幹事である場合は新しいアカウントを作成するようにしてください。"
+          redirect_to root_url
+        end
+      end
     end
-  end
 
     def group_params_for_create
       params.require(:group).permit(:name, :email, :group_number)
