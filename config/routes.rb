@@ -26,7 +26,11 @@ Rails.application.routes.draw do
       get :deposit
       get :statistics
       get :dashboard
+      post :inherit
+      post :assign
+      get :resign
     end
+
     # resources :transactions, only: [:ibdex, :new, :create, :edit, :update], controller: 'groups/transactions' 
     # しばらく実装しない
   end
