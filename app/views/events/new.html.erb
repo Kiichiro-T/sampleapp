@@ -4,17 +4,7 @@
 
     <%= f.hidden_field :user_id, :value => current_user.id %>
 
-    <%= f.label :group_id, "グループ" %>
-    <% groups = [] %>
-    <% GroupUser.where(user_id: current_user.id, role: 0).each do |relationship| %>
-      <% groups << Group.find(relationship.group_id) %>
-    <% end %>
-    <%= f.select :group_id,
-        options_from_collection_for_select(groups, :id, :name),
-          {
-            class: "form-control", :prompt => "選択できます"
-          } 
-    %> <br />
+    <h2><%= @group.name %>のイベント作成<h2>
 
     <%= f.label :name, "イベント名" %>
     <%= f.text_field :name, class: "form-control", placeholder: "例）夏合宿・飲み会" %><br />

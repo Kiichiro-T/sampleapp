@@ -15,6 +15,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @group = Group.find(GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive]).group_id)
   end
 
   def create
