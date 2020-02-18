@@ -1,9 +1,0 @@
-<%= form_with url: inherit_group_path(group_id: @group.id) do |f| %>
-  <%= f.select :,
-    options_from_collection_for_select(@generals, :id, :name), 
-    { 
-      prompt: "選択できます"
-    }
-  %>
-  <%= f.submit "引き継ぐ" %>
-<% end %>
