@@ -24,6 +24,7 @@
           <p>ナビゲーションバー</p>
           <% if current_user.definitive_registration %>
             <li><%= link_to "My収支情報", user_transactions_path(current_user.id) %></li>
+            <li><%= link_to "ユーザー設定", edit_user_registration_path %></li>
           <% end %>
           <li><%= link_to "ログアウト（エラーでまだできない）", destroy_user_session_path, method: :delete %></li>
           <li><%= link_to "設定", edit_user_registration_path %></li>
