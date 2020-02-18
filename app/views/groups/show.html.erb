@@ -2,6 +2,10 @@
 　　　・グループ内のユーザー一覧-->
 <h1><%= @group.name %></h1>
 <p>GroupID： <%= @group.id %></p>
+<% if @executives.include?(current_user) %>
+  <p><%= link_to "グループ設定", edit_group_path(@group.id) %></p>
+  <p><%= link_to "一括登録する", new_group_user_path(group_id: @group.id) %></p>
+<% end %>
 <p>幹事：</p>
 <% if @executives.any? %>
   <% @executives.each do |executive| %>
