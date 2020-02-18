@@ -1,3 +1,4 @@
+<h3>グループの詳細を変更する</h3>
 <%= form_for(@group) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
@@ -13,4 +14,41 @@
 
     <%= f.submit "作成"%>
   </div>
+<% end %>
+<hr>
+
+<p>幹事は最大8名まで設定できます。</p>
+<h3>幹事を引き継ぐ</h3>
+<%= form_with url: inherit_group_path(group_id: @group.id) do |f| %>
+  <%= f.select :new_executive,
+    options_from_collection_for_select(@generals, :id, :name), 
+    { 
+      prompt: "選択できます"
+    }
+  %>
+  <%= f.submit "引き継ぐ" %>
+<% end %>
+<hr>
+
+<h3>幹事を任命する</h3>
+<% if @executives.count <= 7 %>
+  <%= form_with url: assign_group_path(group_id: @group.id) do |f| %>
+    <%= f.select :new_executive,
+      options_from_collection_for_select(@generals, :id, :name), 
+      { 
+        prompt: "選択できます"
+      }
+    %>
+    <%= f.submit "任命する" %>
+  <% end %>
+<% else %>
+  <p>現在幹事が８名いるため任命できません</p>
+<% end %>
+<hr>
+
+<h3>幹事を辞任する</h3>
+<% unless @executives.count == 1 %>
+  <button><%= link_to "辞任する", resign_group_path(group_id: @group.id) %></button>
+<% else %>
+  <p>現在幹事が１名しかいないため辞任できません</p>
 <% end %>

@@ -43,6 +43,14 @@ class GroupsController < ApplicationController
 
   def edit
     @group = Group.find(params[:id])
+    @generals = []
+    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:general]).each do |relationship|
+      @generals << User.find(relationship.user_id)
+    end
+    @executives = []
+    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
+      @executives << User.find(relationship.user_id)
+    end
   end
 
   def update
@@ -53,6 +61,20 @@ class GroupsController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def inherit
+    group = Group.find(params[:id])
+    new_executive_id = params[:new_executive].to_i
+    executive_relationship = GroupUser.find_by(group_id: group.id, user_id: current_user.id, role: GroupUser.roles[:executive])
+    general_relationship = GroupUser.find_by(group_id: group.id, user_id: new_executive_id, role: GroupUser.roles[:general])
+    if executive_relationship.update_attribute(:role, GroupUser.roles[:general]) && general_relationship.update_attribute(:role, GroupUser.roles[:executive])
+      flash[:success] = "引継ぎが成功しました"
+      redirect_to group
+    else
+      render 'edit'
+    end
+
   end
 
   private
