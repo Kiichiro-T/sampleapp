@@ -18,7 +18,8 @@ class ApplicationController < ActionController::Base
         redirect_to root_url
       end
     end
-
+    
+    # 現在のユーザーが幹事であるグループをセットする
     def set_group_for_current_executive
       relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
       if relationship

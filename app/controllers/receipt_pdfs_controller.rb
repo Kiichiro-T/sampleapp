@@ -1,16 +1,15 @@
 class ReceiptPdfsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
+  before_action :cannot_access_to_other_groups
   before_action :set_group_for_current_executive
   def show
-    event = Event.find(params[:event_id])
-    group = Group.find(event.group_id)
-    transaction = Transaction.find_by(event_id: event.id, url_token: params[:url_token])
+    transaction = Transaction.find_by(event_id: @event.id, url_token: params[:url_token])
     debtor = User.find(transaction.debtor_id)
     respond_to do |format|
       format.html
       format.pdf do
-        receipt_pdf = ReceiptPdf.new(debtor, event, transaction)
+        receipt_pdf = ReceiptPdf.new(debtor, @event, transaction)
         send_data receipt_pdf.render,
           filename:    'receipt.pdf',
           type:        'application/pdf',
@@ -18,5 +17,22 @@ class ReceiptPdfsController < ApplicationController
       end
     end
   end
+
+  private
+
+    # 所属していないグループにはアクセスできない
+    def cannot_access_to_other_groups
+      @event = Event.find(params[:event_id])
+      @group = Group.find(@event.group_id)
+      groups = []
+      GroupUser.where(user_id: current_user.id).each do |relationship|
+        groups << Group.find(relationship.group_id)
+      end
+      unless groups.include?(@group)
+        flash[:danger] = "不正な操作です。"
+        redirect_to root_url
+      end
+    end
+  
 end
 
