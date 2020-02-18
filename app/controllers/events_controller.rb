@@ -1,31 +1,37 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
+  before_action :set_group
+  before_action :cannot_access_to_other_groups
   before_action :set_group_for_current_executive
 
   def index
-    @group = Group.find(params[:group_id])
     @events = Event.where(user_id: current_user.id)
   end
 
   def show
-    @group = Group.find(params[:group_id])
     @event = Event.find(params[:id])
-    @transactions = Transaction.where(group_id: @group.id, event_id: @event.id)
     @executives = []
     GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
       @executives << User.find(relationship.user_id)
+    end
+    @completed_transactions = []   # 支払い済み
+    @uncompleted_transactions = [] # 未払い
+    Event::Transaction.where(event_id: @event.id).each do |transaction|
+      if transaction.debt == transaction.payment
+        @completed_transactions << transaction
+      else
+        @uncompleted_transactions << transaction
+      end
     end
   end
 
   def new
     @event = Event.new
-    @group = Group.find(params[:group_id])
   end
 
   def create
     @event = Event.new(event_params)
-    @group = Group.find(params[:group_id])
     members = []
     GroupUser.where(group_id: group.id).each do |relationship|
       members << User.find(relationship.user_id)
@@ -53,12 +59,10 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
-    @group = Group.find(params[:group_id])
   end
 
   def update
     @event = Event.find(params[:id])
-    @group = Group.find(params[:group_id])
     members = []
     GroupUser.where(group_id: @group.id).each do |relationship|
       members << User.find(relationship.user_id)
@@ -83,6 +87,22 @@ class EventsController < ApplicationController
   end
 
   private
+
+    def set_group
+      @group = Group.find(params[:group_id])
+    end
+
+    # 所属していないグループにはアクセスできない
+    def cannot_access_to_other_groups
+      groups = []
+      GroupUser.where(user_id: current_user.id).each do |relationship|
+        groups << Group.find(relationship.group_id)
+      end
+      unless groups.include?(@group)
+        flash[:danger] = "不正な操作です。"
+        redirect_to root_url
+      end
+    end
 
     def event_params
       params.require(:event).permit(:name, :start_date, :end_date, :amount,
