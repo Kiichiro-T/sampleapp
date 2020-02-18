@@ -24,4 +24,17 @@ class NotificationMailer < ApplicationMailer
     end
   end
 
+  def send_when_update_event(user, current_user, group, event)
+    @user = user
+    @current_user = current_user
+    @group = group
+    @event = event
+    mail(
+      subject: "#{@event.name}のイベント情報更新のお知らせ",
+      to: @user.email
+    ) do |format|
+      format.text
+    end
+  end
+
 end

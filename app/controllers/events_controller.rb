@@ -26,22 +26,19 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     group = Group.find(@event.group_id)
-    users = []
+    members = []
     GroupUser.where(group_id: group.id).each do |relationship|
-      user = User.find(relationship.user_id)
-      unless user == current_user
-        users << user
-      end
+      members << User.find(relationship.user_id)
     end
     if @event.save
-      users.each do |user|
-        NotificationMailer.send_when_make_new_event(user, current_user, group, @event).deliver
+      members.each do |member|
+        NotificationMailer.send_when_make_new_event(member, current_user, group, @event).deliver
         Event::Transaction.create!(
           deadline: @event.pay_deadline,
           debt: @event.amount,
           payment: 0,
           creditor_id: current_user.id,
-          debtor_id: user.id,
+          debtor_id: member.id,
           group_id: group.id,
           event_id: @event.id,
           url_token: SecureRandom.hex(10)
@@ -51,6 +48,36 @@ class EventsController < ApplicationController
       redirect_to group_event_url(group_id: group.id, id: @event.id)
     else
       render 'new'
+    end
+  end
+
+  def edit
+    @event = Event.find(params[:id])
+  end
+
+  def update
+    @event = Event.find(params[:id])
+    group = Group.find(@arams[:group_id])
+    members = []
+    GroupUser.where(group_id: group.id).each do |relationship|
+      members << User.find(relationship.user_id)
+    end
+    if @event.update_attributes(event_params)
+      members.each do |member|
+        transaction = Transaction.find_by(group_id: group.id, event_id: @event.id, debtor_id: member.id)
+        NotificationMailer.send_when_update_event(member, current_user, group, @event).deliver
+        Event::Transaction.update!(
+          deadline: @event.pay_deadline,
+          debt: @event.amount,
+          creditor_id: current_user.id,
+          debtor_id: member.id,
+          url_token: SecureRandom.hex(10)
+        )
+      end
+      flash[:success] = "イベントの情報を更新しました"
+      redirect_to @event
+    else
+      render 'edit'
     end
   end
 
