@@ -1,6 +1,7 @@
 class HomesController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
+  before_action :set_group_for_current_executive
   def index
     @relationships = GroupUser.where(user_id: current_user.id)
     @executive_relationships = GroupUser.where(user_id: current_user.id, role: GroupUser.roles[:executives])

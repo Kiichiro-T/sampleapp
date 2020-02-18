@@ -20,8 +20,12 @@ Rails.application.routes.draw do
         get  :share
       end
     end
-    resources :events, only: [:show, :index] do
-      #resources :transactions, only: [:new, :create], , param: :url_token
+    resources :events, only: [:show, :index]
+
+    member do
+      get :deposit
+      get :statistics
+      get :dashboard
     end
     # resources :transactions, only: [:ibdex, :new, :create, :edit, :update], controller: 'groups/transactions' 
     # しばらく実装しない

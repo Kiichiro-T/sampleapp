@@ -1,6 +1,7 @@
 class ReceiptPdfsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
+  before_action :set_group_for_current_executive
   def show
     event = Event.find(params[:event_id])
     group = Group.find(event.group_id)

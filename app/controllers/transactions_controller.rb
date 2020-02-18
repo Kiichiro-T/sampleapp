@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-
+  before_action :set_group_for_current_executive
   def index
     @transactions = Transaction.where(debtor_id: params[:user_id])
     # いずれは、Transaction.where("(creditor_id = ?) OR (debtor_id = ?)", user_id, user_id)

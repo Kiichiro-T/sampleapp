@@ -29,7 +29,10 @@
            <li><%= link_to "ログアウト（エラーでまだできない）", destroy_user_session_path, method: :delete %></li>
           <p>サイドバー<p>
           <% if current_user.definitive_registration %>
-            <li><%= link_to "イベント新規作成", new_event_path %><li>
+            <li><%= link_to "ダッシュボード", dashboard_group_path(@current_executive_group.id) %></li>
+            <li><%= link_to "統計", statistics_group_path(@current_executive_group.id) %></li>
+            <li><%= link_to "デポジット", deposit_group_path(@current_executive_group.id) %></li>
+            <li><%= link_to "イベント新規作成", new_event_path %></li>
           <% end %>
       <% else %>
           <li><%= link_to "ログイン", new_user_session_path %></li>

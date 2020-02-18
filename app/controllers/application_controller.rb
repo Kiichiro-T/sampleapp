@@ -19,6 +19,13 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def set_group_for_current_executive
+      relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
+      if relationship
+        @current_executive_group = Group.find(relationship.group_id)
+      end
+    end
+
     def confirm_definitive_registration
       unless current_user.definitive_registration
         flash[:danger] = "アカウントは一括登録後の状態ですので、パスワードまたはメールアドレスを変更するようにしてください。"
