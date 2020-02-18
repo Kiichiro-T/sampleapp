@@ -33,7 +33,7 @@
               <li><%= link_to "ダッシュボード", dashboard_group_path(@current_executive_group.id) %></li>
               <li><%= link_to "統計", statistics_group_path(@current_executive_group.id) %></li>
               <li><%= link_to "デポジット", deposit_group_path(@current_executive_group.id) %></li>
-              <li><%= link_to "イベント新規作成", new_event_path %></li>
+              <li><%= link_to "イベント新規作成", new_group_event_path(group_id: @current_executive_group) %></li>
             <% else %>
               <li><%= link_to "グループ新規作成",new_group_path %></li>
             <% end %>

@@ -14,9 +14,9 @@
 <% end %>
 <hr>
 <p>一般ピーポー：</p>
-<% if @users.any? %>
-<% @users.each do |user| %>
-  <p><%= link_to user.name, user_path(user.id) %></p>
+<% if @generals.any? %>
+<% @generals.each do |general| %>
+  <p><%= link_to general.name, user_path(general.id) %></p>
 <% end %>
 <% end %>
 <hr>

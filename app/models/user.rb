@@ -22,7 +22,7 @@ class User < ApplicationRecord
                                       definitive_registration: false)
           user.skip_confirmation!
           user.save!
-          GroupUser.create!(group_id: group.id, user_id: user.id, role: 0)
+          GroupUser.create!(group_id: group.id, user_id: user.id, role: GroupUser.roles[:general])
           added_users << user
         end
       end

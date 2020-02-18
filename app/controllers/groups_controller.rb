@@ -13,9 +13,9 @@ class GroupsController < ApplicationController
     GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
       @executives << User.find(relationship.user_id)
     end
-    @users = []
-    GroupUser.where(group_id: @group.id).each do |relationship|
-      @users << User.find(relationship.user_id)
+    @generals = []
+    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:general]).each do |relationship|
+      @generals << User.find(relationship.user_id)
     end
     @events = Event.where(group_id: @group.id)
   end

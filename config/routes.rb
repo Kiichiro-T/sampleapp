@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         get  :share
       end
     end
-    resources :events, only: [:show, :index, :edit, :update]
+    resources :events, only: [:index, :new, :create, :show, :edit, :update]
 
     member do
       get :deposit
@@ -34,13 +34,11 @@ Rails.application.routes.draw do
     resources :transactions, only: [:index], param: :url_token
   end
 
-  resources :events, only: [:new, :create] do
+  resources :events, only: [:index] do
     resources :transactions, only: [:index, :new, :create,:edit, :update], controller: 'events/transactions', param: :url_token do
       member do
         get :receipt, to: 'receipt_pdfs#show'
       end
     end
-    
   end
-
 end

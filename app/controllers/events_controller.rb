@@ -20,12 +20,12 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    @group = Group.find(GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive]).group_id)
+    @group = Group.find(params[:group_id])
   end
 
   def create
     @event = Event.new(event_params)
-    group = Group.find(@event.group_id)
+    @group = Group.find(params[:group_id])
     members = []
     GroupUser.where(group_id: group.id).each do |relationship|
       members << User.find(relationship.user_id)
@@ -53,20 +53,21 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+    @group = Group.find(params[:group_id])
   end
 
   def update
     @event = Event.find(params[:id])
-    group = Group.find(@arams[:group_id])
+    @group = Group.find(params[:group_id])
     members = []
-    GroupUser.where(group_id: group.id).each do |relationship|
+    GroupUser.where(group_id: @group.id).each do |relationship|
       members << User.find(relationship.user_id)
     end
     if @event.update_attributes(event_params)
       members.each do |member|
-        transaction = Transaction.find_by(group_id: group.id, event_id: @event.id, debtor_id: member.id)
-        NotificationMailer.send_when_update_event(member, current_user, group, @event).deliver
-        Event::Transaction.update!(
+        NotificationMailer.send_when_update_event(member, current_user, @group, @event).deliver
+        transaction = Transaction.find_by(group_id: @group.id, event_id: @event.id, debtor_id: member.id)
+        transaction.update_attributes(
           deadline: @event.pay_deadline,
           debt: @event.amount,
           creditor_id: current_user.id,
@@ -75,7 +76,7 @@ class EventsController < ApplicationController
         )
       end
       flash[:success] = "イベントの情報を更新しました"
-      redirect_to @event
+      redirect_to group_event_url(group_id: @group.id, event_id: @event.id)
     else
       render 'edit'
     end
