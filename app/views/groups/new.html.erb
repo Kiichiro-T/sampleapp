@@ -11,12 +11,6 @@
     <%= f.label :group_number, "グループID(6~25文字)" %>
     <%= f.text_field :group_number, class: "form-control", placeholder: "英数字と_を使用できます)" %><br />
 
-    <%= f.fields_for :group_user do |s| %>
-      <% s.hidden_field :group_id, :value => @group.id %>
-      <% s.hidden_field :user_id, :value => current_user.id %>
-      <% s.hidden_field :role, :value => 1 %>
-    <% end %>
-
     <%= f.submit "作成"%>
   </div>
 <% end %>
