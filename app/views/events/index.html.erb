@@ -1,8 +1,0 @@
-<h4><%= current_user.name %>さんの作成した<%= @group.name %>イベント</h4>
-<% if @events.any? %>
-  <% @events.each do |event| %>
-    <p><%= link_to "#{event.name}", event_transactions_path(event_id: event.id) %></p>
-  <% end %>
-<% else %>
-  <p>まだ作成したイベントはありません</p>
-<% end %>

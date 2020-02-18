@@ -14,31 +14,29 @@ Rails.application.routes.draw do
   get 'users/csv_template', to: 'users#csv_template', as: 'csv_template'
   #get 'groups/:group_id/users/share', to: 'users#share', as: 'share'
   resources :groups do
-    resources :users, only: [:index, :new] do
+    resources :users, only: [:new, :show] do
       collection do
         post :batch
         get  :share
       end
+      resources :transactions, only: [:index], param: :url_token
     end
-    resources :events, only: [:index, :new, :create, :show, :edit, :update]
+    resources :events, only: [:new, :create, :show, :edit, :update]
 
     member do
+      get :dashboard
       get :deposit
       get :statistics
-      get :dashboard
       post :inherit
       post :assign
       get :resign
     end
 
-    # resources :transactions, only: [:ibdex, :new, :create, :edit, :update], controller: 'groups/transactions' 
+    # resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'groups/transactions' 
     # しばらく実装しない
   end
-  resources :users, only: [:show] do
-    resources :transactions, only: [:index], param: :url_token
-  end
 
-  resources :events, only: [:index] do
+  resources :events, only: [] do
     resources :transactions, only: [:index, :new, :create,:edit, :update], controller: 'events/transactions', param: :url_token do
       member do
         get :receipt, to: 'receipt_pdfs#show'
