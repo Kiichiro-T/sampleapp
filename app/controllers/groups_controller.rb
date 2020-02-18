@@ -76,6 +76,18 @@ class GroupsController < ApplicationController
     end
   end
 
+  def assign
+    group = Group.find(params[:id])
+    new_executive_id = params[:new_executive].to_i
+    general_relationship = GroupUser.find_by(group_id: group.id, user_id: new_executive_id, role: GroupUser.roles[:general])
+    if general_relationship.update_attribute(:role, GroupUser.roles[:executive])
+      flash[:success] = "任命が成功しました"
+      redirect_to group
+    else
+      render 'edit'
+    end
+  end
+
   private
 
     def group_params_for_create

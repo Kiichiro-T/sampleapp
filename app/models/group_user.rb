@@ -8,4 +8,6 @@ class GroupUser < ApplicationRecord
   validates :group_id, presence: true
   validates :user_id, presence: true
   validates :role, presence: true
+
+  # カスタムバリデーション
 end
