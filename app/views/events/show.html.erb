@@ -1,2 +1,19 @@
-<h1>イベント名： <%= @event.name %></h1>
-<h2>作成者： <%= current_user.name %></h4>
+<h2>イベント名： <%= @event.name %>(
+  <% if @executives.include?(current_user) %>
+    <%= link_to "イベント内容変更", edit_group_event_path(group_id: @group.id, id: @event.id) %>
+  <% end %>
+  )</h2>
+<h3>作成者： <%= User.find(@event.user_id).name %></h3>
+<% if @event.start_date == @event.end_date %>
+  <p>イベント日時： <%=  @event.start_date.strftime("%Y/%m/%d") %></p>
+<% else %>
+  <p>イベント日時：　<%= @event.start_date.strftime("%Y/%m/%d") %> ~ <%= @event.end_date.strftime("%Y/%m/%d") %> </p>
+<% end %>
+<p>金額： <%= @event.amount %></p>
+<p>支払い締め切り日： <%= @event.pay_deadline.strftime("%Y/%m/%d") %></p>
+<p>イベント説明： <%= @event.description %></p>
+<p>出欠の回答欄</p>
+<hr>
+幹事用
+<p>イベントの統計</p>
+<p>出欠情報</p>

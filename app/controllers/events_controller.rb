@@ -12,6 +12,10 @@ class EventsController < ApplicationController
     @group = Group.find(params[:group_id])
     @event = Event.find(params[:id])
     @transactions = Transaction.where(group_id: @group.id, event_id: @event.id)
+    @executives = []
+    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
+      @executives << User.find(relationship.user_id)
+    end
   end
 
   def new
