@@ -3,7 +3,7 @@ class CreateGroupUsers < ActiveRecord::Migration[5.2]
     create_table :group_users do |t|
       t.references :group, foreign_key: true, null: false
       t.references :user, foreign_key: true, null: false
-      t.integer :role, null: false, default: 0
+      t.integer :role, null: false, default: 10
 
       t.timestamps
     end

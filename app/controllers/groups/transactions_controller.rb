@@ -1,5 +1,6 @@
 =begin 今後実装予定
 class Groups::TransactionsContrller < TransactionsController
+  before_action :authenticate_user!
   def new
     @group = Group.find(params[:group_id])
     @transaction = Group::Transaction.new

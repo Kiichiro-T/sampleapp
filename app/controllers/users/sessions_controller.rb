@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
+  before_action :set_group_for_current_executive, only: [:destroy]
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in

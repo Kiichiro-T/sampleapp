@@ -1,4 +1,28 @@
-<p><%= @group.id %></p>
-<p><%= @group.name %></p>
-<p><%= link_to "一括登録する", new_group_user_path(group_id: @group.id) %></p>
-<p><%= link_to "イベント一覧", group_events_path(group_id: @group.id) %></p>
+<!-- グループの詳細ページ 
+　　　・グループ内のユーザー一覧-->
+<h1><%= @group.name %></h1>
+<p>GroupID： <%= @group.id %></p>
+<% if @executives.include?(current_user) %>
+  <p><%= link_to "グループ設定", edit_group_path(@group.id) %></p>
+  <p><%= link_to "一括登録する", new_group_user_path(group_id: @group.id) %></p>
+<% end %>
+<p>幹事：</p>
+<% if @executives.any? %>
+  <% @executives.each do |executive| %>
+    <p><%= link_to executive.name, user_path(executive.id) %></p>
+  <% end %>
+<% end %>
+<hr>
+<p>一般ピーポー：</p>
+<% if @generals.any? %>
+<% @generals.each do |general| %>
+  <p><%= link_to general.name, user_path(general.id) %></p>
+<% end %>
+<% end %>
+<hr>
+<p>イベント：</p>
+<% if @events.any? %>
+<% @events.each do |event| %>
+  <p><%= link_to event.name, group_event_path(group_id: event.group_id, id: event.id) %></p>
+<% end %>
+<% end %>

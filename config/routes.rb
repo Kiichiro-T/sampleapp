@@ -20,19 +20,25 @@ Rails.application.routes.draw do
         get  :share
       end
     end
-    resources :events, only: [:show, :index] do
-      resources :transactions, only: [:new, :create] do
-        member do
-          get :receipt, to: 'receipt_pdfs#show'
-        end
-      end
+    resources :events, only: [:index, :new, :create, :show, :edit, :update]
+
+    member do
+      get :deposit
+      get :statistics
+      get :dashboard
     end
     # resources :transactions, only: [:ibdex, :new, :create, :edit, :update], controller: 'groups/transactions' 
     # しばらく実装しない
   end
-
-  resources :events, only: [:new, :create] do
-    resources :transactions, only: [:index, :new, :create,:edit, :update], controller: 'events/transactions'
+  resources :users, only: [:show] do
+    resources :transactions, only: [:index], param: :url_token
   end
 
+  resources :events, only: [:index] do
+    resources :transactions, only: [:index, :new, :create,:edit, :update], controller: 'events/transactions', param: :url_token do
+      member do
+        get :receipt, to: 'receipt_pdfs#show'
+      end
+    end
+  end
 end

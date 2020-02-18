@@ -9,7 +9,6 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :group_users
   has_many :events, dependent: :destroy
   has_many :transactions, dependent: :destroy
-  # has_manyもある？とりあえず一旦は一つのグループに所属している方針で設計する
   validates :name, presence: true, length: { maximum: 100 }
   validates :definitive_registration, inclusion: {in: [true, false]}
 
@@ -23,7 +22,7 @@ class User < ApplicationRecord
                                       definitive_registration: false)
           user.skip_confirmation!
           user.save!
-          GroupUser.create!(group_id: group.id, user_id: user.id, role: 0)
+          GroupUser.create!(group_id: group.id, user_id: user.id, role: GroupUser.roles[:general])
           added_users << user
         end
       end
