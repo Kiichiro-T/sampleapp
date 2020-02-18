@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_16_120949) do
+ActiveRecord::Schema.define(version: 2020_02_18_005256) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_02_16_120949) do
     t.bigint "event_id"
     t.bigint "group_id"
     t.string "type"
+    t.string "url_token", null: false
     t.index ["creditor_id"], name: "index_transactions_on_creditor_id"
     t.index ["debtor_id"], name: "index_transactions_on_debtor_id"
     t.index ["event_id"], name: "index_transactions_on_event_id"

@@ -2,9 +2,9 @@ class ReceiptPdfsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
   def show
-    group = Group.find(params[:group_id])
     event = Event.find(params[:event_id])
-    transaction = Transaction.find_by(group_id: group.id, event_id: event.id, id: params[:id])
+    group = Group.find(event.group_id)
+    transaction = Transaction.find_by(event_id: event.id, url_token: params[:url_token])
     debtor = User.find(transaction.debtor_id)
     respond_to do |format|
       format.html

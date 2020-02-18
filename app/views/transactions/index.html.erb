@@ -12,7 +12,7 @@
     <% if debt == payment %>
       <% paid_total_amount += payment %>
       <p><%= payment %>円支払い済み</p>
-      <p><%= link_to "領収書発行", receipt_group_event_transaction_path(group_id: group.id, event_id: event.id, id: transaction.id, format: "pdf") %></p>
+      <p><%= link_to "領収書発行", receipt_event_transaction_path(event_id: event.id, url_token: transaction.url_token, format: "pdf") %></p>
     <% else %>
       <p><%= (debt - payment) %>円支払い済み</p>
       <% unpaid_total_amount += (debt - payment) %>

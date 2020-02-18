@@ -93,7 +93,8 @@ end
     creditor_id: 2,
     debtor_id: 2,
     group_id: 1,
-    event_id: n+1
+    event_id: n+1,
+    url_token: SecureRandom.hex(10)
   )
   # 支払っている人
   2.times do |i|
@@ -104,7 +105,8 @@ end
       creditor_id: 2,
       debtor_id: i+3,
       group_id: 1,
-      event_id: n+1
+      event_id: n+1,
+      url_token: SecureRandom.hex(10)
     )
   end
 
@@ -116,7 +118,8 @@ end
       creditor_id: 2,
       debtor_id: i+5,
       group_id: 1,
-      event_id: n+1
+      event_id: n+1,
+      url_token: SecureRandom.hex(10)
     )
   end
 end

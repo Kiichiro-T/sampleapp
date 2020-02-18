@@ -37,7 +37,8 @@ class EventsController < ApplicationController
           creditor_id: current_user.id,
           debtor_id: user.id,
           group_id: group.id,
-          event_id: @event.id
+          event_id: @event.id,
+          url_token: SecureRandom.hex(10)
         )
       end
       flash[:success] = "イベントが作成されました。グループのユーザーにメールで作成を通知しました。"

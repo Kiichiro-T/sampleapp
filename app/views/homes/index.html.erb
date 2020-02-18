@@ -23,7 +23,7 @@
   <p>収支情報：</p>
   <% if @transactions.any? %>
     <% @transactions.each do |transaction| %>
-      <p><%= link_to transaction.id %></p>
+      <p><%= transaction.url_token %></p>
     <% end %>
   <% end %>
 <% end %>
