@@ -24,6 +24,5 @@
 <% if @events.any? %>
 <% @events.each do |event| %>
   <p><%= link_to event.name, group_event_path(group_id: event.group_id, id: event.id) %></p>
-  <p><%= event.name %></p>
 <% end %>
 <% end %>

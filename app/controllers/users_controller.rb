@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
+  # before_action :only_executives_can_access, only: [:new]
   require 'csv'
 
   before_action :authenticate_user!

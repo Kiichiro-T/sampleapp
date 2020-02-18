@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
   before_action :confirm_definitive_registration
 
   def index
-    @transactions = Transaction.where(debtor_id: current_user.id)
+    @transactions = Transaction.where(debtor_id: params[:user_id])
     # いずれは、Transaction.where("(creditor_id = ?) OR (debtor_id = ?)", user_id, user_id)
   end
 

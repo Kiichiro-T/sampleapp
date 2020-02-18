@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  # before_action :one_user_has_one_group, only: [:new, :create]
+  #before_action :only_executives_can_access, only: [:edit]
   def index
     @groups = Group.all
   end
