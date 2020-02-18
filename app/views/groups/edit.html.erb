@@ -45,10 +45,10 @@
   <p>現在幹事が８名いるため任命できません</p>
 <% end %>
 <hr>
-
+<!-- delete, patchは一旦おいておく-->
 <h3>幹事を辞任する</h3>
 <% unless @executives.count == 1 %>
-  <button><%= link_to "辞任する", resign_group_path(group_id: @group.id) %></button>
+  <button><%= link_to "辞任する", resign_group_path(group_id: @group.id), method: :patch %></button>
 <% else %>
   <p>現在幹事が１名しかいないため辞任できません</p>
 <% end %>

@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       get :change
       post :inherit
       post :assign
-      post :resign
+      get :resign
     end
 
     # resources :transactions, only: [:ibdex, :new, :create, :edit, :update], controller: 'groups/transactions' 
