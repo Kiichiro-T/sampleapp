@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_18_005256) do
+ActiveRecord::Schema.define(version: 2020_02_19_021348) do
+
+  create_table "answers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "status", default: 10, null: false, comment: "回答のステータス"
+    t.bigint "user_id", null: false, comment: "回答者のUserID"
+    t.bigint "event_id", null: false, comment: "イベントID"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "fk_rails_a4147b4302"
+    t.index ["user_id", "event_id"], name: "index_answers_on_user_id_and_event_id", unique: true
+  end
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -83,6 +93,8 @@ ActiveRecord::Schema.define(version: 2020_02_18_005256) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answers", "events"
+  add_foreign_key "answers", "users"
   add_foreign_key "events", "groups"
   add_foreign_key "events", "users"
   add_foreign_key "group_users", "groups"
