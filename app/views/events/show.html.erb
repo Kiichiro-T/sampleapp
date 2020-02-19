@@ -13,13 +13,57 @@
 <p>支払い締め切り日： <%= @event.pay_deadline.strftime("%Y/%m/%d") %></p>
 <p>イベント説明： <%= @event.description %></p>
 <hr>
-<h2>出欠の回答欄</h2>
+<h2>出欠回答</h2>
+<% unless @answer.status == "unanswered" %>
+  <%= form_with model: @answer, url: event_answer_path(event_id: @event.id, id: @answer.id) do |f| %>
+    <%= f.select :status, [["参加", "attending"], ["不参加", "absent"]]%>
+    <%= f.submit "回答変更" %>
+  <% end %>
+<% else %>
+  <%= form_with model: @answer, url: event_answers_path(event_id: @event.id) do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.hidden_field :event_id, value: @event.id %>
+    <%= f.select :status, [["参加", "attending"], ["不参加", "absent"]],
+      { :include_blank => "未回答" }
+    %>
+    <%= f.submit "回答送信" %>
+  <% end %>
+<% end %>
+
 <% if @executives.include?(current_user) %>
   <hr>
   <h1>幹事用<h1>
   <h2>イベントの統計</h2>
   <hr>
   <h2>出欠情報</h2>
+  <p>参加者</p>
+  <% @count1 = 0 %>
+  <% @attending_answers.each do |a| %>
+    <p><%= User.find(a.user_id).name %></p>
+    <% @count1 += 1 %>
+  <% end %>
+  <% if @count1 == 0 %>
+    <p>まだ誰もいません</p>
+  <% end %>
+  <p>欠席者</p>
+  <% @count2 = 0 %>
+  <% @absent_answers.each do |a| %>
+    <p><%= User.find(a.user_id).name %></p>
+    <% @count2 += 1 %>
+  <% end %>
+  <% if @count2 == 0%>
+    <p>まだ誰もいません</p>
+  <% end %>
+  <p>未回答者</p>
+  <% @count3 = 0 %>
+  <% @unanswered_members.each do |m| %>
+    <p><%= m.name %></p>
+    <% @count3 += 1 %>
+  <% end %>
+  <% if @count3 == 0 %>
+    <p>全員回答しました</p>
+  <% end %>
+  <p>参加(<%= @count1 %>) | 欠席(<%= @count2 %>) | 未回答(<%= @count3 %>) | 総数(<%= @count %>)</p>
   <hr>
   <h2>収支情報</h2>
   <h3>未払い</h3>

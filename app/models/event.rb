@@ -2,6 +2,8 @@ class Event < ApplicationRecord
   belongs_to :user
   belongs_to :group
   has_many  :transactions, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :users, through: :answers
   validates :name, presence: true, length: { maximum: 128 }
   validates :start_date, presence: true
   validate  :start_date_not_before_today
