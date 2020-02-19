@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = Group.new(group_params_for_create)
+    @group = Group.new(group_params)
     if @group.save
       GroupUser.create(
         group_id: @group.id,
@@ -55,7 +55,7 @@ class GroupsController < ApplicationController
   end
 
   def update
-    if @group.update_attributes(group_params_for_update)
+    if @group.update_attributes(group_params)
       flash[:success] = "グループの設定を変更しました"
       redirect_to @group
     else
@@ -126,11 +126,7 @@ class GroupsController < ApplicationController
       end
     end
 
-    def group_params_for_create
-      params.require(:group).permit(:name, :email, :group_number)
-    end
-
-    def group_params_for_update
+    def group_params
       params.require(:group).permit(:name, :email, :group_number)
     end
 

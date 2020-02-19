@@ -46,5 +46,6 @@ Rails.application.routes.draw do
         get :receipt, to: 'receipt_pdfs#show'
       end
     end
+    resources :answers, only: [:create, :update]
   end
 end

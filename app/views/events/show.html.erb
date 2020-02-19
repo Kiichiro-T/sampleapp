@@ -13,7 +13,23 @@
 <p>支払い締め切り日： <%= @event.pay_deadline.strftime("%Y/%m/%d") %></p>
 <p>イベント説明： <%= @event.description %></p>
 <hr>
-<h2>出欠の回答欄</h2>
+<h2>出欠回答</h2>
+<% unless @answer.status == "unanswered" %>
+  <%= form_with model: @answer, url: event_answer_path(event_id: @event.id, id: @answer.id) do |f| %>
+    <%= f.select :status, [["参加", "attending"], ["不参加", "absent"]]%>
+    <%= f.submit "回答" %>
+  <% end %>
+<% else %>
+  <%= form_with model: @answer, url: event_answers_path(event_id: @event.id) do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.hidden_field :event_id, value: @event.id %>
+    <%= f.select :status, [["参加", "attending"], ["不参加", "absent"]],
+      { :include_blank => "未回答" }
+    %>
+    <%= f.submit "回答" %>
+  <% end %>
+<% end %>
+
 <% if @executives.include?(current_user) %>
   <hr>
   <h1>幹事用<h1>

@@ -15,6 +15,10 @@ class EventsController < ApplicationController
     GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
       @executives << User.find(relationship.user_id)
     end
+    @answer = Answer.find_by(user_id: current_user.id, event_id: @event.id)
+    if @answer.blank?
+      @answer = Answer.new
+    end
     @completed_transactions = []   # 支払い済み
     @uncompleted_transactions = [] # 未払い
     Event::Transaction.where(event_id: @event.id).each do |transaction|
