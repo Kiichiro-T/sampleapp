@@ -11,6 +11,7 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    @group = Group.find(params[:group_id])
     @executives = []
     GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
       @executives << User.find(relationship.user_id)
@@ -28,6 +29,18 @@ class EventsController < ApplicationController
         @uncompleted_transactions << transaction
       end
     end
+    answers = @event.answers
+    @attending_answers = answers.where(status: "attending")
+    @absent_answers = answers.where(status: "absent")
+    members = []
+    GroupUser.where(group_id: @group.id).each do |relationship|
+      members << User.find(relationship.user_id)
+    end
+    @count = members.count
+    answers.each do |answer|
+      members.reject!{|member| member == User.find(answer.user_id)}
+    end
+    @unanswered_members = members
   end
 
   def new
