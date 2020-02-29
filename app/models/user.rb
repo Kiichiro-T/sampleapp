@@ -57,4 +57,11 @@ class User < ApplicationRecord
       end
       members
     end
+
+    def self.unanswered_members(members, answers)
+      answers.each do |answer|
+        members.reject!{|member| member == User.find(answer.user_id)}
+      end
+      members
+    end
 end

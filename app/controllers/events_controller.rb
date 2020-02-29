@@ -17,24 +17,20 @@ class EventsController < ApplicationController
     if @answer.blank?
       @answer = Answer.new
     end
-    @completed_transactions = []   # 支払い済み
-    @uncompleted_transactions = [] # 未払い
-    Event::Transaction.where(event_id: @event.id).each do |transaction|
-      if transaction.debt == transaction.payment
-        @completed_transactions << transaction
-      else
-        @uncompleted_transactions << transaction
-      end
-    end
-    answers = @event.answers
-    @attending_answers = answers.where(status: "attending")
-    @absent_answers = answers.where(status: "absent")
+    # 支払い済みと未払いに分ける
+    h1 = Event::Transaction.divide_transaction_in_two(@event)
+    @completed_transactions = h1[:completed] # 支払い済み
+    @uncompleted_transactions = h1[:uncompleted] # 未払い
+
+    # 回答済みと未回答に分ける
+    h2 = Answer.divide_answers_in_two(@event)
+    answers = h2[:answers]
+    @attending_answers = h2[:attending] # 回答済み
+    @absent_answers = h2[:absent] # 未回答
+
     members = User.members(@group)
+    @unanswered_members = User.unanswered_members(User.members(@group), answers)
     @count = members.count
-    answers.each do |answer|
-      members.reject!{|member| member == User.find(answer.user_id)}
-    end
-    @unanswered_members = members
   end
 
   def new
@@ -46,16 +42,7 @@ class EventsController < ApplicationController
     if @event.save
       members(@group).each do |member|
         NotificationMailer.send_when_make_new_event(member, current_user, group, @event).deliver
-        Event::Transaction.create!(
-          deadline: @event.pay_deadline,
-          debt: @event.amount,
-          payment: 0,
-          creditor_id: current_user.id,
-          debtor_id: member.id,
-          group_id: group.id,
-          event_id: @event.id,
-          url_token: SecureRandom.hex(10)
-        )
+        new_transaction_when_create_new_event(member, current_user, group, @event)
       end
       flash[:success] = "イベントが作成されました。グループのユーザーにメールで作成を通知しました。"
       redirect_to group_event_url(group_id: group.id, id: @event.id)
@@ -75,13 +62,7 @@ class EventsController < ApplicationController
       members.each do |member|
         NotificationMailer.send_when_update_event(member, current_user, @group, @event).deliver
         transaction = Transaction.find_by(group_id: @group.id, event_id: @event.id, debtor_id: member.id)
-        transaction.update_attributes(
-          deadline: @event.pay_deadline,
-          debt: @event.amount,
-          creditor_id: current_user.id,
-          debtor_id: member.id,
-          url_token: SecureRandom.hex(10)
-        )
+        transaction.update_transaction_when_update_event(member, current_user, @event)
       end
       flash[:success] = "イベントの情報を更新しました"
       redirect_to group_event_url(group_id: @group.id, event_id: @event.id)
