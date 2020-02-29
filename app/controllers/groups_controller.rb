@@ -23,14 +23,8 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     if @group.save
-      GroupUser.create(
-        group_id: @group.id,
-        user_id: current_user.id,
-        role: GroupUser.roles[:executive]
-      )
+      GroupUser.new_group(@group, current_user)
       flash[:success] = "グループ作成成功！"
-      # current_user.update_attributes(group_id: @group.id)
-      # 後からストロングパラメータの設定をする
       redirect_to root_url
     else
       render 'new'
