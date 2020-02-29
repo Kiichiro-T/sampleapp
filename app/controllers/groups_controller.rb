@@ -11,8 +11,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @executives = executives(@group)
-    @generals = generals(@group)
+    @executives = User.executives(@group)
+    @generals = User.generals(@group)
     @events = Event.where(group_id: @group.id)
   end
   
@@ -38,8 +38,8 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @executives = executives(@group)
-    @generals = generals(@group)
+    @executives = User.executives(@group)
+    @generals = User.generals(@group)
   end
 
   def update

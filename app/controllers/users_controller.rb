@@ -5,10 +5,9 @@ class UsersController < ApplicationController
   before_action :cannot_access_to_other_groups, only: [:new, :batch]
   before_action :set_group_for_current_executive
   # before_action :only_executives_can_access, only: [:new]
-  require 'csv'
-
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
+  require 'csv'
 
   def index
     # 必要なくなる
@@ -92,15 +91,6 @@ class UsersController < ApplicationController
 
     def set_group
       @group = Group.find(params[:group_id])
-    end
-
-    # 所属していないグループにはアクセスできない
-    def cannot_access_to_other_groups
-      groups = Group.my_groups(current_user)
-      unless groups.include?(@group)
-        flash[:danger] = "不正な操作です。"
-        redirect_to root_url
-      end
     end
 
     def send_template_csv

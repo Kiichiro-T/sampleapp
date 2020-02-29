@@ -30,4 +30,31 @@ class User < ApplicationRecord
         added_users
         # 例外処理は今度書く
     end
+    
+    # あるグループの幹事たち
+    def self.executives(group)
+      executives = []
+      GroupUser.where(group_id: group.id, role: GroupUser.roles[:executive]).each do |relationship|
+        executives << User.find(relationship.user_id)
+      end
+      executives
+    end
+
+    # あるグループの一般ピーポー
+    def self.generals(group)
+      generals = []
+      GroupUser.where(group_id: group.id, role: GroupUser.roles[:general]).each do |relationship|
+        generals << User.find(relationship.user_id)
+      end
+      generals
+    end
+    
+    # あるグループのメンバー
+    def self.members(group)
+      members = []
+      GroupUser.where(group_id: group.id).each do |relationship|
+        members << User.find(relationship.user_id)
+      end
+      members
+    end
 end

@@ -41,40 +41,4 @@ class ApplicationController < ActionController::Base
         redirect_to edit_user_registration_url
       end
     end
-
-    # 自分の所属しているグループ
-    #def my_groups
-    #  groups = []
-     # GroupUser.where(user_id: current_user.id).each do |relationship|
-      #  groups << Group.find(relationship.group_id)
-    #  end
-    #  groups
-    #end
-
-    # あるグループの幹事たち
-    def executives(group)
-      executives = []
-      GroupUser.where(group_id: group.id, role: GroupUser.roles[:executive]).each do |relationship|
-        executives << User.find(relationship.user_id)
-      end
-      executives
-    end
-
-    # あるグループの一般ピーポー
-    def generals(group)
-      generals = []
-      GroupUser.where(group_id: group.id, role: GroupUser.roles[:general]).each do |relationship|
-        generals << User.find(relationship.user_id)
-      end
-      generals
-    end
-    
-    # あるグループのメンバー
-    def members(group)
-      members = []
-      GroupUser.where(group_id: group.id).each do |relationship|
-        members << User.find(relationship.user_id)
-      end
-      members
-    end
 end

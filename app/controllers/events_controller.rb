@@ -12,7 +12,7 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @group = Group.find(params[:group_id])
-    @executives = executives(@group)
+    @executives = User.executives(@group)
     @answer = Answer.find_by(user_id: current_user.id, event_id: @event.id)
     if @answer.blank?
       @answer = Answer.new
@@ -29,7 +29,7 @@ class EventsController < ApplicationController
     answers = @event.answers
     @attending_answers = answers.where(status: "attending")
     @absent_answers = answers.where(status: "absent")
-    members = members(@group)
+    members = User.members(@group)
     @count = members.count
     answers.each do |answer|
       members.reject!{|member| member == User.find(answer.user_id)}
@@ -70,7 +70,7 @@ class EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
-    members = members(@group)
+    members = User.members(@group)
     if @event.update_attributes(event_params)
       members.each do |member|
         NotificationMailer.send_when_update_event(member, current_user, @group, @event).deliver
