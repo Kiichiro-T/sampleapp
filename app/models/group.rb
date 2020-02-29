@@ -15,4 +15,12 @@ class Group < ApplicationRecord
   validates :group_number, presence: true, uniqueness: true,
                            format: { with: VALID_GRPUP_NUMBER_REGEX },
                            length: { in: 6..25 }
+
+  def self.my_groups(user)
+    groups = []
+    GroupUser.where(user_id: user.id).each do |relationship|
+      groups << Group.find(relationship.group_id)
+    end
+    groups
+  end
 end

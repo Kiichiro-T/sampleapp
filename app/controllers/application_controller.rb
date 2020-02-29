@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     
     # 所属していないグループにはアクセスできない
     def cannot_access_to_other_groups 
-      unless my_groups.include?(@group)
+      unless Group.my_groups(current_user).include?(@group)
         flash[:danger] = "不正な操作です。"
         redirect_to root_url
       end
@@ -43,13 +43,13 @@ class ApplicationController < ActionController::Base
     end
 
     # 自分の所属しているグループ
-    def my_groups
-      groups = []
-      GroupUser.where(user_id: current_user.id).each do |relationship|
-        groups << Group.find(relationship.group_id)
-      end
-      groups
-    end
+    #def my_groups
+    #  groups = []
+     # GroupUser.where(user_id: current_user.id).each do |relationship|
+      #  groups << Group.find(relationship.group_id)
+    #  end
+    #  groups
+    #end
 
     # あるグループの幹事たち
     def executives(group)

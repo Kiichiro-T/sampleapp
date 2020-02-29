@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   before_action :confirm_definitive_registration
 
   def index
+    # 必要なくなる
     @group = Group.find(params[:group_id])
     @users = []
     GroupUser.where(group_id: @group.id).each do |relationship|
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
   end 
 
   def show
-    @groups = my_groups
+    @groups = Group.my_groups(current_user)
   end
 
   def share
@@ -95,7 +96,7 @@ class UsersController < ApplicationController
 
     # 所属していないグループにはアクセスできない
     def cannot_access_to_other_groups
-      groups = my_groups
+      groups = Group.my_groups(current_user)
       unless groups.include?(@group)
         flash[:danger] = "不正な操作です。"
         redirect_to root_url
