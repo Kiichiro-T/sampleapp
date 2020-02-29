@@ -11,14 +11,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @executives = []
-    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
-      @executives << User.find(relationship.user_id)
-    end
-    @generals = []
-    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:general]).each do |relationship|
-      @generals << User.find(relationship.user_id)
-    end
+    @executives = executives(@group)
+    @generals = generals(@group)
     @events = Event.where(group_id: @group.id)
   end
   
@@ -44,14 +38,8 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @generals = []
-    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:general]).each do |relationship|
-      @generals << User.find(relationship.user_id)
-    end
-    @executives = []
-    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
-      @executives << User.find(relationship.user_id)
-    end
+    @executives = executives(@group)
+    @generals = generals(@group)
   end
 
   def update
@@ -64,9 +52,8 @@ class GroupsController < ApplicationController
   end
 
   def inherit
-    new_executive_id = params[:new_executive].to_i
-    executive_relationship = GroupUser.find_by(group_id: @group.id, user_id: current_user.id, role: GroupUser.roles[:executive])
-    general_relationship = GroupUser.find_by(group_id: @group.id, user_id: new_executive_id, role: GroupUser.roles[:general])
+    executive_relationship = executive_relationship(@group, current_user.id)
+    general_relationship = general_relationship(@group, new_executive_id)
     if executive_relationship.update_attribute(:role, GroupUser.roles[:general]) && general_relationship.update_attribute(:role, GroupUser.roles[:executive])
       flash[:success] = "引継ぎが成功しました"
       redirect_to @group
@@ -76,8 +63,7 @@ class GroupsController < ApplicationController
   end
 
   def assign
-    new_executive_id = params[:new_executive].to_i
-    general_relationship = GroupUser.find_by(group_id: @group.id, user_id: new_executive_id, role: GroupUser.roles[:general])
+    general_relationship = general_relationship(@group, new_executive_id)
     if general_relationship.update_attribute(:role, GroupUser.roles[:executive])
       flash[:success] = "任命に成功しました"
       redirect_to @group
@@ -87,7 +73,7 @@ class GroupsController < ApplicationController
   end
 
   def resign
-    executive_relationship = GroupUser.find_by(group_id: @group.id, user_id: current_user.id, role: GroupUser.roles[:executive])
+    executive_relationship = executive_relationship(@group, current_user.id)
     if executive_relationship.update_attribute(:role, GroupUser.roles[:general])
       flash[:success] = "辞任しました"
       redirect_to @group
@@ -102,24 +88,12 @@ class GroupsController < ApplicationController
       @group = Group.find(params[:id])
     end
 
-    # 所属していないグループにはアクセスできない
-    def cannot_access_to_other_groups
-      groups = []
-      GroupUser.where(user_id: current_user.id).each do |relationship|
-        groups << Group.find(relationship.group_id)
-      end
-      unless groups.include?(@group)
-        flash[:danger] = "不正な操作です。"
-        redirect_to root_url
-      end
-    end
-
     # １ユーザーにつき１幹事まで
     def one_user_cannot_be_some_executives
       relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
       if relationship
-        @current_executive_group = Group.find(relationship.group_id)
-        if @current_executive_group
+        current_executive_group = Group.find(relationship.group_id)
+        if current_executive_group
           flash[:danger] = "幹事は複数のグループの幹事を兼任することはできません。複数のグループの幹事である場合は新しいアカウントを作成するようにしてください。"
           redirect_to root_url
         end
@@ -130,6 +104,17 @@ class GroupsController < ApplicationController
       params.require(:group).permit(:name, :email, :group_number)
     end
 
+    def new_executive_id
+      params[:new_executive].to_i
+    end
+
+    def general_relationship(group, user_id)
+      GroupUser.find_by(group_id: group.id, user_id: user_id, role: GroupUser.roles[:general])
+    end
+
+    def executive_relationship(group, user_id)
+      GroupUser.find_by(group_id: group.id, user_id: user_id, role: GroupUser.roles[:executive])
+    end
     # def one_user_has_one_group
     #   if current_user.group_id.present?
     #     flash[:warning] = "１ユーザーにつき１グループなので作成できません"

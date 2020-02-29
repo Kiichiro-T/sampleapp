@@ -23,10 +23,7 @@ class UsersController < ApplicationController
   end 
 
   def show
-    @groups = []
-    GroupUser.where(user_id: current_user.id).each do |relationship|
-      @groups << Group.find(relationship.group_id)
-    end
+    @groups = my_groups
   end
 
   def share
@@ -98,10 +95,7 @@ class UsersController < ApplicationController
 
     # 所属していないグループにはアクセスできない
     def cannot_access_to_other_groups
-      groups = []
-      GroupUser.where(user_id: current_user.id).each do |relationship|
-        groups << Group.find(relationship.group_id)
-      end
+      groups = my_groups
       unless groups.include?(@group)
         flash[:danger] = "不正な操作です。"
         redirect_to root_url

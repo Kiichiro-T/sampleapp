@@ -24,11 +24,7 @@ class ReceiptPdfsController < ApplicationController
     def cannot_access_to_other_groups
       @event = Event.find(params[:event_id])
       @group = Group.find(@event.group_id)
-      groups = []
-      GroupUser.where(user_id: current_user.id).each do |relationship|
-        groups << Group.find(relationship.group_id)
-      end
-      unless groups.include?(@group)
+      unless my_groups.include?(@group)
         flash[:danger] = "不正な操作です。"
         redirect_to root_url
       end

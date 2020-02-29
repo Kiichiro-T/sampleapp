@@ -19,6 +19,14 @@ class ApplicationController < ActionController::Base
       end
     end
     
+    # 所属していないグループにはアクセスできない
+    def cannot_access_to_other_groups 
+      unless my_groups.include?(@group)
+        flash[:danger] = "不正な操作です。"
+        redirect_to root_url
+      end
+    end
+    
     # 現在のユーザーが幹事であるグループをセットする
     def set_group_for_current_executive
       relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
@@ -32,5 +40,41 @@ class ApplicationController < ActionController::Base
         flash[:danger] = "アカウントは一括登録後の状態ですので、パスワードまたはメールアドレスを変更するようにしてください。"
         redirect_to edit_user_registration_url
       end
+    end
+
+    # 自分の所属しているグループ
+    def my_groups
+      groups = []
+      GroupUser.where(user_id: current_user.id).each do |relationship|
+        groups << Group.find(relationship.group_id)
+      end
+      groups
+    end
+
+    # あるグループの幹事たち
+    def executives(group)
+      executives = []
+      GroupUser.where(group_id: group.id, role: GroupUser.roles[:executive]).each do |relationship|
+        executives << User.find(relationship.user_id)
+      end
+      executives
+    end
+
+    # あるグループの一般ピーポー
+    def generals(group)
+      generals = []
+      GroupUser.where(group_id: group.id, role: GroupUser.roles[:general]).each do |relationship|
+        generals << User.find(relationship.user_id)
+      end
+      generals
+    end
+    
+    # あるグループのメンバー
+    def members(group)
+      members = []
+      GroupUser.where(group_id: group.id).each do |relationship|
+        members << User.find(relationship.user_id)
+      end
+      members
     end
 end

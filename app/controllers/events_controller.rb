@@ -12,10 +12,7 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @group = Group.find(params[:group_id])
-    @executives = []
-    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:executive]).each do |relationship|
-      @executives << User.find(relationship.user_id)
-    end
+    @executives = executives(@group)
     @answer = Answer.find_by(user_id: current_user.id, event_id: @event.id)
     if @answer.blank?
       @answer = Answer.new
@@ -32,10 +29,7 @@ class EventsController < ApplicationController
     answers = @event.answers
     @attending_answers = answers.where(status: "attending")
     @absent_answers = answers.where(status: "absent")
-    members = []
-    GroupUser.where(group_id: @group.id).each do |relationship|
-      members << User.find(relationship.user_id)
-    end
+    members = members(@group)
     @count = members.count
     answers.each do |answer|
       members.reject!{|member| member == User.find(answer.user_id)}
@@ -49,12 +43,8 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-    members = []
-    GroupUser.where(group_id: group.id).each do |relationship|
-      members << User.find(relationship.user_id)
-    end
     if @event.save
-      members.each do |member|
+      members(@group).each do |member|
         NotificationMailer.send_when_make_new_event(member, current_user, group, @event).deliver
         Event::Transaction.create!(
           deadline: @event.pay_deadline,
@@ -80,10 +70,7 @@ class EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
-    members = []
-    GroupUser.where(group_id: @group.id).each do |relationship|
-      members << User.find(relationship.user_id)
-    end
+    members = members(@group)
     if @event.update_attributes(event_params)
       members.each do |member|
         NotificationMailer.send_when_update_event(member, current_user, @group, @event).deliver
@@ -107,18 +94,6 @@ class EventsController < ApplicationController
 
     def set_group
       @group = Group.find(params[:group_id])
-    end
-
-    # 所属していないグループにはアクセスできない
-    def cannot_access_to_other_groups
-      groups = []
-      GroupUser.where(user_id: current_user.id).each do |relationship|
-        groups << Group.find(relationship.group_id)
-      end
-      unless groups.include?(@group)
-        flash[:danger] = "不正な操作です。"
-        redirect_to root_url
-      end
     end
 
     def event_params
