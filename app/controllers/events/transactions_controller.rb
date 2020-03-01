@@ -3,15 +3,10 @@ class Events::TransactionsController < TransactionsController
 
   def index
     @event = Event.find(params[:event_id])
-    @completed_transactions = []   # 支払い済み
-    @uncompleted_transactions = [] # 未払い
-    Event::Transaction.where(event_id: @event.id).each do |transaction|
-      if transaction.debt == transaction.payment
-        @complieed_transactions << transaction
-      else
-        @uncompleted_transactions << transaction
-      end
-    end
+    # 支払い済みと未払いに分ける
+    hash = Event::Transaction.divide_transaction_in_two(@event)
+    @completed_transactions = hash[:completed] # 支払い済み
+    @uncompleted_transactions = hash[:uncompleted] # 未払い
   end
 
   def new
