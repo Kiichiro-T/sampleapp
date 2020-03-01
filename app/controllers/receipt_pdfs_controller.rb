@@ -11,9 +11,9 @@ class ReceiptPdfsController < ApplicationController
       format.pdf do
         receipt_pdf = ReceiptPdf.new(debtor, @event, transaction)
         send_data receipt_pdf.render,
-          filename:    'receipt.pdf',
-          type:        'application/pdf',
-          disposition: 'inline'
+                  filename: 'receipt.pdf',
+                  type: 'application/pdf',
+                  disposition: 'inline'
       end
     end
   end
@@ -29,6 +29,5 @@ class ReceiptPdfsController < ApplicationController
         redirect_to root_url
       end
     end
-  
 end
 

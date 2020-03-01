@@ -28,7 +28,7 @@ class Transaction < ApplicationRecord
       errors.add(:deadline, "は今日以降のものを選択してください") if deadline.nil? || deadline < Date.today.to_datetime
     end
 
-    # def payment_is_equal_or_smaller_than_debt
-    #   errors.add(:payment, "は", :debt, "以下にしてください") if payment <= debt
-    # end
+  # def payment_is_equal_or_smaller_than_debt
+  #   errors.add(:payment, "は", :debt, "以下にしてください") if payment <= debt
+  # end
 end

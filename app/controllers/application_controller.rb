@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   # before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
+
     # 後で実装
     def only_executives_can_access
       GroupUser.where(user_id: current_user.id).each do |relationship|

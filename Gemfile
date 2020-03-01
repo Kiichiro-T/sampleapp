@@ -35,28 +35,32 @@ gem 'jbuilder'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
-gem 'jquery-rails'
 gem 'bootstrap-sass'
 gem 'devise'
+gem 'jquery-rails'
 gem 'prawn'
 gem 'prawn-table'
 # paypal sdk for checkout
 gem 'paypal-checkout-sdk'
 # bulk insert
-gem 'roo'
 gem 'activerecord-import'
-gem 'sprockets', '3.7.2'
 gem 'cancancan'
+gem 'roo'
+gem 'sprockets', '3.7.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console'
   gem 'listen'
+  gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen'

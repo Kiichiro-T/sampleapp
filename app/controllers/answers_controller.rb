@@ -1,5 +1,4 @@
 class AnswersController < ApplicationController
-
   def create
     event = Event.find(params[:event_id])
     @answer = Answer.new(answer_params)
@@ -25,5 +24,4 @@ class AnswersController < ApplicationController
     def answer_params
       params.require(:answer).permit(:status, :user_id, :event_id)
     end
-
 end

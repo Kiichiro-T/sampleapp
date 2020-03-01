@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :inherit, :assign, :resign]
   before_action :cannot_access_to_other_groups, only: [:show, :edit, :update, :inherit, :assign, :resign]
   before_action :set_group_for_current_executive
-  #before_action :only_executives_can_access, only: [:edit]
+  # before_action :only_executives_can_access, only: [:edit]
   def index
     @groups = Group.all
   end
@@ -102,14 +102,14 @@ class GroupsController < ApplicationController
       params[:new_executive].to_i
     end
 
-    # def one_user_has_one_group
-    #   if current_user.group_id.present?
-    #     flash[:warning] = "１ユーザーにつき１グループなので作成できません"
-    #     redirect_to root_url
-    #   end
-    # end
+  # def one_user_has_one_group
+  #   if current_user.group_id.present?
+  #     flash[:warning] = "１ユーザーにつき１グループなので作成できません"
+  #     redirect_to root_url
+  #   end
+  # end
 
-    #def user_group_id_params
-    #  params.require(:user).permit(:group_id)
-    #end
+  #def user_group_id_params
+  #  params.require(:user).permit(:group_id)
+  #end
 end

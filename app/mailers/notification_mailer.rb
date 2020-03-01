@@ -1,5 +1,4 @@
 class NotificationMailer < ApplicationMailer
-
   def send_when_batch_registration(user, current_user)
     @user = user
     @current_user = current_user
@@ -36,5 +35,4 @@ class NotificationMailer < ApplicationMailer
       format.text
     end
   end
-
 end

@@ -9,7 +9,6 @@ User.create!(
   confirmed_at: Time.now
 )
 
-
 # 幹事User1
 User.create!(
   name: "Executive 1",
@@ -29,7 +28,6 @@ User.create!(
   definitive_registration: true,
   confirmed_at: Time.now
 )
-
 
 10.times do |i|
   User.create!(

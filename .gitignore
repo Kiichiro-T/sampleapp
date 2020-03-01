@@ -28,3 +28,6 @@
 
 # Ignore docker/mysql/volumes
 /docker/mysql/volumes/
+
+# Ignore config for editor
+.editorconfig

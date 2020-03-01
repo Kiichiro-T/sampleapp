@@ -115,5 +115,4 @@ class UsersController < ApplicationController
       end
       send_data(csv, filename: "share.csv", type: 'application/csv')
     end
-
 end

@@ -24,5 +24,4 @@ class GroupUser < ApplicationRecord
   def self.executive_relationship(group, user_id)
     GroupUser.find_by(group_id: group.id, user_id: user_id, role: GroupUser.roles[:executive])
   end
-
 end

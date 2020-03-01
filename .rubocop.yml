@@ -1,0 +1,14 @@
+inherit_from: .rubocop_todo.yml
+AllCops:
+  Exclude:
+    - "db/schema.rb"
+
+###################### Layout #########################
+
+# 改行文字は保留
+Layout/EndOfLine:
+  Enabled: false
+
+# メソッド内はインデントする
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods

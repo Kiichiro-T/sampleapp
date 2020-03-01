@@ -1,5 +1,4 @@
 class Event::Transaction < Transaction
-
   def self.divide_transaction_in_two(event)
     completed_transactions = []   # 支払い済み
     uncompleted_transactions = [] # 未払い

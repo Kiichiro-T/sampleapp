@@ -5,5 +5,4 @@ class ReceiptPdfsControllerTest < ActionDispatch::IntegrationTest
     get receipt_pdfs_index_url
     assert_response :success
   end
-
 end
