@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
     end
   end
 
-  private
+  # private
 
   # def transaction_params
   #   params.require(:transaction).permit(:debtor_id, :creditor_id, :event_id, :group_id, :deadline, :debt, :payment)

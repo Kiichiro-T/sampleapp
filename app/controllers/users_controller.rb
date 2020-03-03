@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     # users = User.where(group_id: group.id).where(definitive_registration: false)
     respond_to do |format|
       format.html
-      format.csv do |csv|
+      format.csv do
         share_csv(users)
       end
     end
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   def csv_template
     respond_to do |format|
       format.html
-      format.csv do |csv|
+      format.csv do
         send_template_csv
       end
     end
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
         NotificationMailer.send_when_batch_registration(user, current_user).deliver
       end
       # メールを送信中がわかるアニメーションが欲しい
-      flash[:success] = "#{count.to_s}人のユーザーを追加し通知メールを送信しました。"
+      flash[:success] = "#{count}人のユーザーを追加し通知メールを送信しました。"
       redirect_to group_users_url(group_id: @group.id)
     end
   end
@@ -95,22 +95,22 @@ class UsersController < ApplicationController
 
     def send_template_csv
       # bom = "\uFEFF"
-      csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |csv|
+      csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |c|
         header = %w(名前 メールアドレス)
-        csv << header
+        c << header
       end
       send_data(csv, filename: "template.csv", type: 'application/csv')
     end
 
     def share_csv(users)
       # bom = "\uFEFF"
-      csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |csv|
+      csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |c|
         header = %w(名前 メールアドレス)
-        csv << header
+        c << header
 
         users.each do |user|
           values = [user.name, user.email]
-          csv << values
+          c << values
         end
       end
       send_data(csv, filename: "share.csv", type: 'application/csv')

@@ -1,7 +1,7 @@
 inherit_from: .rubocop_todo.yml
 AllCops:
   Exclude:
-    - "db/schema.rb"
+    - 'db/schema.rb'
 
 ###################### Layout #########################
 
@@ -12,3 +12,17 @@ Layout/EndOfLine:
 # メソッド内はインデントする(privateメソッドなど)
 Layout/IndentationConsistency:
   EnforcedStyle: indented_internal_methods
+
+###################### Metrics #########################
+
+Metrics/AbcSize:
+  Max: 42
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/*'
+    - 'config/routes.rb'
+    - 'db/seeds.rb'
+
+Metrics/MethodLength:
+  Max: 26
