@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Event::Transaction < Transaction
   def self.divide_transaction_in_two(event)
     completed_transactions = []   # 支払い済み
@@ -26,7 +28,7 @@ class Event::Transaction < Transaction
   end
 
   def update_transaction_when_update_event(member, user, event)
-    self.update_attributes(
+    update_attributes(
       deadline: event.pay_deadline,
       debt: event.amount,
       creditor_id: user.id,

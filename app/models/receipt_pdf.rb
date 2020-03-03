@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReceiptPdf < Prawn::Document
   def initialize(debtor, event, transaction)
     super(
@@ -7,12 +9,12 @@ class ReceiptPdf < Prawn::Document
     @debtor = debtor
     @event = event
     @transaction = transaction
-    font "app/assets/fonts/ipaexm.ttf"
+    font 'app/assets/fonts/ipaexm.ttf'
     create_box
   end
 
   def create_box
-    bounding_box([0, 700], :width => 500, :height => 250) do
+    bounding_box([0, 700], width: 500, height: 250) do
       stroke_bounds
       move_down 10
       create_title
@@ -34,7 +36,7 @@ class ReceiptPdf < Prawn::Document
   end
 
   def create_date
-    text "#{Time.now.strftime("%Y年%m月%d日")}　", align: :right, right_padding: 10
+    text "#{Time.now.strftime('%Y年%m月%d日')}　", align: :right, right_padding: 10
   end
 
   def create_name
@@ -47,11 +49,11 @@ class ReceiptPdf < Prawn::Document
 
   def create_tadashi
     text "但し　#{@event.name}代として", align: :center, 　size: 15
-    text "上記正に領収いたしました", align: :center, 　size: 15
+    text '上記正に領収いたしました', align: :center, 　size: 15
   end
 
   def create_uchiwake
-    text "　内訳", size: 15
+    text '　内訳', size: 15
     move_down 5
     text "　税抜金額　￥#{@transaction.debt}-"
     move_down 5

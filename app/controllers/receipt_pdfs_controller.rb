@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReceiptPdfsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
@@ -24,9 +26,9 @@ class ReceiptPdfsController < ApplicationController
     def cannot_access_to_other_groups
       @event = Event.find(params[:event_id])
       @group = Group.find(@event.group_id)
-      unless Group.my_groups(current_user).include?(@group)
-        flash[:danger] = "不正な操作です。"
-        redirect_to root_url
-      end
+      return if Group.my_groups(current_user).include?(@group)
+
+      flash[:danger] = '不正な操作です。'
+      redirect_to root_url
     end
 end

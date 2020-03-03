@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Events::TransactionsController < TransactionsController
   before_action :authenticate_user!
 
@@ -34,7 +36,7 @@ class Events::TransactionsController < TransactionsController
       end
     end
     if @transaction.save
-      flash[:success] = "作成成功！"
+      flash[:success] = '作成成功！'
       redirect_to group_event_url(group_id: @group.id, id: @event.id)
     else
       render 'new'

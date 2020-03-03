@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :set_group_for_current_executive, only: [:edit, :update]
+  before_action :set_group_for_current_executive, only: %i[edit update]
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
   # prepend_before_action :require_no_authentication, only: [:new, :create, :cancel]
@@ -33,9 +33,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
       user = current_user
-      if user.definitive_registration == false
-        user.toggle!(:definitive_registration)
-      end
+      user.toggle!(:definitive_registration) unless user.definitive_registration
       respond_with resource, location: after_update_path_for(resource)
     else
       clean_up_passwords resource

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Event < ApplicationRecord
   belongs_to :user
   belongs_to :group
@@ -19,19 +21,19 @@ class Event < ApplicationRecord
 
     # 開始日は今日以降の日付
     def start_date_not_before_today
-      errors.add(:start_date, "は今日以降のものを選択してください") if start_date.blank? || self.start_date < Date.today.to_datetime
+      errors.add(:start_date, 'は今日以降のものを選択してください') if start_date.blank? || start_date < Date.today.to_datetime
     end
 
     # 終了日は開始日以降の日付
     # 現状は今日以降の日付となってしまっている
     def end_date_not_before_start_date
-      errors.add(:end_date, "は開始日以降のものを選択してください") if end_date.blank? || self.end_date < Date.today.to_datetime
+      errors.add(:end_date, 'は開始日以降のものを選択してください') if end_date.blank? || end_date < Date.today.to_datetime
     end
 
     # 支払い締め切りは今日以降の日付
     def pay_deadline_not_before_today
       return if pay_deadline.blank?
 
-      errors.add(:pay_deadline, "は今日以降のものを選択してください") if pay_deadline < Date.today.to_datetime
+      errors.add(:pay_deadline, 'は今日以降のものを選択してください') if pay_deadline < Date.today.to_datetime
     end
 end

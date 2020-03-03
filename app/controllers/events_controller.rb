@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
@@ -14,9 +16,7 @@ class EventsController < ApplicationController
     @group = Group.find(params[:group_id])
     @executives = User.executives(@group)
     @answer = Answer.find_by(user_id: current_user.id, event_id: @event.id)
-    if @answer.blank?
-      @answer = Answer.new
-    end
+    @answer = Answer.new if @answer.blank?
     # 支払い済みと未払いに分ける
     h1 = Event::Transaction.divide_transaction_in_two(@event)
     @completed_transactions = h1[:completed] # 支払い済み
@@ -44,7 +44,7 @@ class EventsController < ApplicationController
         NotificationMailer.send_when_make_new_event(member, current_user, group, @event).deliver
         new_transaction_when_create_new_event(member, current_user, group, @event)
       end
-      flash[:success] = "イベントが作成されました。グループのユーザーにメールで作成を通知しました。"
+      flash[:success] = 'イベントが作成されました。グループのユーザーにメールで作成を通知しました。'
       redirect_to group_event_url(group_id: group.id, id: @event.id)
     else
       render 'new'
@@ -64,7 +64,7 @@ class EventsController < ApplicationController
         transaction = Transaction.find_by(group_id: @group.id, event_id: @event.id, debtor_id: member.id)
         transaction.update_transaction_when_update_event(member, current_user, @event)
       end
-      flash[:success] = "イベントの情報を更新しました"
+      flash[:success] = 'イベントの情報を更新しました'
       redirect_to group_event_url(group_id: @group.id, event_id: @event.id)
     else
       render 'edit'

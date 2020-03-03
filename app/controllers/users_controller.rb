@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :set_group, only: [:new, :batch]
-  before_action :cannot_access_to_other_groups, only: [:new, :batch]
+  before_action :set_group, only: %i[new batch]
+  before_action :cannot_access_to_other_groups, only: %i[new batch]
   before_action :set_group_for_current_executive
   # before_action :only_executives_can_access, only: [:new]
   before_action :authenticate_user!
@@ -15,9 +17,7 @@ class UsersController < ApplicationController
     @users = []
     GroupUser.where(group_id: @group.id).each do |relationship|
       user = User.find(relationship.user_id)
-      if user.definitive_registration == false
-        @users << user
-      end
+      @users << user unless user.definitive_registration
     end
     # @users = User.where(group_id: @group.id).where(definitive_registration: false)
   end
@@ -31,9 +31,7 @@ class UsersController < ApplicationController
     users = []
     GroupUser.where(group_id: group.id).each do |relationship|
       user = User.find(relationship.user_id)
-      if user.definitive_registration == false
-        users << user
-      end
+      users << user unless user.definitive_registration
     end
     # users = User.where(group_id: group.id).where(definitive_registration: false)
     respond_to do |format|
@@ -60,22 +58,22 @@ class UsersController < ApplicationController
   def batch
     @group = Group.find(params[:group_id])
     if params[:file].blank?
-      flash[:danger] = "読み込むファイルを選択してください。"
+      flash[:danger] = '読み込むファイルを選択してください。'
       redirect_to new_users_url
       return
-    elsif File.extname(params[:file].original_filename) != ".csv"
-      flash[:danger] = "csvファイルのみ読み込み可能です。"
+    elsif File.extname(params[:file].original_filename) != '.csv'
+      flash[:danger] = 'csvファイルのみ読み込み可能です。'
       redirect_to new_users_url
       return
     elsif params[:password].blank?
-      flash[:danger] = "パスワードを入力をしてください。"
+      flash[:danger] = 'パスワードを入力をしてください。'
       redirect_to new_users_url
       return
     end
     users = User.import!(params[:file], @group, params[:password])
     count = users.count
     if count <= 0
-      flash[:danger] = "データがないまたは間違いがあります。もう一度ご確認ください。"
+      flash[:danger] = 'データがないまたは間違いがあります。もう一度ご確認ください。'
       redirect_to new_users_url
     else
       users.each do |user|
@@ -96,16 +94,16 @@ class UsersController < ApplicationController
     def send_template_csv
       # bom = "\uFEFF"
       csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |c|
-        header = %w(名前 メールアドレス)
+        header = %w[名前 メールアドレス]
         c << header
       end
-      send_data(csv, filename: "template.csv", type: 'application/csv')
+      send_data(csv, filename: 'template.csv', type: 'application/csv')
     end
 
     def share_csv(users)
       # bom = "\uFEFF"
       csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |c|
-        header = %w(名前 メールアドレス)
+        header = %w[名前 メールアドレス]
         c << header
 
         users.each do |user|
@@ -113,6 +111,6 @@ class UsersController < ApplicationController
           c << values
         end
       end
-      send_data(csv, filename: "share.csv", type: 'application/csv')
+      send_data(csv, filename: 'share.csv', type: 'application/csv')
     end
 end

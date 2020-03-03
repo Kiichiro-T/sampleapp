@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Answer < ApplicationRecord
   belongs_to :user
   belongs_to :event
@@ -14,7 +16,7 @@ class Answer < ApplicationRecord
   def self.divide_answers_in_two(event)
     answers = event.answers
     { answers: answers,
-      attending: answers.where(status: "attending"),
-      absent: answers.where(status: "absent") }
+      attending: answers.where(status: 'attending'),
+      absent: answers.where(status: 'absent') }
   end
 end

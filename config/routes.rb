@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   # get 'receipt_pdfs/index', to: 'receipt_pdfs#index'
   devise_for :users, controllers: {
@@ -5,8 +7,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
   devise_scope :user do
-    get "sign_in", to: "users/sessions#new"
-    get "sign_out", to: "users/sessions#destroy"
+    get 'sign_in', to: 'users/sessions#new'
+    get 'sign_out', to: 'users/sessions#destroy'
   end
 
   root 'homes#index'
@@ -21,7 +23,7 @@ Rails.application.routes.draw do
       end
       resources :transactions, only: [:index], param: :url_token
     end
-    resources :events, only: [:new, :create, :show, :edit, :update]
+    resources :events, only: %i[new create show edit update]
 
     member do
       get :dashboard
@@ -41,11 +43,11 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [] do
-    resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'events/transactions', param: :url_token do
+    resources :transactions, only: %i[index new create edit update], controller: 'events/transactions', param: :url_token do
       member do
         get :receipt, to: 'receipt_pdfs#show'
       end
     end
-    resources :answers, only: [:create, :update]
+    resources :answers, only: %i[create update]
   end
 end

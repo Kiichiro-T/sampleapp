@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddColumnsToTransactions < ActiveRecord::Migration[5.2]
   def change
     add_reference :transactions, :debtor, foreign_key: { to_table: :users }

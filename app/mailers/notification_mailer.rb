@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class NotificationMailer < ApplicationMailer
   def send_when_batch_registration(user, current_user)
     @user = user
     @current_user = current_user
     mail(
-      subject: "仮登録のお知らせ",
+      subject: '仮登録のお知らせ',
       to: @user.email
     ) do |format|
       format.text
@@ -16,7 +18,7 @@ class NotificationMailer < ApplicationMailer
     @group = group
     @event = event
     mail(
-      subject: "新規イベントのお知らせ",
+      subject: '新規イベントのお知らせ',
       to: @user.email
     ) do |format|
       format.text

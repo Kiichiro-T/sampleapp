@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :one_user_cannot_be_some_executives, only: [:new, :create]
-  before_action :set_group, only: [:show, :edit, :update, :inherit, :assign, :resign]
-  before_action :cannot_access_to_other_groups, only: [:show, :edit, :update, :inherit, :assign, :resign]
+  before_action :one_user_cannot_be_some_executives, only: %i[new create]
+  before_action :set_group, only: %i[show edit update inherit assign resign]
+  before_action :cannot_access_to_other_groups, only: %i[show edit update inherit assign resign]
   before_action :set_group_for_current_executive
   # before_action :only_executives_can_access, only: [:edit]
   def index
@@ -24,7 +26,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     if @group.save
       GroupUser.new_group(@group, current_user)
-      flash[:success] = "グループ作成成功！"
+      flash[:success] = 'グループ作成成功！'
       redirect_to root_url
     else
       render 'new'
@@ -38,7 +40,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update_attributes(group_params)
-      flash[:success] = "グループの設定を変更しました"
+      flash[:success] = 'グループの設定を変更しました'
       redirect_to @group
     else
       render 'edit'
@@ -49,7 +51,7 @@ class GroupsController < ApplicationController
     executive_relationship = GroupUser.executive_relationship(@group, current_user.id)
     general_relationship = GroupUser.general_relationship(@group, new_executive_id)
     if executive_relationship.update_attribute(:role, GroupUser.roles[:general]) && general_relationship.update_attribute(:role, GroupUser.roles[:executive])
-      flash[:success] = "引継ぎが成功しました"
+      flash[:success] = '引継ぎが成功しました'
       redirect_to @group
     else
       render 'edit'
@@ -59,7 +61,7 @@ class GroupsController < ApplicationController
   def assign
     general_relationship = GroupUser.general_relationship(@group, new_executive_id)
     if general_relationship.update_attribute(:role, GroupUser.roles[:executive])
-      flash[:success] = "任命に成功しました"
+      flash[:success] = '任命に成功しました'
       redirect_to @group
     else
       render 'edit'
@@ -69,7 +71,7 @@ class GroupsController < ApplicationController
   def resign
     executive_relationship = GroupUser.executive_relationship(@group, current_user.id)
     if executive_relationship.update_attribute(:role, GroupUser.roles[:general])
-      flash[:success] = "辞任しました"
+      flash[:success] = '辞任しました'
       redirect_to @group
     else
       render 'edit'
@@ -85,13 +87,13 @@ class GroupsController < ApplicationController
     # １ユーザーにつき１幹事まで
     def one_user_cannot_be_some_executives
       relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
-      if relationship
-        current_executive_group = Group.find(relationship.group_id)
-        if current_executive_group
-          flash[:danger] = "幹事は複数のグループの幹事を兼任することはできません。複数のグループの幹事である場合は新しいアカウントを作成するようにしてください。"
-          redirect_to root_url
-        end
-      end
+      return unless relationship
+
+      current_executive_group = Group.find(relationship.group_id)
+      return unless current_executive_group
+
+      flash[:danger] = '幹事は複数のグループの幹事を兼任することはできません。複数のグループの幹事である場合は新しいアカウントを作成するようにしてください。'
+      redirect_to root_url
     end
 
     def group_params

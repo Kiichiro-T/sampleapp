@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -15,8 +17,8 @@ class User < ApplicationRecord
 
   def self.import!(file, group, pass)
     added_users = []
-    self.transaction do
-      CSV.foreach(file.path, headers: true, skip_blanks: true, encoding: "CP932:UTF-8") do |row|
+    transaction do
+      CSV.foreach(file.path, headers: true, skip_blanks: true, encoding: 'CP932:UTF-8') do |row|
         name = row['名前']
         email = row['メールアドレス']
         user = User.new(name: name, email: email, password: pass,

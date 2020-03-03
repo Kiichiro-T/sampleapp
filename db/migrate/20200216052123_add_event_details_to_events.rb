@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddEventDetailsToEvents < ActiveRecord::Migration[5.2]
   def change
     add_column :events, :start_date, :datetime

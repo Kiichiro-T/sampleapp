@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
@@ -15,31 +17,31 @@ class ApplicationController < ActionController::Base
 
       if @exe_group && @exe_group.id == params[:exe_group_id]
       else
-        flash[:danger] = "不正な操作です。"
+        flash[:danger] = '不正な操作です。'
         redirect_to root_url
       end
     end
 
     # 所属していないグループにはアクセスできない
     def cannot_access_to_other_groups
-      unless Group.my_groups(current_user).include?(@group)
-        flash[:danger] = "不正な操作です。"
-        redirect_to root_url
-      end
+      return if Group.my_groups(current_user).include?(@group)
+
+      flash[:danger] = '不正な操作です。'
+      redirect_to root_url
     end
 
     # 現在のユーザーが幹事であるグループをセットする
     def set_group_for_current_executive
       relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
-      if relationship
-        @current_executive_group = Group.find(relationship.group_id)
-      end
+      return unless relationship
+
+      @current_executive_group = Group.find(relationship.group_id)
     end
 
     def confirm_definitive_registration
-      unless current_user.definitive_registration
-        flash[:danger] = "アカウントは一括登録後の状態ですので、パスワードまたはメールアドレスを変更するようにしてください。"
-        redirect_to edit_user_registration_url
-      end
+      return if current_user.definitive_registration
+
+      flash[:danger] = 'アカウントは一括登録後の状態ですので、パスワードまたはメールアドレスを変更するようにしてください。'
+      redirect_to edit_user_registration_url
     end
 end

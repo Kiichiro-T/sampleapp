@@ -1,29 +1,31 @@
+# frozen_string_literal: true
+
 # Admin User
 User.create!(
-  name: "Admin",
-  email: "admin@example.com",
-  password: "password",
-  password_confirmation: "password",
+  name: 'Admin',
+  email: 'admin@example.com',
+  password: 'password',
+  password_confirmation: 'password',
   definitive_registration: true,
   confirmed_at: Time.now
 )
 
 # 幹事User1
 User.create!(
-  name: "Executive 1",
-  email: "executive1@example.com",
-  password: "password",
-  password_confirmation: "password",
+  name: 'Executive 1',
+  email: 'executive1@example.com',
+  password: 'password',
+  password_confirmation: 'password',
   definitive_registration: true,
   confirmed_at: Time.now
 )
 
 # 幹事User2
 User.create!(
-  name: "Executive 2",
-  email: "executive2@example.com",
-  password: "password",
-  password_confirmation: "password",
+  name: 'Executive 2',
+  email: 'executive2@example.com',
+  password: 'password',
+  password_confirmation: 'password',
   definitive_registration: true,
   confirmed_at: Time.now
 )
@@ -32,18 +34,18 @@ User.create!(
   User.create!(
     name: "General #{i + 1}",
     email: "General#{i + 1}@example.com",
-    password: "password",
-    password_confirmation: "password",
+    password: 'password',
+    password_confirmation: 'password',
     definitive_registration: true,
     confirmed_at: Time.now
   )
 end
 
 User.create!(
-  name: "definitive_test_user",
-  email: "definitive_test@example.com",
-  password: "password",
-  password_confirmation: "password",
+  name: 'definitive_test_user',
+  email: 'definitive_test@example.com',
+  password: 'password',
+  password_confirmation: 'password',
   definitive_registration: false,
   confirmed_at: Time.now
 )
@@ -53,7 +55,7 @@ User.create!(
   Group.create!(
     name: "Group #{i + 1}",
     email: "executive#{i + 1}@example.com",
-    group_number: "group_test_#{i + 1}",
+    group_number: "group_test_#{i + 1}"
   )
 end
 
@@ -63,7 +65,7 @@ end
   GroupUser.create!(
     group_id: i + 1,
     user_id: i + 2,
-    role: 90,
+    role: 90
   )
 end
 
@@ -72,7 +74,7 @@ end
   GroupUser.create!(
     group_id: 1,
     user_id: i + 4,
-    role: 10,
+    role: 10
   )
 end
 # General 6 ~ 10
@@ -80,7 +82,7 @@ end
   GroupUser.create!(
     group_id: 2,
     user_id: i + 9,
-    role: 10,
+    role: 10
   )
 end
 

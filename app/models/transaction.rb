@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Transaction < ApplicationRecord
   attribute :url_token, :string, default: SecureRandom.hex(10)
   belongs_to :creditor, class_name: 'User', foreign_key: 'creditor_id'
@@ -25,7 +27,7 @@ class Transaction < ApplicationRecord
   private
 
     def deadline_before_today
-      errors.add(:deadline, "は今日以降のものを選択してください") if deadline.nil? || deadline < Date.today.to_datetime
+      errors.add(:deadline, 'は今日以降のものを選択してください') if deadline.nil? || deadline < Date.today.to_datetime
     end
 
   # def payment_is_equal_or_smaller_than_debt
