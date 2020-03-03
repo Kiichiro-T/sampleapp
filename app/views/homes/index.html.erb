@@ -1,29 +1,199 @@
-<!-- カレンダー、更新情報 -->
-<% if user_signed_in? %>
-  <h4> メールアドレス： <%= current_user.email %> </h4>
-  <% if @executive_relationships.any? %>
-    <p><%= link_to "グループ新規作成", new_group_path %></p>
-  <% end %>
-  <hr>
-  <p>所属グループ：</p>
-  <% if @relationships.any? %>
-    <% @relationships.each do |relationship| %>
-      <% group = Group.find(relationship.group_id) %>
-      <p><%= link_to group.name, group_path(group) %></p>
-    <% end %>
-  <% end %>
-  <hr>
-  <p>イベント一覧：</p>
-  <% if @events.any? %>
-    <% @events.each do |event| %>
-      <p><%= link_to event.name, group_event_path(group_id: event.group_id, id: event.id) %></p>
-    <% end %>
-  <% end %>
-  <hr>
-  <p>収支情報：</p>
-  <% if @transactions.any? %>
-    <% @transactions.each do |transaction| %>
-      <p><%= transaction.url_token %></p>
-    <% end %>
-  <% end %>
+<% provide(:title, "ホーム") %>
+<% content_for :js do %>
+  <%= javascript_pack_tag 'homes/index' %>
+  <link href='../fullcalendar-4.3.1/packages/core/main.css' rel='stylesheet' />
+    <link href='../fullcalendar-4.3.1/packages/daygrid/main.css' rel='stylesheet' />
+    <link href='../fullcalendar-4.3.1/packages/timegrid/main.css' rel='stylesheet' />
+    <script src='../fullcalendar-4.3.1/packages/core/main.js'></script>
+    <script src='../fullcalendar-4.3.1/packages/interaction/main.js'></script>
+    <script src='../fullcalendar-4.3.1/packages/daygrid/main.js'></script>
+    <script src='../fullcalendar-4.3.1/packages/timegrid/main.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        defaultDate: '2019-08-12',
+        navLinks: true, // can click day/week names to navigate views
+        selectable: true,
+        selectMirror: true,
+        select: function(arg) {
+          var title = prompt('Event Title:');
+          if (title) {
+            calendar.addEvent({
+              title: title,
+              start: arg.start,
+              end: arg.end,
+              allDay: arg.allDay
+            })
+          }
+          calendar.unselect()
+        },
+        editable: true,
+        eventLimit: true, // allow "more" link when too many events
+        events: [
+          {
+            title: 'All Day Event',
+            start: '2019-08-01'
+          },
+          {
+            title: 'Long Event',
+            start: '2019-08-07',
+            end: '2019-08-10'
+          },
+          {
+            groupId: 999,
+            title: 'Repeating Event',
+            start: '2019-08-09T16:00:00'
+          },
+          {
+            groupId: 999,
+            title: 'Repeating Event',
+            start: '2019-08-16T16:00:00'
+          },
+          {
+            title: 'Conference',
+            start: '2019-08-11',
+            end: '2019-08-13'
+          },
+          {
+            title: 'Meeting',
+            start: '2019-08-12T10:30:00',
+            end: '2019-08-12T12:30:00'
+          },
+          {
+            title: 'Lunch',
+            start: '2019-08-12T12:00:00'
+          },
+          {
+            title: 'Meeting',
+            start: '2019-08-12T14:30:00'
+          },
+          {
+            title: 'Happy Hour',
+            start: '2019-08-12T17:30:00'
+          },
+          {
+            title: 'Dinner',
+            start: '2019-08-12T20:00:00'
+          },
+          {
+            title: 'Birthday Party',
+            start: '2019-08-13T07:00:00'
+          },
+          {
+            title: 'Click for Google',
+            url: 'http://google.com/',
+            start: '2019-08-28'
+          }
+        ]
+      });
+
+      calendar.render();
+    });
+
+   </script>
+
+   <style>
+
+
+
+    #calendar {
+      position:absolute;
+      top: 11.69%;
+      left: 15.674%;
+      width: 73.26%;
+      height: 100.6%;
+    }
+
+  </style>
 <% end %>
+      <div class="back"></div>
+      <div class="sidebar1"></div>
+      <div class="topbar1"></div>
+      <div class="calender1"></div>
+
+
+
+      <div class="box1"></div>
+      <div class="box2"></div>
+      <div class="box3"></div>
+      <div class="box4"></div>
+      <div class="box5"></div>
+      <div style="position:absolute;
+        position:absolute;
+        top: 189.4%;
+        left: 43.59%;
+        width: 65.66%;
+        height: 70.13%;">
+        <canvas id="Balance"></canvas>
+    </div>
+      <input type="search" class="search">
+      <div class=""></div>
+      <div class=""></div>
+      <div class=""></div>
+      <div class=""></div>
+
+      <a href="" class="name2-1"></a>
+      <a href="" class="name2-2"></a>
+      <a href="" class="name2-3"></a>
+      <a href="" class="inf3-1"></a>
+      <a href="" class="inf3-2"></a>
+      <a href="" class="inf3-3"></a>
+      <a href="" class="inf3-4"></a>
+      <a href="../event_answer/event_answer.html" class="event4-1"></a>
+      <a href="../event_answer/event_answer.html" class="event4-2"></a>
+      <p class="text1">検索</p>
+      <p class="text2">所属サークル</p>
+      <p class="text4">更新情報</p>
+      <p class="text5">イベント情報</p>
+      <p class="text6">収支管理</p>
+      <p class="text7">カレンダー</p>
+      <p class="text8"></p>
+
+
+
+      <div id='calendar'></div>
+
+      <%= render 'shared/sidebar'%>
+
+
+    <ul class="ul2">
+      <li class="fa-home"></li>
+      <li class="fa-suitcase"></li>
+      <li class="fa-flask"></li>
+      <li class="fa-user"></li>
+    </ul>
+
+    <script>
+      new Chart(document.getElementById("Balance"), {
+    type: "doughnut",
+    data: {
+      labels: ["支払い済み","未払い"],
+      datasets: [
+        {
+          data: [200, 50],
+          backgroundColor: [
+
+            "rgb(54, 162, 235)",
+            "rgb(255, 99, 132)",
+
+          ]
+        }
+      ]
+    }
+  });
+    </script>
+
+
+
+  </body>
+</html>

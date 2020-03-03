@@ -1,35 +1,50 @@
-<% provide(:title, "ユーザー新規登録") %> 
-<h2>ユーザー新規登録</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :name, "名前" %> <br />
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email, "メールアドレス" %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password, "パスワード" %>
-    <% if @minimum_password_length %>
-    <strong>(<%= @minimum_password_length %> 文字以上)</strong>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "確認用パスワード" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "新規登録" %>
-  </div>
+<% provide(:title, "新規登録") %>
+<% content_for :js do %>
+  <%= javascript_pack_tag 'users/registrations/new' %>
 <% end %>
 
-<%= render "devise/shared/links" %>
+    <div class="topbar1"></div>
+    <div class="topbar2"></div>
+    <div class="topbar3"></div>
+    <div class="box1"></div>
+    <p class="text1">新規登録</p>
+    <p class="text2">ようこそ。登録をしてすぐに利用できます。</p>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+      <div class="field">
+        <%= f.label :name, "名前", class: "text3" %>
+        <%= f.text_field :name, class: "textbox1" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :email, "メールアドレス", class: "text4" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "textbox2" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, "パスワード", class: "text5" %>
+        <% if @minimum_password_length %>
+          <strong>(<%= @minimum_password_length %> 文字以上)</strong>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "textbox3" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation, "パスワード確認", class: "text6" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "textbox4" %>
+      </div>
+
+      <input type="checkbox" class="checkbox">
+      <a href="" class="text8">利用規約に同意する</a>
+
+      <%= f.submit "登録", class: "button1" %>
+
+    <% end %>
+
+    <%- if controller_name != 'sessions' %>
+      <%= link_to "登録済みならログイン", new_session_path(resource_name), class: "text9" %><br />
+    <% end %>
+
+    <%#- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+      <%#= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), class: "text9" %><br />
+    <%# end %>

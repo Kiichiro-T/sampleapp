@@ -4,9 +4,7 @@
     <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%#= stylesheet_link_tag    'application', media: 'all' %>
-    <%#= javascript_include_tag 'application' %>
+    <%= yield(:js) %>
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
       </script>
@@ -14,10 +12,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
   </head>
-  
+
   <body>
     <header>
-      <%= link_to "ホーム", root_path%>
       <% if user_signed_in? %>
         <h2><%= current_user.name %>さん</h2>
         <ul>
@@ -39,9 +36,6 @@
             <% end %>
           <% end %>
 
-      <% else %>
-          <li><%= link_to "ログイン", new_user_session_path %></li>
-          <li><%= link_to "新規登録", new_user_registration_path %></li>
         </ul>
       <% end %>
     </header>
