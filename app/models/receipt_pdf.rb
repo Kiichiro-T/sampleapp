@@ -46,8 +46,8 @@ class ReceiptPdf < Prawn::Document
   end
 
   def create_tadashi
-    text "但し　#{@event.name}代として", align: :center,　size: 15
-    text "上記正に領収いたしました", align: :center,　size: 15
+    text "但し　#{@event.name}代として", align: :center, 　size: 15
+    text "上記正に領収いたしました", align: :center, 　size: 15
   end
 
   def create_uchiwake

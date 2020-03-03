@@ -9,6 +9,6 @@ AllCops:
 Layout/EndOfLine:
   Enabled: false
 
-# メソッド内はインデントする
+# メソッド内はインデントする(privateメソッドなど)
 Layout/IndentationConsistency:
   EnforcedStyle: indented_internal_methods

@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :events, through: :answers # :nullifyの方がよいか？
   has_many :transactions, dependent: :destroy # :nullifyの方がよいか？
   validates :name, presence: true, length: { maximum: 100 }
-  validates :definitive_registration, inclusion: {in: [true, false]}
+  validates :definitive_registration, inclusion: { in: [true, false] }
 
   def self.import!(file, group, pass)
     added_users = []
@@ -30,7 +30,7 @@ class User < ApplicationRecord
     added_users
     # 例外処理は今度書く
   end
-    
+
   # あるグループの幹事たち
   def self.executives(group)
     executives = []
@@ -48,7 +48,7 @@ class User < ApplicationRecord
     end
     generals
   end
-    
+
   # あるグループのメンバー
   def self.members(group)
     members = []
@@ -61,7 +61,7 @@ class User < ApplicationRecord
   # 未回答の人
   def self.unanswered_members(members, answers)
     answers.each do |answer|
-      members.reject!{|member| member == User.find(answer.user_id)}
+      members.reject! { |member| member == User.find(answer.user_id) }
     end
     members
   end

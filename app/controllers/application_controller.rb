@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  
+
   # before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
@@ -19,15 +19,15 @@ class ApplicationController < ActionController::Base
         redirect_to root_url
       end
     end
-    
+
     # 所属していないグループにはアクセスできない
-    def cannot_access_to_other_groups 
+    def cannot_access_to_other_groups
       unless Group.my_groups(current_user).include?(@group)
         flash[:danger] = "不正な操作です。"
         redirect_to root_url
       end
     end
-    
+
     # 現在のユーザーが幹事であるグループをセットする
     def set_group_for_current_executive
       relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])

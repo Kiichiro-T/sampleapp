@@ -6,13 +6,13 @@ Rails.application.routes.draw do
   }
   devise_scope :user do
     get "sign_in", to: "users/sessions#new"
-    get "sign_out", to: "users/sessions#destroy" 
+    get "sign_out", to: "users/sessions#destroy"
   end
 
   root 'homes#index'
   get 'homes/index'
   get 'users/csv_template', to: 'users#csv_template', as: 'csv_template'
-  #get 'groups/:group_id/users/share', to: 'users#share', as: 'share'
+  # get 'groups/:group_id/users/share', to: 'users#share', as: 'share'
   resources :groups do
     resources :users, only: [:new] do
       collection do
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       get :resign
     end
 
-    # resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'groups/transactions' 
+    # resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'groups/transactions'
     # しばらく実装しない
   end
 
@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [] do
-    resources :transactions, only: [:index, :new, :create,:edit, :update], controller: 'events/transactions', param: :url_token do
+    resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'events/transactions', param: :url_token do
       member do
         get :receipt, to: 'receipt_pdfs#show'
       end

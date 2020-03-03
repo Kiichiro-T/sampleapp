@@ -30,4 +30,3 @@ class ReceiptPdfsController < ApplicationController
       end
     end
 end
-

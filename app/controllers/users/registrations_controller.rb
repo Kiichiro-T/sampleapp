@@ -33,7 +33,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
       user = current_user
-      if user.definitive_registration == false 
+      if user.definitive_registration == false
         user.toggle!(:definitive_registration)
       end
       respond_with resource, location: after_update_path_for(resource)

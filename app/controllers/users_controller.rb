@@ -15,12 +15,12 @@ class UsersController < ApplicationController
     @users = []
     GroupUser.where(group_id: @group.id).each do |relationship|
       user = User.find(relationship.user_id)
-      if user.definitive_registration == false 
+      if user.definitive_registration == false
         @users << user
       end
     end
     # @users = User.where(group_id: @group.id).where(definitive_registration: false)
-  end 
+  end
 
   def show
     @groups = Group.my_groups(current_user)

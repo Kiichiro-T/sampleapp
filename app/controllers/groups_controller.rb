@@ -15,7 +15,7 @@ class GroupsController < ApplicationController
     @generals = User.generals(@group)
     @events = Event.where(group_id: @group.id)
   end
-  
+
   def new
     @group = Group.new
   end
@@ -109,7 +109,7 @@ class GroupsController < ApplicationController
   #   end
   # end
 
-  #def user_group_id_params
+  # def user_group_id_params
   #  params.require(:user).permit(:group_id)
-  #end
+  # end
 end

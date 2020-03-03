@@ -10,10 +10,10 @@ class Transaction < ApplicationRecord
   validates :group_id, presence: true
   validate  :deadline_before_today
   validates :debt, presence: true
-  validates :debt, numericality: { only_integer: true}
+  validates :debt, numericality: { only_integer: true }
   validates :debt, numericality: { greater_than_or_equal_to: 0 }
   validates :payment, presence: true
-  validates :payment, numericality: { only_integer: true}
+  validates :payment, numericality: { only_integer: true }
   validates :payment, numericality: { greater_than_or_equal_to: 0 }
   validates :type, presence: true
   validates :url_token, presence: true, uniqueness: true
