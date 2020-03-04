@@ -1,6 +1,7 @@
 <% provide(:title, "ホーム") %>
-<% content_for :js do %>
+<% content_for :pack_tag do %>
   <%= javascript_pack_tag 'homes/index' %>
+  <%= stylesheet_pack_tag 'homes/index' %>
   <!--
   <link href='../fullcalendar-4.3.1/packages/core/main.css' rel='stylesheet' />
     <link href='../fullcalendar-4.3.1/packages/daygrid/main.css' rel='stylesheet' />

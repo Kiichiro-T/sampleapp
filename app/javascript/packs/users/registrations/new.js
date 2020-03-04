@@ -1,1 +1,1 @@
-import '../../../src/users/registrations/new.css'
+import '../registrations/new.css'
