@@ -1,1 +1,1 @@
-import '../../../src/users/sessions/new.css'
+import '../sessions/new.css'
