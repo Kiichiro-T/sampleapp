@@ -44,4 +44,14 @@ class ApplicationController < ActionController::Base
       flash[:danger] = 'アカウントは一括登録後の状態ですので、パスワードまたはメールアドレスを変更するようにしてください。'
       redirect_to edit_user_registration_url
     end
+
+    # ログイン後のリダイレクト先
+    def after_sign_in_path_for(resource_or_scope)
+      root_path
+    end
+
+    # ログアウト後のリダイレクト先
+    def after_sign_out_path_for(resource_or_scope)
+      new_user_session_path
+    end
 end

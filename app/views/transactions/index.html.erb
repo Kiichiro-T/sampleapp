@@ -1,3 +1,8 @@
+<% provide(:title, "My収支情報ページ") %>
+<% content_for :pack_tag do %>
+  <%= javascript_pack_tag 'transactions/index' %>
+  <%#= stylesheet_pack_tag 'transactions/index' %>
+<% end %>
 <h2>My収支情報ページ</h2>
 <% if @transactions.any? %>
   <% paid_total_amount = 0 %>
