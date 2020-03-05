@@ -1,3 +1,4 @@
+<% unless current_user_group.blank? %>
 <aside id="sidebar">
         <h1 id="brand-logo"><%= image_pack_tag("Nazi.png", class: "img-n") %></h1>
         <nav id="global-nav">
@@ -55,3 +56,4 @@
                 <% end %>
         </nav>
     </aside>
+<% end %>
