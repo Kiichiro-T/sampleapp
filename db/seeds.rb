@@ -19,7 +19,7 @@ User.create!(
   definitive_registration: true,
   confirmed_at: Time.now
 )
-
+=begin
 # 幹事User2
 User.create!(
   name: 'Executive 2',
@@ -85,7 +85,7 @@ end
     role: 10
   )
 end
-=begin
+
 # Executive 1 & Group 1のEvent
 5.times do |i|
   Event.create!(
