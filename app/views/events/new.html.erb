@@ -1,7 +1,7 @@
 <% provide(:title, "イベント新規作成") %>
 <% content_for :pack_tag do %>
-  <%= javascript_pack_tag 'events/new' %>
-  <%= stylesheet_pack_tag 'events/new' %>
+  <%= javascript_pack_tag 'events/form' %>
+  <%= stylesheet_pack_tag 'events/form' %>
 <% end %>
 <div class="topbar1"></div>
 <div class="back"></div>
@@ -12,12 +12,11 @@
 <p class="name"><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></p>
 <input type="search" class="search">
 
-<%= form_for(@event, url: group_events_path(group_id: @group.id)) do |f| %>
+<%= form_with(model: @event, url: group_events_path(group_id: @group.id)) do |f| %>
+  <p class="text1">イベント作成</p>
   <%= render 'shared/error_messages', object: f.object %>
   <%= f.hidden_field :user_id, :value => current_user.id %>
   <%= f.hidden_field :group_id, :value => @group.id %>
-
-  <p class="text1">イベント作成</p>
 
   <%= f.label :name, "イベント名", class: "text2" %>
   <%= f.text_field :name, class: "box2" %>
@@ -44,14 +43,14 @@
   <%= f.text_area :description, class: "box9" %>
 
   <%= f.submit "作成", class: "button1" %>
-
-  <ul class="ul2">
-    <li class="fa-home"></li>
-    <li class="fa-suitcase"></li>
-    <li class="fa-flask"></li>
-    <li class="fa-user"></li>
-  </ul>
 <% end %>
+
+<ul class="ul2">
+  <li class="fa-home"></li>
+  <li class="fa-suitcase"></li>
+  <li class="fa-flask"></li>
+  <li class="fa-user"></li>
+</ul>
 
 
 

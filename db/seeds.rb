@@ -85,7 +85,7 @@ end
     role: 10
   )
 end
-
+=begin
 # Executive 1 & Group 1のEvent
 5.times do |i|
   Event.create!(
@@ -197,3 +197,4 @@ end
     )
   end
 end
+=end
