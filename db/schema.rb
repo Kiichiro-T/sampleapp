@@ -28,11 +28,12 @@ ActiveRecord::Schema.define(version: 2020_02_19_021348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "group_id"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.integer "amount"
-    t.text "description"
-    t.datetime "pay_deadline"
+    t.datetime "start_date", null: false, comment: "開始日"
+    t.datetime "end_date", null: false, comment: "終了日"
+    t.datetime "answer_deadline", null: false, comment: "回答期限"
+    t.text "description", null: false, comment: "イベント説明"
+    t.integer "amount", null: false, comment: "イベントの金額"
+    t.datetime "pay_deadline", null: false, comment: "支払い期限"
     t.index ["group_id"], name: "index_events_on_group_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end

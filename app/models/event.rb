@@ -11,8 +11,9 @@ class Event < ApplicationRecord
   validate  :start_date_not_before_today
   validates :end_date, presence: true
   validate  :end_date_not_before_start_date
-  validates :amount, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validate  :answer_deadline_not_before_today
   validates :description, length: { maximum: 1024 }
+  validates :amount, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validate  :pay_deadline_not_before_today
   validates :user_id, presence: true
   validates :group_id, presence: true
@@ -30,7 +31,14 @@ class Event < ApplicationRecord
       errors.add(:end_date, 'は開始日以降のものを選択してください') if end_date.blank? || end_date < Date.today.to_datetime
     end
 
-    # 支払い締め切りは今日以降の日付
+    # 回答期日は今日以降の日付
+    def answer_deadline_not_before_today
+      return if answer_deadline.blank?
+
+      errors.add(:answer_deadline, 'は今日以降のものを選択してください') if answer_deadline < Date.today.to_datetime
+    end
+
+    # 支払い期日は今日以降の日付
     def pay_deadline_not_before_today
       return if pay_deadline.blank?
 

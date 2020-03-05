@@ -94,6 +94,7 @@ end
     group_id: 1,
     start_date: Date.today.next_year(3).to_datetime,
     end_date: Date.today.next_year(3).to_datetime,
+    answer_deadline: Date.today.next_year(3).to_datetime,
     amount: (i + 1) * 1000,
     description: "これは合宿#{i + 1}用のテスト説明です。",
     pay_deadline: Date.today.next_year(3).to_datetime
@@ -108,6 +109,7 @@ end
     group_id: 2,
     start_date: Date.today.next_year(3).to_datetime,
     end_date: Date.today.next_year(3).to_datetime,
+    answer_deadline: Date.today.next_year(3).to_datetime,
     amount: (i + 1) * 1000,
     description: "これは旅行#{i + 1}用のテスト説明です。",
     pay_deadline: Date.today.next_year(3).to_datetime

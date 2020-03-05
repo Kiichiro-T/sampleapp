@@ -40,12 +40,12 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     if @event.save
-      members(@group).each do |member|
-        NotificationMailer.send_when_make_new_event(member, current_user, group, @event).deliver
-        new_transaction_when_create_new_event(member, current_user, group, @event)
+      User.members(@group).each do |member|
+        NotificationMailer.send_when_make_new_event(member, current_user, @group, @event).deliver
+        Event::Transaction.new_transaction_when_create_new_event(member, current_user, @group, @event)
       end
       flash[:success] = 'イベントが作成されました。グループのユーザーにメールで作成を通知しました。'
-      redirect_to group_event_url(group_id: group.id, id: @event.id)
+      redirect_to group_event_url(group_id: @group.id, id: @event.id)
     else
       render 'new'
     end
@@ -78,7 +78,7 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      params.require(:event).permit(:name, :start_date, :end_date, :amount,
-                                    :description, :pay_deadline, :user_id, :group_id)
+      params.require(:event).permit(:name, :start_date, :end_date, :answer_deadline,
+                                    :description, :amount, :pay_deadline, :user_id, :group_id)
     end
 end
