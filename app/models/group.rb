@@ -28,6 +28,6 @@ class Group < ApplicationRecord
 
   def self.my_own_group(user)
     relationship = GroupUser.find_by(user_id: user.id, role: GroupUser.roles[:executive])
-    Group.find(relationship.group_id)
+    relationship.present? ? Group.find(relationship.group_id) : nil
   end
 end

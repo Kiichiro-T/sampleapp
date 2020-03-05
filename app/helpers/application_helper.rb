@@ -11,7 +11,6 @@ module ApplicationHelper
   end
 
   def current_user_group
-    group = Group.my_own_group(current_user)
-    group if group
+    Group.my_own_group(current_user)
   end
 end
