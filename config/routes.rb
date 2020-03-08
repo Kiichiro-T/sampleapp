@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'sidekiq/web'
 Rails.application.routes.draw do
   # get 'receipt_pdfs/index', to: 'receipt_pdfs#index'
   devise_for :users, controllers: {
@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     get 'sign_in', to: 'users/sessions#new'
     get 'sign_out', to: 'users/sessions#destroy'
   end
+
+  mount Sidekiq::Web => '/sidekiq'
 
   root 'homes#index'
   get 'homes/index'
@@ -33,9 +35,6 @@ Rails.application.routes.draw do
       post :assign
       get :resign
     end
-
-    require 'sidekiq/web'
-    mount Sidekiq::Web => '/sidekiq'
 
     # resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'groups/transactions'
     # しばらく実装しない

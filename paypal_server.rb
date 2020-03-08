@@ -1,5 +1,5 @@
 # 1. Import the PayPal SDK client that was created in `Set up Server-Side SDK`.
-require_relative '../paypal_client'
+require_relative './paypal_client'
 require 'json'
 require 'ostruct'
 
