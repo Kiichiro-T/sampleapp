@@ -39,6 +39,13 @@ gem 'cancancan'
 gem 'env'
 gem 'roo'
 gem 'rails-i18n'
+# gems for sidekiq
+gem 'sidekiq'
+gem 'sidekiq-cron'
+gem 'sinatra', require: false
+gem 'redis'
+gem 'redis-namespace'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

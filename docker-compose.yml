@@ -9,7 +9,16 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - redis
     tty: true
+  
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/redis/volumes:/var/lib/redis # データの永続化
+    command: redis-server --appendonly yes
     
   db:
     image: mysql:5.7.27
@@ -19,3 +28,11 @@ services:
       - ./docker/mysql/volumes:/var/lib/mysql
     ports:
       - "3306:3306"
+
+  workder:
+    build: .
+    volumes:
+      - "./docker/worker/volumes:/var/lib/worker"
+    depends_on: 
+      - redis
+    command: bundle exec sidekiq

@@ -34,6 +34,9 @@ Rails.application.routes.draw do
       get :resign
     end
 
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
+
     # resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'groups/transactions'
     # しばらく実装しない
   end
