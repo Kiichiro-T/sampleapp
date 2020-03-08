@@ -36,6 +36,7 @@ gem 'paypal-checkout-sdk'
 # bulk insert
 gem 'activerecord-import'
 gem 'cancancan'
+gem 'env'
 gem 'roo'
 gem 'rails-i18n'
 

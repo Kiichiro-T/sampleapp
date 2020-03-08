@@ -32,6 +32,9 @@
 # Ignore config for editor
 .editorconfig
 
+# Ignore env file
+.env
+
 /public/packs
 /public/packs-test
 /public/packs-production
