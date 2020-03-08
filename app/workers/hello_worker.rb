@@ -1,7 +1,7 @@
-class TestWorker
+class HelloWorker
   include Sidekiq::Worker
 
   def perform
-    puts "test"
+    puts 'hello'
   end
 end

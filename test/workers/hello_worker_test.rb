@@ -1,5 +1,5 @@
 require 'test_helper'
-class TestWorkerTest < Minitest::Test
+class HelloWorkerTest < Minitest::Test
   def test_example
     skip "add some examples to (or delete) #{__FILE__}"
   end

@@ -29,13 +29,13 @@ services:
     ports:
       - "3306:3306"
 
-  workder:
-    build: .
-    environment:
-      - "REDIS_URL=redis://redis:6379"
-    volumes:
-      - "./docker/worker/volumes:/var/lib/worker"
-    depends_on:
-      - db
-      - redis
-    command: bundle exec sidekiq
+  # workder:
+  #   build: .
+  #   environment:
+  #     - "REDIS_URL=redis://redis:6379"
+  #   volumes:
+  #     - "./docker/worker/volumes:/var/lib/worker"
+  #   depends_on:
+  #     - db
+  #     - redis
+  #   command: bundle exec sidekiq -C config/sidekiq.yml
