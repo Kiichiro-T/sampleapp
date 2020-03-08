@@ -19,7 +19,7 @@ User.create!(
   definitive_registration: true,
   confirmed_at: Time.now
 )
-=begin
+
 # 幹事User2
 User.create!(
   name: 'Executive 2',
@@ -197,4 +197,3 @@ end
     )
   end
 end
-=end
