@@ -42,7 +42,7 @@ class EventsController < ApplicationController
     if @event.save
       User.members(@group).each do |member|
         NewEventJob.perform_later(member, current_user, @group, @event)
-        NotificationMailer.send_when_make_new_event(member, current_user, @group, @event).deliver_later
+        NotificationMailer.send_when_make_new_event(member, current_user, @group, @event).deliver_later(wait: 1.minute)
       end
       flash[:success] = 'イベントが作成されました。グループのユーザーにメールで作成を通知しました。'
       redirect_to group_event_url(group_id: @group.id, id: @event.id)
@@ -60,9 +60,8 @@ class EventsController < ApplicationController
     members = User.members(@group)
     if @event.update_attributes(event_params)
       members.each do |member|
-        NotificationMailer.send_when_update_event(member, current_user, @group, @event).deliver
-        transaction = Transaction.find_by(group_id: @group.id, event_id: @event.id, debtor_id: member.id)
-        transaction.update_transaction_when_update_event(member, current_user, @event)
+        UpdateEventJob.perform_later(member, current_user, @group, @event)
+        NotificationMailer.send_when_update_event(member, current_user, @group, @event).deliver_later(wait: 1.minute)
       end
       flash[:success] = 'イベントの情報を更新しました'
       redirect_to group_event_url(group_id: @group.id, event_id: @event.id)
