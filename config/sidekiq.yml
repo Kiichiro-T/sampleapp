@@ -4,7 +4,7 @@
   - default
   - mailers
 :schedule:
-  BeforeRemindAnswerJob:
+  RemindAnswerJob:
     cron: '0 8 * * *'
   RemindPaymentJob:
     cron: '0 9 * * *'

@@ -1,4 +1,4 @@
-class BeforeRemindAnswerJob < ApplicationJob
+class RemindAnswerJob < ApplicationJob
   queue_as :default
 
   def perform
