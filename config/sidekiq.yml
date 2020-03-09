@@ -3,3 +3,6 @@
 :queues:
   - default
   - mailers
+:schedule:
+  BeforeRemindAnswerJob:
+    cron: '0 8 * * *'

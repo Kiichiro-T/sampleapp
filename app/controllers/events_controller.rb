@@ -38,6 +38,7 @@ class EventsController < ApplicationController
     if @event.save
       members = User.members(@group)
       members.delete(current_user) # イベント作成者は除く
+      Event::Transaction.new_transaction_when_create_new_event(current_user, current_user, @group, @event)
       Answer.new_answer_when_create_new_event(current_user, @event)
       members.each do |member|
         NewEventJob.perform_later(member, current_user, @group, @event)

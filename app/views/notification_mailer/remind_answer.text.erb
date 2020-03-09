@@ -1,5 +1,6 @@
 <%= @user.name %> さん
 
 <%= @group.name %>の<%= @event.name %>の回答がまだです。
+期限は<%= @event.answer_dealine.strftime("%Y/%m/%d") %>
 以下のリンクから回答してください。
-<%= group_event_path(group_id: @group.id, id: @event.id) %>
+<%= group_event_url(group_id: @group.id, id: @event.id) %>

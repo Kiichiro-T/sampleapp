@@ -12,7 +12,7 @@ class BeforeRemindAnswerJob < ApplicationJob
       answers = event.answers.includes(:user).where(status: Answer.statuses[:unanswered])
       answers.each do |answer|
         user = answer.user
-        NotificationMailer.remind_answer(user, group, event).deliver_later
+        NotificationMailer.remind_answer(user, group, event).deliver_now
       end
     end
   end
