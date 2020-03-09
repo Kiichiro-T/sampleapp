@@ -37,4 +37,15 @@ class NotificationMailer < ApplicationMailer
       format.text
     end
   end
+
+  def remind_answer(user, group, event)
+    @user = user
+    @group = group
+    @event = event
+    mail(
+      subject: "#{@event.name}の回答をしてください",
+      to: @user.email
+    ) do |format|
+      format.text
+  end
 end
