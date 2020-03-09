@@ -13,10 +13,20 @@ class Answer < ApplicationRecord
   validates :event_id, presence: true
   validates_uniqueness_of :event_id, scope: :user_id
 
-  def self.divide_answers_in_two(event)
+  def self.divide_answers_in_three(event)
     answers = event.answers
-    { answers: answers,
-      attending: answers.where(status: 'attending'),
-      absent: answers.where(status: 'absent') }
+    {
+      attending: answers.where(status: Answer.statuses[:attending]),
+      absent: answers.where(status: Answer.statuses[:absent]),
+      unanswered: answers.where(status: Answer.statuses[:unanswered])
+    }
+  end
+
+  def self.new_answer_when_create_new_event(user, event)
+    Answer.create!(
+      status: Answer.statuses[:unanswered],
+      user_id: user.id,
+      event_id: event.id
+    )
   end
 end

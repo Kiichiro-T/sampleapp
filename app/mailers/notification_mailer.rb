@@ -47,5 +47,6 @@ class NotificationMailer < ApplicationMailer
       to: @user.email
     ) do |format|
       format.text
+    end
   end
 end

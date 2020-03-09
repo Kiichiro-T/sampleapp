@@ -59,12 +59,4 @@ class User < ApplicationRecord
     end
     members
   end
-
-  # 未回答の人
-  def self.unanswered_members(members, answers)
-    answers.each do |answer|
-      members.reject! { |member| member == User.find(answer.user_id) }
-    end
-    members
-  end
 end

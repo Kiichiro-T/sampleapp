@@ -16,21 +16,17 @@ class EventsController < ApplicationController
     @group = Group.find(params[:group_id])
     @executives = User.executives(@group)
     @answer = Answer.find_by(user_id: current_user.id, event_id: @event.id)
-    @answer = Answer.new if @answer.blank?
     # 支払い済みと未払いに分ける
     h1 = Event::Transaction.divide_transaction_in_two(@event)
     @completed_transactions = h1[:completed] # 支払い済み
     @uncompleted_transactions = h1[:uncompleted] # 未払い
 
     # 回答済みと未回答に分ける
-    h2 = Answer.divide_answers_in_two(@event)
-    answers = h2[:answers]
-    @attending_answers = h2[:attending] # 回答済み
-    @absent_answers = h2[:absent] # 未回答
-
-    members = User.members(@group)
-    @unanswered_members = User.unanswered_members(User.members(@group), answers)
-    @count = members.count
+    h2 = Answer.divide_answers_in_three(@event)
+    @attending_answers = h2[:attending] # 出席
+    @absent_answers = h2[:absent] # 欠席
+    @unanswered_answers = h2[:unanswered] # 未回答
+    @count = User.members(@group).count
   end
 
   def new
@@ -40,7 +36,10 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     if @event.save
-      User.members(@group).each do |member|
+      members = User.members(@group)
+      members.delete(current_user) # イベント作成者は除く
+      Answer.new_answer_when_create_new_event(current_user, @event)
+      members.each do |member|
         NewEventJob.perform_later(member, current_user, @group, @event)
         NotificationMailer.send_when_make_new_event(member, current_user, @group, @event).deliver_later(wait: 1.minute)
       end

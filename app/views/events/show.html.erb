@@ -14,19 +14,17 @@
 <p>イベント説明： <%= @event.description %></p>
 <hr>
 <h2>出欠回答</h2>
-<% unless @answer.status == "unanswered" %>
+<% if @answer.blank? || @answer.status == "unanswered" %>
+  <%= form_with model: @answer, url: event_answer_path(event_id: @event.id, id: @answer.id) do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.hidden_field :event_id, value: @event.id %>
+    <%= f.select :status, [["未回答", "unanswered"], ["参加", "attending"], ["不参加", "absent"]] %>
+    <%= f.submit "回答送信" %>
+  <% end %>
+<% else %>
   <%= form_with model: @answer, url: event_answer_path(event_id: @event.id, id: @answer.id) do |f| %>
     <%= f.select :status, [["参加", "attending"], ["不参加", "absent"]]%>
     <%= f.submit "回答変更" %>
-  <% end %>
-<% else %>
-  <%= form_with model: @answer, url: event_answers_path(event_id: @event.id) do |f| %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-    <%= f.hidden_field :event_id, value: @event.id %>
-    <%= f.select :status, [["参加", "attending"], ["不参加", "absent"]],
-      { :include_blank => "未回答" }
-    %>
-    <%= f.submit "回答送信" %>
   <% end %>
 <% end %>
 
@@ -56,8 +54,8 @@
   <% end %>
   <p>未回答者</p>
   <% @count3 = 0 %>
-  <% @unanswered_members.each do |m| %>
-    <p><%= m.name %></p>
+  <% @unanswered_answers.each do |a| %>
+    <p><%= User.find(a.user_id).name %></p>
     <% @count3 += 1 %>
   <% end %>
   <% if @count3 == 0 %>
