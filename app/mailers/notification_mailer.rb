@@ -49,4 +49,17 @@ class NotificationMailer < ApplicationMailer
       format.text
     end
   end
+
+  def remind_payment(debtor, group, event, transaction)
+    @debtor = debtor
+    @group = group
+    @event = event
+    @transaction = transaction
+    mail(
+      subject: "#{@event.name}の支払い期限が近づいています。",
+      to: @debtor.email
+    ) do |format|
+      format.text
+    end
+  end
 end

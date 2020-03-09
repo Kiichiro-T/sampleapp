@@ -6,3 +6,5 @@
 :schedule:
   BeforeRemindAnswerJob:
     cron: '0 8 * * *'
+  RemindPaymentJob:
+    cron: '0 9 * * *'
