@@ -41,7 +41,7 @@ gem 'roo'
 gem 'rails-i18n'
 # gems for sidekiq
 gem 'sidekiq'
-gem 'sidekiq-cron'
+gem 'sidekiq-scheduler'
 gem 'sinatra', require: false
 gem 'redis'
 gem 'redis-namespace'
