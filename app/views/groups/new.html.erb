@@ -13,37 +13,9 @@
     <%= f.label :group_number, "グループID(6~25文字)" %>
     <%= f.text_field :group_number, class: "form-control", placeholder: "英数字と_を使用できます)" %><br />
 
-  
-
-
     <%= f.submit "作成"%>
+
   </div>
-
-  <script
-    src="https://www.paypal.com/sdk/js?client-id=AZR6iii5MSSwkNDYMHwXBAisU7U7EseHtRKIBE5gnxIflczZyT2Z9cZjpO1CXPNPb0aNub4lXCKQDE3Q&vault=true">
-  </script>
-
-  <div id="paypal-button-container"></div>
-
-  <script>
-    paypal.Buttons({
-
-      createSubscription: function(data, actions) {
-
-        return actions.subscription.create({
-
-          'plan_id': 'P-6C205614FV432243SLZQOWVQ'
-
-        });
-
-      },
-
-
-      onApprove: function(data, actions) {
-
-        alert(成功);
-
-      }
-    }).render('#paypal-button-container');
-  </script>
 <% end %>
+
+
