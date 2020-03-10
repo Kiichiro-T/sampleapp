@@ -53,4 +53,7 @@ Rails.application.routes.draw do
     end
     resources :answers, only: %i[create update]
   end
+
+  resources :orders, only: [:index]
+  post '/orders/submit', to: 'orders#submit'
 end

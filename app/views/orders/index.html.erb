@@ -1,0 +1,51 @@
+<div>
+  <%= form_tag({ controller: 'orders', action: 'submit' }, {id: 'order-details'}) do %>
+    <h2>サブスクリプション</h2>
+    <% @products.each do |product| %>
+      <div>
+        <%= radio_button_tag 'orders[:product_id]', product.id %>
+        <span id='radioButtonName<%= product.id %>'><% product.id %></span>
+        <span id='radioButtonPrice<%= product.id %>'>
+          <%
+            humanized_money_with_symbol product.price,
+            'data-price': "#{product.price_cents}"
+          %>
+        </span>
+        <br>
+      <% end %>
+    </div>
+    <hr>
+    <h2>支払い方法</h2>
+    <div>
+      <%= radio_button_tag 'payment-selection', 'paypal', true, onclick: "changeTab();" %>
+      <span>PayPal</span>
+    </div>
+    <br>
+    <br>
+    <div id='tab-paypal' class='paymentSelectionTab'>
+      <div id='submit-paypal'></div>
+    </div>
+    <br>
+    <br>
+    <hr>
+  <% end %>
+  <script>
+    function changeTab() {
+      var newActiveTabID = $('input[name="payment-selection"]:checked').val();
+      $('.paymentSelectionTab').removeClass('active');
+      $('#tab-' + newActiveTabID).addClass('active');
+    }
+  </script>
+
+  <style>
+    #card-element {
+      width:500px;
+    }
+    .paymentSelectionTab {
+      display: none;
+    }
+    .paymentSelectionTab.active {
+      display: block !important;
+    }
+  </style>
+</div>
