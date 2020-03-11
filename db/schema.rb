@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_021348) do
+ActiveRecord::Schema.define(version: 2020_03_10_130724) do
 
   create_table "answers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "status", default: 10, null: false, comment: "回答のステータス"
@@ -56,6 +56,25 @@ ActiveRecord::Schema.define(version: 2020_02_19_021348) do
     t.datetime "updated_at", null: false
     t.string "group_number", null: false
     t.index ["group_number"], name: "index_groups_on_group_number", unique: true
+  end
+
+  create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "user_id"
+    t.integer "status", default: 0
+    t.string "token"
+    t.string "charge_id"
+    t.string "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "price_cents", default: 0, null: false
+  end
+
+  create_table "products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "paypal_plan_name"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "JPY", null: false
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

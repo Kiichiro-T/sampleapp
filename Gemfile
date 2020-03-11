@@ -32,11 +32,10 @@ gem 'devise'
 gem 'prawn'
 gem 'prawn-table'
 # paypal sdk for checkout
-gem 'paypal-checkout-sdk'
+# gem 'paypal-checkout-sdk'
 # bulk insert
 gem 'activerecord-import'
 gem 'cancancan'
-gem 'env'
 gem 'roo'
 gem 'rails-i18n'
 # gems for sidekiq
@@ -45,11 +44,15 @@ gem 'sidekiq-scheduler'
 gem 'sinatra', require: false
 gem 'redis'
 gem 'redis-namespace'
-
+# gem "jquery-rails"
+gem "money-rails"
+gem 'paypal-sdk-rest'
+gem 'haml'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'dotenv-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false

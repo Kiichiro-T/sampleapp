@@ -78,8 +78,11 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     e2mmap (0.1.0)
-    env (0.3.0)
     erubi (1.9.0)
     et-orbi (1.2.3)
       tzinfo
@@ -90,6 +93,9 @@ GEM
       raabro (~> 1.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    haml (5.1.2)
+      temple (>= 0.8.0)
+      tilt
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
@@ -111,8 +117,18 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
+    monetize (1.9.4)
+      money (~> 6.12)
+    money (6.13.7)
+      i18n (>= 0.6.4, <= 2)
+    money-rails (1.13.3)
+      activesupport (>= 3.0)
+      monetize (~> 1.9.0)
+      money (~> 6.13.2)
+      railties (>= 3.0)
     msgpack (1.3.3)
     msgpack (1.3.3-x64-mingw32)
+    multi_json (1.14.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     mysql2 (0.5.3)
@@ -126,9 +142,9 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.4)
       ast (~> 2.4.0)
-    paypal-checkout-sdk (1.0.3)
-      paypalhttp (~> 1.0.0)
-    paypalhttp (1.0.0)
+    paypal-sdk-rest (1.7.4)
+      multi_json (~> 1.0)
+      xml-simple
     pdf-core (0.7.0)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
@@ -240,6 +256,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    temple (0.8.2)
     thor (1.0.1)
     thread_safe (0.3.6)
     thwait (0.1.0)
@@ -264,6 +281,7 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
+    xml-simple (1.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -279,11 +297,13 @@ DEPENDENCIES
   capybara
   chromedriver-helper
   devise
-  env
+  dotenv-rails
+  haml
   jbuilder
   listen
+  money-rails
   mysql2
-  paypal-checkout-sdk
+  paypal-sdk-rest
   prawn
   prawn-table
   puma
