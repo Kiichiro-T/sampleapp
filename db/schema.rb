@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_10_130724) do
+ActiveRecord::Schema.define(version: 2020_03_11_202746) do
 
   create_table "answers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "status", default: 10, null: false, comment: "回答のステータス"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_03_10_130724) do
     t.bigint "group_id"
     t.string "type"
     t.string "url_token", null: false
+    t.boolean "paid", default: false, null: false
     t.index ["creditor_id"], name: "index_transactions_on_creditor_id"
     t.index ["debtor_id"], name: "index_transactions_on_debtor_id"
     t.index ["event_id"], name: "index_transactions_on_event_id"

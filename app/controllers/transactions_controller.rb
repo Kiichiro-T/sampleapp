@@ -5,8 +5,9 @@ class TransactionsController < ApplicationController
   before_action :confirm_definitive_registration
   before_action :set_group_for_current_executive
   def index
-    @transactions = Transaction.where(debtor_id: params[:user_id])
-    # いずれは、Transaction.where("(creditor_id = ?) OR (debtor_id = ?)", user_id, user_id)
+    @transactions = Event::Transaction.includes(:group, :event).where(debtor_id: current_user.id).order(created_at: :desc).page(params[:page]).per(5)
+    @paid_total_amount = Event::Transaction.paid_total_amount(current_user)
+    @unpaid_total_amount = Event::Transaction.unpaid_total_amount(current_user)
   end
 
   def new

@@ -87,7 +87,7 @@ end
 end
 
 # Executive 1 & Group 1のEvent
-5.times do |i|
+15.times do |i|
   Event.create!(
     name: "合宿#{i + 1}",
     user_id: 2,
@@ -102,7 +102,7 @@ end
 end
 
 # Executive 2 & Group 2のEvent
-5.times do |i|
+15.times do |i|
   Event.create!(
     name: "旅行#{i + 1}",
     user_id: 3,
@@ -116,8 +116,7 @@ end
   )
 end
 
-# Group 1 & Events 1~5のTransaction
-5.times do |n|
+15.times do |n|
   # Executive 1
   Event::Transaction.create!(
     deadline: Date.today.next_year(3).to_datetime,
@@ -127,38 +126,37 @@ end
     debtor_id: 2,
     group_id: 1,
     event_id: n + 1,
-    url_token: SecureRandom.hex(10)
+    url_token: SecureRandom.hex(10),
+    paid: true
   )
-  # 支払っている人
-  2.times do |i|
+  Answer.create!(
+    status: Answer.statuses[:attending],
+    user_id: 2,
+    event_id: n + 1
+  )
+  # User 4 ~ 8
+  5.times do |i|
     Event::Transaction.create!(
       deadline: Date.today.next_year(3).to_datetime,
       debt: (n + 1) * 1000,
-      payment: 500 * (n + 1) * (i + 1),
+      payment: (n + 1) * 1000,
       creditor_id: 2,
       debtor_id: i + 4,
       group_id: 1,
       event_id: n + 1,
-      url_token: SecureRandom.hex(10)
+      url_token: SecureRandom.hex(10),
+      paid: true
     )
-  end
-
-  3.times do |i|
-    Event::Transaction.create!(
-      deadline: Date.today.next_year(3).to_datetime,
-      debt: (n + 1) * 1000,
-      payment: 0,
-      creditor_id: 2,
-      debtor_id: i + 6,
-      group_id: 1,
-      event_id: n + 1,
-      url_token: SecureRandom.hex(10)
+    Answer.create!(
+      status: Answer.statuses[:unanswered],
+      user_id: i + 4,
+      event_id: n + 1
     )
   end
 end
 
 # Group 2 & Events 1~5のTransaction
-5.times do |n|
+15.times do |n|
   # Executive 2
   Event::Transaction.create!(
     deadline: Date.today.next_year(3).to_datetime,
@@ -168,32 +166,31 @@ end
     debtor_id: 3,
     group_id: 2,
     event_id: n + 6,
-    url_token: SecureRandom.hex(10)
+    url_token: SecureRandom.hex(10),
+    paid: true
   )
-  # 支払っている人
-  2.times do |i|
+  Answer.create!(
+    status: Answer.statuses[:attending],
+    user_id: 3,
+    event_id: n + 6
+  )
+  # User 9 ~ 13
+  5.times do |i|
     Event::Transaction.create!(
       deadline: Date.today.next_year(3).to_datetime,
       debt: (n + 1) * 1000,
-      payment: 500 * (n + 1) * (i + 1),
+      payment: (n + 1) * 500,
       creditor_id: 3,
       debtor_id: i + 9,
       group_id: 2,
       event_id: n + 6,
-      url_token: SecureRandom.hex(10)
+      url_token: SecureRandom.hex(10),
+      paid: false
     )
-  end
-
-  3.times do |i|
-    Event::Transaction.create!(
-      deadline: Date.today.next_year(3).to_datetime,
-      debt: (n + 1) * 1000,
-      payment: 0,
-      creditor_id: 3,
-      debtor_id: i + 11,
-      group_id: 2,
-      event_id: n + 6,
-      url_token: SecureRandom.hex(10)
+    Answer.create!(
+      status: Answer.statuses[:unanswered],
+      user_id: i + 9,
+      event_id: n + 6
     )
   end
 end

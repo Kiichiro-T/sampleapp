@@ -4,28 +4,18 @@
   <%#= stylesheet_pack_tag 'transactions/index' %>
 <% end %>
 <h2>My収支情報ページ</h2>
-<% if @transactions.any? %>
-  <% paid_total_amount = 0 %>
-  <% unpaid_total_amount = 0 %>
-  <% @transactions.each do |transaction| %>
-    <% event = Event.find(transaction.event_id) %>
-    <% group = Group.find(transaction.group_id) %>
-    <h4><%= link_to event.name, group_event_path(group_id: group.id, id: event.id) %>：</h4>
-    <p><%= link_to group.name, group_path(group) %></p>
-    <% payment = transaction.payment %>
-    <% debt = transaction.debt %>
-    <% if debt == payment %>
-      <% paid_total_amount += payment %>
-      <p><%= payment %>円支払い済み</p>
-      <p><%= link_to "領収書発行", receipt_event_transaction_path(event_id: event.id, url_token: transaction.url_token, format: "pdf") %></p>
-    <% else %>
-      <p><%= payment %>円支払い済み</p>
-      <% unpaid_total_amount += (debt - payment) %>
-    <% end %>
-    <hr>
+<p>支払い<%= @paid_total_amount %>円 | 未払い<%= @unpaid_total_amount %>円</p>
+<% @transactions.each do |t| %>
+  <% event = Event.find(t.event_id) %>
+  <% group = Group.find(t.group_id) %>
+  <p><%= link_to event.name, group_event_path(group_id: group.id, id: event.id) %></p>
+  <p><%= event.start_date.strftime("%m/%d") %> ~ <%= event.end_date.strftime("%m/%d") %></p>
+  <% payment = t.payment %>
+  <% if t.paid? %>
+    <p><%= payment %>円(<%= link_to "領収書発行", receipt_event_transaction_path(event_id: event.id, url_token: t.url_token, format: "pdf") %>)</p>
+  <% else %>
+    <p><%= payment %>円(未払いあり)</p>
   <% end %>
-  <p>支払った合計金額： <%= paid_total_amount %> 円</p>
-  <p>未払いの合計金額： <%= unpaid_total_amount %> 円</p>
-<% else %>
-まだありません
 <% end %>
+<%= paginate @transactions %>
+
