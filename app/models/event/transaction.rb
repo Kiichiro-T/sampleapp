@@ -2,11 +2,11 @@
 
 class Event::Transaction < Transaction
   def self.paid_total_amount(user)
-    Event::Transaction.where(debtor_id: user.id).sum('payment')
+    Event::Transaction.where(debtor_id: user.id).joins(event: :answers).where(event: { answers: { status: Answer.statuses[:attending] }}).sum('payment')
   end
 
   def self.unpaid_total_amount(user)
-    Event::Transaction.where(debtor_id: user.id).sum('debt') - paid_total_amount(user)
+    Event::Transaction.where(debtor_id: user.id).joins(event: :answers).where(event: { answers: { status: Answer.statuses[:attending] }}).sum('debt') - paid_total_amount(user)
   end
 
   def self.completed_transactions(event:)
@@ -14,20 +14,7 @@ class Event::Transaction < Transaction
   end
 
   def self.uncompleted_transactions(event:)
-    Event::Transaction.where(event_id: event.id, completed: false)
-  end
-
-  def self.divide_transaction_in_two(event)
-    completed_transactions = []   # 支払い済み
-    uncompleted_transactions = [] # 未払い
-    Event::Transaction.where(event_id: event.id).each do |transaction|
-      if transaction.debt == transaction.payment
-        completed_transactions << transaction
-      else
-        uncompleted_transactions << transaction
-      end
-    end
-    { completed: completed_transactions, uncompleted: completed_transactions }
+    Event::Transaction.where(event_id: event.id, completed: false).joins(event: :answers).where(event: { answers: { status: Answer.statuses[:attending] }})
   end
 
   def self.new_transaction_when_create_new_event(member, user, group, event)
