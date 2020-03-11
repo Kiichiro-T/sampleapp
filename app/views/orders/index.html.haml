@@ -1,7 +1,13 @@
+- provide(:title, "My収支情報ページ")
+- content_for :pack_tag do
+  = javascript_pack_tag 'orders/index'
+%script{src: "https://www.paypal.com/sdk/js?client-id=#{ENV['PAYPAL_CLIENT_ID']}&currency=JPY"}
+
 %div
   = form_tag({:controller => "orders", :action => "submit" }, {:id => 'order-details'}) do
+    %input{id:'order-type', :type=>"hidden", :value=>"stripe", :name=>'orders[payment_gateway]'}
     .form_row
-      %h2 List of Products
+      %h4 Subscriptions
       - @products.each do |product|
         %div
           = radio_button_tag 'orders[product_id]', product.id
@@ -9,24 +15,42 @@
           %span{id: "radioButtonPrice#{product.id}", :'data-price' => "#{product.price_cents}"} #{humanized_money_with_symbol product.price}
         %br
     %hr
+    %h1 Payment
     .form_row
       %div
-        = radio_button_tag 'payment-selection', 'paypal', true, onclick: "changeTab();"
+        = radio_button_tag 'payment-selection', 'paypal'
         %span PayPal
     %br
     %br
-    %div{id:'tab-paypal', class:'paymentSelectionTab'}
-      %div{id: "submit-paypal"}
+    %div{id: 'submit-paypal'}
     %br
     %br
     %hr
 
 :javascript
-  function changeTab() {
-    var newActiveTabID = $('input[name="payment-selection"]:checked').val();
-    $('.paymentSelectionTab').removeClass('active');
-    $('#tab-' + newActiveTabID).addClass('active');
-  }
+  (function setupPaypal() {
+    function isPayment() {
+      return $('[data-charges-and-payments-section] input[name="orders[product_id]"]:checked').length
+    }
+
+    function submitOrderPaypal(chargeID) {
+      var $form = $("#order-details");
+      // Add a hidden input orders[charge_id]
+      $form.append($('<input type="hidden" name="orders[charge_id]"/>').val(chargeID));
+      // Set order type
+      $('#order-type').val('paypal');
+      $form.submit();
+    }
+
+    paypal.Buttons({
+      env: "#{ENV['PAYPAL_ENV']}",
+      createOrder: function() {
+      },
+      onApprove: function(data) {
+      }
+    }).render('#submit-paypal');
+  }());
+
 
 :css
   .paymentSelectionTab {
