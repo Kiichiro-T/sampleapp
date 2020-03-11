@@ -5,8 +5,16 @@
 
 %div
   = form_tag({:controller => "orders", :action => "submit" }, {:id => 'order-details'}) do
+    %h2 プラン
     .form_row
-      %h4 Subscriptions
+      %h4 プロダクト
+      - @products_purchase.each do |product|
+        %div{'data-charges-and-payments-section': true}
+          = radio_button_tag 'orders[product_id]', product.id, @products_purchase.first == product
+          %span{id: "radioButtonName#{product.id}"} #{product.name}
+          %span{id: "radioButtonPrice#{product.id}", :'data-price' => "#{product.price_cents}"} #{humanized_money_with_symbol product.price}
+        %br
+      %h4 サブスクリプション
       - @products_subscription.each do |product|
         %div
           = radio_button_tag 'orders[product_id]', product.id
@@ -14,7 +22,7 @@
           %span{id: "radioButtonPrice#{product.id}", :'data-price' => "#{product.price_cents}"} #{humanized_money_with_symbol product.price}
         %br
     %hr
-    %h1 Payment
+    %h2 支払い方法
     .form_row
       %div
         = radio_button_tag 'payment-selection', 'paypal'
@@ -30,7 +38,7 @@
   (function setupPaypal() {
     function isPayment() {
       // legthで要素の存在のチェック
-      return $('input[name="orders[product_id]"]:checked').length
+      return $('[data-charges-and-payments-section] input[name="orders[product_id]"]:checked').length
     }
 
     function submitOrderPaypal(chargeID) {
@@ -44,30 +52,32 @@
     paypal.Buttons({
       env: "#{ENV['PAYPAL_ENV']}",
       createOrder: function() {
-        //if (isPayment()) {
+        if (isPayment()) {
           // paypal_createアクションにorder-detailsのデータを送信し、受け取ったtokenを返す
-        //  return $.post("#{paypal_create_url}", $('#order-details').serialize()).then(function(data) {
-        //    return data.token;
-        //  });
-        //} else {
-        return $.post("#{paypal_create_subscription_url}", $('#order-details').serialize()).then(function(data) {
-          return data.token;
-        });
+          return $.post("#{paypal_create_payment_url}", $('#order-details').serialize()).then(function(data) {
+            return data.token;
+          });
+        } else {
+          return $.post("#{paypal_create_subscription_url}", $('#order-details').serialize()).then(function(data) {
+            return data.token;
+          });
+        }
       },
       onApprove: function(data) {
-        //if (isPayment()) {
-        //  return $.post("#{paypal_execute_url}", {
-        //    paymentID: data.paymentID,
-        //    payerID:   data.payerID
-        //  }).then(function() {
-        //    submitOrderPaypal(data.paymentID)
-        //  });
-        //} else {
-        return $.post("#{paypal_execute_subscription_url}", {
-          subscriptionToken: data.orderID
-        }).then(function(executeData) {
-          submitOrderPaypal(executeData.id)
-        });
+        if (isPayment()) {
+          return $.post("#{paypal_execute_payment_url}", {
+            paymentID: data.paymentID,
+            payerID:   data.payerID
+          }).then(function() {
+            submitOrderPaypal(data.paymentID)
+          });
+        } else {
+          return $.post("#{paypal_execute_subscription_url}", {
+            subscriptionToken: data.orderID
+          }).then(function(executeData) {
+            submitOrderPaypal(executeData.id)
+          });
+        }
       }
     }).render('#submit-paypal');
   }());

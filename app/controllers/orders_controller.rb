@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :prepare_new_order, only: [:paypal_create, :paypal_create_subscription]
+  before_action :prepare_new_order, only: [:paypal_create_payment, :paypal_create_subscription]
   def index
     products = Product.all
     @products_purchase = products.where(paypal_plan_name: nil)
@@ -9,7 +9,6 @@ class OrdersController < ApplicationController
 
   def submit
     @order = Orders::Paypal.finish(order_params[:charge_id])
-    puts @order
     if @order&.save # @orderがnilだとしてもエラーにならない(ぼっち演算子)
       if @order.paid?
         # Success is rendered when order is paid and saved
@@ -22,7 +21,7 @@ class OrdersController < ApplicationController
     render html: '失敗1'
   end
 
-  def paypal_create
+  def paypal_create_payment
     result = Orders::Paypal.create_payment(order: @order, product: @product)
     if result
       render json: { token: result }, status: :ok
@@ -31,7 +30,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  def paypal_execute
+  def paypal_execute_payment
     if Orders::Paypal.execute_payment(payment_id: params[:paymentID], payer_id: params[:payerID])
       render json: {}, status: :ok
     else
