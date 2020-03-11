@@ -58,4 +58,6 @@ Rails.application.routes.draw do
   post 'orders/submit', to: 'orders#submit'
   post 'orders/paypal/create', to: 'orders#paypal_create', as: :paypal_create
   post 'orders/paypal/execute', to: 'orders#paypal_execute', as: :paypal_execute
+  post 'orders/paypal/create_subscription' => 'orders#paypal_create_subscription', as: :paypal_create_subscription
+  post 'orders/paypal/execute_subscription' => 'orders#paypal_execute_subscription', as: :paypal_execute_subscription
 end
