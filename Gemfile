@@ -48,6 +48,7 @@ gem 'redis-namespace'
 gem "money-rails"
 gem 'paypal-sdk-rest'
 gem 'haml'
+gem 'kaminari'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
