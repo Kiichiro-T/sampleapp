@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :prepare_new_order, only: [:paypal_create]
+  before_action :prepare_new_order, only: [:paypal_create, :paypal_create_subscription]
   def index
     @products = Product.all
   end
@@ -34,6 +34,24 @@ class OrdersController < ApplicationController
       render json: {}, status: :ok
     else
       render json: {error: '失敗3'}, status: :unprocessable_entity
+    end
+  end
+
+  def paypal_create_subscription
+    result = Orders::Paypal.create_subscription(order: @order, product: @product)
+    if result
+      render json: { token: result }, status: :ok
+    else
+      render json: {error: '失敗4'}, status: :unprocessable_entity
+    end
+  end
+
+  def paypal_execute_subscription
+    result = Orders::Paypal.execute_subscription(token: params[:subscriptionToken])
+    if result
+      render json: { id: result}, status: :ok
+    else
+      render json: {error: '失敗5'}, status: :unprocessable_entity
     end
   end
 
