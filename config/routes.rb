@@ -56,6 +56,6 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:index]
   post 'orders/submit', to: 'orders#submit'
-  post 'orders/paypal/create', to: 'orders#paypal_create'
-  post 'orders/paypal/execute', to: 'orders#paypal_execute'
+  post 'orders/paypal/create', to: 'orders#paypal_create', as: :paypal_create
+  post 'orders/paypal/execute', to: 'orders#paypal_execute', as: :paypal_execute
 end
