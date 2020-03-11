@@ -6,17 +6,18 @@ class OrdersController < ApplicationController
   end
 
   def submit
-    @order = Orders::Paypal.finish(order_params[:token])
-    if @order&.save # @userがnilだとしてもエラーにならない(ぼっち演算子)
+    @order = Orders::Paypal.finish(order_params[:charge_id])
+    puts @order
+    if @order&.save # @orderがnilだとしてもエラーにならない(ぼっち演算子)
       if @order.paid?
         # Success is rendered when order is paid and saved
-        return render html: SUCCESS_MESSAGE
-      elsif @order.failed? && !@@order.error_message.blank?
+        return render html: '成功'
+      elsif @order.failed? && !@order.error_message.blank?
         # Render error only if order failed and there is an error_message
         return render html: @order.error_message
       end
     end
-    render html: FAILURE_MESSAGE
+    render html: '失敗1'
   end
 
   def paypal_create
@@ -24,7 +25,7 @@ class OrdersController < ApplicationController
     if result
       render json: { token: result }, status: :ok
     else
-      render json: { error: FAILURE_MESSAGE }, status: :unprocessable_entity
+      render json: {error: '失敗2'}, status: :unprocessable_entity
     end
   end
 
@@ -32,7 +33,7 @@ class OrdersController < ApplicationController
     if Orders::Paypal.execute_payment(payment_id: params[:paymentID], payer_id: params[:payerID])
       render json: {}, status: :ok
     else
-      render json: { error: FAILURE_MESSAGE }, status: :unprocessable_entity
+      render json: {error: '失敗3'}, status: :unprocessable_entity
     end
   end
 
@@ -43,10 +44,10 @@ class OrdersController < ApplicationController
       @order = Order.new(order_params)
       @order.user_id = current_user.id
       @product = Product.find(@order.product_id)
-      @order.proce_cents = @product.price_cents
+      @order.price_cents = @product.price_cents
     end
 
     def order_params
-      params.require(:order).permit(:product_id, :token, :charge_id)
+      params.require(:orders).permit(:product_id, :token, :charge_id)
     end
 end

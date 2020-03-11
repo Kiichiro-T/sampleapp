@@ -5,7 +5,6 @@
 
 %div
   = form_tag({:controller => "orders", :action => "submit" }, {:id => 'order-details'}) do
-    %input{id:'order-type', :type=>"hidden", :value=>"stripe", :name=>'orders[payment_gateway]'}
     .form_row
       %h4 Subscriptions
       - @products.each do |product|
@@ -30,23 +29,39 @@
 :javascript
   (function setupPaypal() {
     function isPayment() {
-      return $('[data-charges-and-payments-section] input[name="orders[product_id]"]:checked').length
+      // legthで要素の存在のチェック
+      return $('input[name="orders[product_id]"]:checked').length
     }
 
     function submitOrderPaypal(chargeID) {
       var $form = $("#order-details");
-      // Add a hidden input orders[charge_id]
+      // 子要素hidden input orders[charge_id]を追加＆値(value)にchageIDを設定
       $form.append($('<input type="hidden" name="orders[charge_id]"/>').val(chargeID));
-      // Set order type
-      $('#order-type').val('paypal');
+      // データの送信
       $form.submit();
     }
 
     paypal.Buttons({
       env: "#{ENV['PAYPAL_ENV']}",
       createOrder: function() {
+        if (isPayment()) {
+          // paypal_createアクションにorder-detailsのデータを送信し、受け取ったtokenを返す
+          return $.post("#{paypal_create_url}", $('#order-details').serialize()).then(function(data) {
+            return data.token;
+          });
+        } else {
+        }
       },
       onApprove: function(data) {
+        if (isPayment()) {
+          return $.post("#{paypal_execute_url}", {
+            paymentID: data.paymentID,
+            payerID:   data.payerID
+          }).then(function() {
+            submitOrderPaypal(data.paymentID)
+          });
+        } else {
+        }
       }
     }).render('#submit-paypal');
   }());

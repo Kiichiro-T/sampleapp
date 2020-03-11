@@ -1,3 +1,2 @@
-require("@rails/ujs").start()
-require("channels")
+import '../../javascripts/rails-ujs'
 require('jquery')
