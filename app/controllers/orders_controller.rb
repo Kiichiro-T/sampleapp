@@ -2,7 +2,9 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :prepare_new_order, only: [:paypal_create, :paypal_create_subscription]
   def index
-    @products = Product.all
+    products = Product.all
+    @products_purchase = products.where(paypal_plan_name: nil)
+    @products_subscription = products - @products_purchase
   end
 
   def submit

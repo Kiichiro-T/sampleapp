@@ -7,7 +7,7 @@
   = form_tag({:controller => "orders", :action => "submit" }, {:id => 'order-details'}) do
     .form_row
       %h4 Subscriptions
-      - @products.each do |product|
+      - @products_subscription.each do |product|
         %div
           = radio_button_tag 'orders[product_id]', product.id
           %span{id: "radioButtonName#{product.id}"} #{product.name}
@@ -44,24 +44,30 @@
     paypal.Buttons({
       env: "#{ENV['PAYPAL_ENV']}",
       createOrder: function() {
-        if (isPayment()) {
+        //if (isPayment()) {
           // paypal_createアクションにorder-detailsのデータを送信し、受け取ったtokenを返す
-          return $.post("#{paypal_create_url}", $('#order-details').serialize()).then(function(data) {
-            return data.token;
-          });
-        } else {
-        }
+        //  return $.post("#{paypal_create_url}", $('#order-details').serialize()).then(function(data) {
+        //    return data.token;
+        //  });
+        //} else {
+        return $.post("#{paypal_create_subscription_url}", $('#order-details').serialize()).then(function(data) {
+          return data.token;
+        });
       },
       onApprove: function(data) {
-        if (isPayment()) {
-          return $.post("#{paypal_execute_url}", {
-            paymentID: data.paymentID,
-            payerID:   data.payerID
-          }).then(function() {
-            submitOrderPaypal(data.paymentID)
-          });
-        } else {
-        }
+        //if (isPayment()) {
+        //  return $.post("#{paypal_execute_url}", {
+        //    paymentID: data.paymentID,
+        //    payerID:   data.payerID
+        //  }).then(function() {
+        //    submitOrderPaypal(data.paymentID)
+        //  });
+        //} else {
+        return $.post("#{paypal_execute_subscription_url}", {
+          subscriptionToken: data.orderID
+        }).then(function(executeData) {
+          submitOrderPaypal(executeData.id)
+        });
       }
     }).render('#submit-paypal');
   }());

@@ -75,6 +75,7 @@ class Orders::Paypal
   end
 
   def self.execute_subscription(token:)
+    puts token
     order = Order.recently_created.find_by(token: token)
     return false unless order
 
