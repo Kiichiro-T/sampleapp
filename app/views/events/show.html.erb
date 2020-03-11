@@ -63,30 +63,5 @@
   <% end %>
   <p>参加(<%= @count1 %>) | 欠席(<%= @count2 %>) | 未回答(<%= @count3 %>) | 総数(<%= @count %>)</p>
   <hr>
-  <h2>収支情報</h2>
-  <h3>未払い</h3>
-  <% if @uncompleted_transactions.any? %>
-    <% @uncompleted_transactions.each do |transaction| %>
-      <% debtor = User.find(transaction.debtor_id) %>
-      <p>名前： <%= debtor.name %></p>
-      <p>金額： <%= transaction.debt %>円</p>
-      <% payment = transaction.payment%>
-      <p>支払った金額： <%= transaction.payment %>円</p>
-      <hr>
-    <% end %>
-  <% else %>
-    <p>まだ誰もいません</p>
-  <% end %>
-  <h3>支払い済み</h3>
-  <% if @completed_transactions.any? %>
-    <% @completed_transactions.each do |transaction| %>
-      <% debtor = User.find(transaction.debtor_id) %>
-      <p>名前： <%= debtor.name %></p>
-      <p>金額： <%= transaction.debt %>円</p>
-      <p><%= link_to "領収書発行", receipt_event_transaction_path(event_id: @event.id, url_token: transaction.url_token, format: "pdf") %></p>
-      <hr>
-    <% end %>
-  <% else %>
-    <p>まだ誰もいません</p>
-  <% end %>
+  <h2><%= link_to "収支情報", event_transactions_path(event_id: @event.id) %></h2>
 <% end %>

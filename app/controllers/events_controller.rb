@@ -16,10 +16,6 @@ class EventsController < ApplicationController
     @group = Group.find(params[:group_id])
     @executives = User.executives(@group)
     @answer = Answer.find_by(user_id: current_user.id, event_id: @event.id)
-    # 支払い済みと未払いに分ける
-    h1 = Event::Transaction.divide_transaction_in_two(@event)
-    @completed_transactions = h1[:completed] # 支払い済み
-    @uncompleted_transactions = h1[:uncompleted] # 未払い
 
     # 回答済みと未回答に分ける
     h2 = Answer.divide_answers_in_three(@event)

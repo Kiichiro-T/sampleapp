@@ -11,7 +11,7 @@
   <p><%= link_to event.name, group_event_path(group_id: group.id, id: event.id) %></p>
   <p><%= event.start_date.strftime("%m/%d") %> ~ <%= event.end_date.strftime("%m/%d") %></p>
   <% payment = t.payment %>
-  <% if t.paid? %>
+  <% if t.completed? %>
     <p><%= payment %>円(<%= link_to "領収書発行", receipt_event_transaction_path(event_id: event.id, url_token: t.url_token, format: "pdf") %>)</p>
   <% else %>
     <p><%= payment %>円(未払いあり)</p>

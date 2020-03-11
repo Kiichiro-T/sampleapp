@@ -1,28 +1,28 @@
-<!--必要ない
-<h2><%= @event.name %> | 幹事用収支ページ</h2>
-<p>未払い</p>
+<% provide(:title, "My収支情報ページ") %>
+<% content_for :pack_tag do %>
+  <%= javascript_pack_tag 'events/transactions/index' %>
+  <%#= stylesheet_pack_tag 'transactions/index' %>
+<% end %>
+<h1><%= @event.name %>の収支情報</h1>
+<p>金額： <%= @event.amount %></p>
+<p>支払い締切： <%= @event.pay_deadline.strftime("%Y/%m/%d") %></p>
+<h2>未払い</h2>
 <% if @uncompleted_transactions.any? %>
-  <% @uncompleted_transactions.each do |transaction| %>
-    <% debtor = User.find(transaction.debtor_id) %>
-    <p>名前： <%= debtor.name %></p>
-    <p>金額： <%= transaction.debt %>円</p>
-    <% payment = transaction.payment%>
-    <p>支払った金額： <%= transaction.payment %>円</p>
-    <hr>
+  <% @uncompleted_transactions.each do |t1| %>
+    <% debtor = User.find(t1.debtor_id) %>
+    <p><%= debtor.name %> | <%= t1.payment %>円 / <%= t1.debt %>円</p>
   <% end %>
 <% else %>
-  <p>まだ誰もいません</p>
+  <p>誰もいません</p>
 <% end %>
-<p>支払い済み</p>
+
+<h2>支払い済み</h2>
 <% if @completed_transactions.any? %>
-  <% @completed_transactions.each do |transaction| %>
-    <% debtor = User.find(transaction.debtor_id) %>
-    <p>名前： <%= debtor.name %></p>
-    <p>金額： <%= transaction.debt %>円</p>
-    <p><%= link_to "領収書発行", receipt_group_event_transaction_path(group_id: @group.id, event_id: @event.id, id: transaction.id, format: "pdf") %></p>
-    <hr>
+  <% @completed_transactions.each do |t2| %>
+    <% debtor = User.find(t2.debtor_id) %>
+    <p><%= debtor.name %> | <%= t2.payment %>円
+      (<%= link_to "領収書発行", receipt_event_transaction_path(event_id: @event.id, url_token: t2.url_token, format: "pdf") %>)</p>
   <% end %>
 <% else %>
   <p>まだ誰もいません</p>
 <% end %>
--->

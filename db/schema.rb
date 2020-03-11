@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_202746) do
     t.bigint "group_id"
     t.string "type"
     t.string "url_token", null: false
-    t.boolean "paid", default: false, null: false
+    t.boolean "completed", default: false, null: false
     t.index ["creditor_id"], name: "index_transactions_on_creditor_id"
     t.index ["debtor_id"], name: "index_transactions_on_debtor_id"
     t.index ["event_id"], name: "index_transactions_on_event_id"

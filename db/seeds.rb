@@ -127,14 +127,14 @@ end
     group_id: 1,
     event_id: n + 1,
     url_token: SecureRandom.hex(10),
-    paid: true
+    completed: true
   )
   Answer.create!(
     status: Answer.statuses[:attending],
     user_id: 2,
     event_id: n + 1
   )
-  # User 4 ~ 8
+  # General 1 ~ 5
   5.times do |i|
     Event::Transaction.create!(
       deadline: Date.today.next_year(3).to_datetime,
@@ -145,7 +145,7 @@ end
       group_id: 1,
       event_id: n + 1,
       url_token: SecureRandom.hex(10),
-      paid: true
+      completed: true
     )
     Answer.create!(
       status: Answer.statuses[:unanswered],
@@ -165,14 +165,14 @@ end
     creditor_id: 3,
     debtor_id: 3,
     group_id: 2,
-    event_id: n + 6,
+    event_id: n + 16,
     url_token: SecureRandom.hex(10),
-    paid: true
+    completed: true
   )
   Answer.create!(
     status: Answer.statuses[:attending],
     user_id: 3,
-    event_id: n + 6
+    event_id: n + 16
   )
   # User 9 ~ 13
   5.times do |i|
@@ -183,14 +183,14 @@ end
       creditor_id: 3,
       debtor_id: i + 9,
       group_id: 2,
-      event_id: n + 6,
+      event_id: n + 16,
       url_token: SecureRandom.hex(10),
-      paid: false
+      completed: false
     )
     Answer.create!(
       status: Answer.statuses[:unanswered],
       user_id: i + 9,
-      event_id: n + 6
+      event_id: n + 16
     )
   end
 end

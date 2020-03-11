@@ -1,6 +1,22 @@
 # frozen_string_literal: true
 
 class Event::Transaction < Transaction
+  def self.paid_total_amount(user)
+    Event::Transaction.where(debtor_id: user.id).sum('payment')
+  end
+
+  def self.unpaid_total_amount(user)
+    Event::Transaction.where(debtor_id: user.id).sum('debt') - paid_total_amount(user)
+  end
+
+  def self.completed_transactions(event:)
+    Event::Transaction.where(event_id: event.id, completed: true)
+  end
+
+  def self.uncompleted_transactions(event:)
+    Event::Transaction.where(event_id: event.id, completed: false)
+  end
+
   def self.divide_transaction_in_two(event)
     completed_transactions = []   # 支払い済み
     uncompleted_transactions = [] # 未払い

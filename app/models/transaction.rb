@@ -19,22 +19,14 @@ class Transaction < ApplicationRecord
   validates :payment, numericality: { greater_than_or_equal_to: 0 }
   validates :type, presence: true
   validates :url_token, presence: true, uniqueness: true
-  validates :paid, inclusion: { in: [true, false] }
+  validates :completed, inclusion: { in: [true, false] }
 
   def to_param
     url_token
   end
 
-  def paid?
-    paid
-  end
-
-  def self.paid_total_amount(user)
-    Event::Transaction.where(debtor_id: user.id).sum('payment')
-  end
-
-  def self.unpaid_total_amount(user)
-    Event::Transaction.where(debtor_id: user.id).sum('debt') - paid_total_amount(user)
+  def completed?
+    completed
   end
 
   private
