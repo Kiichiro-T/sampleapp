@@ -32,10 +32,7 @@ class ApplicationController < ActionController::Base
 
     # 現在のユーザーが幹事であるグループをセットする
     def set_group_for_current_executive
-      relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
-      return unless relationship
-
-      @current_executive_group = Group.find(relationship.group_id)
+      @current_executive_group = Group.my_own_group(current_user)
     end
 
     def confirm_definitive_registration

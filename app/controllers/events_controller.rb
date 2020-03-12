@@ -18,10 +18,10 @@ class EventsController < ApplicationController
     @answer = Answer.find_by(user_id: current_user.id, event_id: @event.id)
 
     # 回答済みと未回答に分ける
-    h2 = Answer.divide_answers_in_three(@event)
-    @attending_answers = h2[:attending] # 出席
-    @absent_answers = h2[:absent] # 欠席
-    @unanswered_answers = h2[:unanswered] # 未回答
+    hash = Answer.divide_answers_in_three(@event)
+    @attending_answers = hash[:attending] # 出席
+    @absent_answers = hash[:absent] # 欠席
+    @unanswered_answers = hash[:unanswered] # 未回答
     @count = User.members(@group).count
   end
 
