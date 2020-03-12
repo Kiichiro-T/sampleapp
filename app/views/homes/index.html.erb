@@ -2,181 +2,129 @@
 <% content_for :pack_tag do %>
   <%= javascript_pack_tag 'homes/index' %>
   <%= stylesheet_pack_tag 'homes/index' %>
-  <!--
-  <link href='../fullcalendar-4.3.1/packages/core/main.css' rel='stylesheet' />
-    <link href='../fullcalendar-4.3.1/packages/daygrid/main.css' rel='stylesheet' />
-    <link href='../fullcalendar-4.3.1/packages/timegrid/main.css' rel='stylesheet' />
-    <script src='../fullcalendar-4.3.1/packages/core/main.js'></script>
-    <script src='../fullcalendar-4.3.1/packages/interaction/main.js'></script>
-    <script src='../fullcalendar-4.3.1/packages/daygrid/main.js'></script>
-    <script src='../fullcalendar-4.3.1/packages/timegrid/main.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-        header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        defaultDate: '2019-08-12',
-        navLinks: true, // can click day/week names to navigate views
-        selectable: true,
-        selectMirror: true,
-        select: function(arg) {
-          var title = prompt('Event Title:');
-          if (title) {
-            calendar.addEvent({
-              title: title,
-              start: arg.start,
-              end: arg.end,
-              allDay: arg.allDay
-            })
-          }
-          calendar.unselect()
-        },
-        editable: true,
-        eventLimit: true, // allow "more" link when too many events
-        events: [
-          {
-            title: 'All Day Event',
-            start: '2019-08-01'
-          },
-          {
-            title: 'Long Event',
-            start: '2019-08-07',
-            end: '2019-08-10'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2019-08-09T16:00:00'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2019-08-16T16:00:00'
-          },
-          {
-            title: 'Conference',
-            start: '2019-08-11',
-            end: '2019-08-13'
-          },
-          {
-            title: 'Meeting',
-            start: '2019-08-12T10:30:00',
-            end: '2019-08-12T12:30:00'
-          },
-          {
-            title: 'Lunch',
-            start: '2019-08-12T12:00:00'
-          },
-          {
-            title: 'Meeting',
-            start: '2019-08-12T14:30:00'
-          },
-          {
-            title: 'Happy Hour',
-            start: '2019-08-12T17:30:00'
-          },
-          {
-            title: 'Dinner',
-            start: '2019-08-12T20:00:00'
-          },
-          {
-            title: 'Birthday Party',
-            start: '2019-08-13T07:00:00'
-          },
-          {
-            title: 'Click for Google',
-            url: 'http://google.com/',
-            start: '2019-08-28'
-          }
-        ]
-      });
-
-      calendar.render();
-    });
-
-   </script>
-
-   <style>
-
-
-
-    #calendar {
-      position:absolute;
-      top: 11.69%;
-      left: 15.674%;
-      width: 73.26%;
-      height: 100.6%;
-    }
-
-  </style>
-  -->
 <% end %>
-      <div class="back"></div>
-      <div class="sidebar1"></div>
-      <div class="topbar1"></div>
-      <div class="calender1"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+      header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    defaultDate: '2020-03-12',
+    navLinks: true, // can click day/week names to navigate views
+    selectable: true,
+    selectMirror: true,
+    select: function(arg) {
+      var title = prompt('Event Title:');
+      if (title) {
+        calendar.addEvent({
+          title: title,
+          start: arg.start,
+          end: arg.end,
+          allDay: arg.allDay
+        })
+      }
+      calendar.unselect()
+    },
+    editable: true,
+    eventLimit: true, // allow "more" link when too many events
+    events: [
+
+    ]
+  });
+
+  calendar.render();
+});
+</script>
+
+<style>
+#calendar {
+  position:absolute;
+  top: 50%;                    /* 親要素の半分下にずらす */
+  left: 50%;
+  width: 80%;
+  height: 100%;                 /* 親要素の半分右にずらす */
+  transform: translateY(-50%) translateX(-50%);    /* 要素自体の半分、上と左にずらす */
+  padding: 20px;               /* 余白指定 */
+}
+</style>
+
+<div class="back"></div>
+<div class="topbar1" >
+  <input type="search" class="search">
+  <button  onclick="introJs().start()" class="help"
+  date-step="1" data-intro='ホーム画面へようこそ。ヘルプではチュートリアルを見ることができます。
+  またヘルプはいつでも開けます。ページ内でわからないことがあれば押してみてください。'>
+    <%= image_pack_tag("help.png", class: "img-ball") %>
+  </button>
+</div>
+
+<div class="calender1" date-step="2" data-intro='カレンダーにはサークルのイベントが自動で表示されます。'>
+  <div id="calendar"></div>
+</div>
 
 
 
-      <div class="box1"></div>
-      <div class="box2"></div>
-      <div class="box3"></div>
-      <div class="box4"></div>
-      <div class="box5"></div>
-      <div style="position:absolute;
-        position:absolute;
-        top: 189.4%;
-        left: 43.59%;
-        width: 65.66%;
-        height: 70.13%;">
-        <canvas id="Balance"></canvas>
-    </div>
-      <input type="search" class="search">
-      <div class=""></div>
-      <div class=""></div>
-      <div class=""></div>
-      <div class=""></div>
+<div class="box2" date-step="3" data-intro='所属サークル一覧では自分が見たいサークルを選びます。'>
+  <div class="boader2"></div>
+  <p class="text2">所属サークル</p>
+  <a href="" class="name2-1"></a>
+  <a href="" class="name2-2"></a>
+  <a href="" class="name2-3"></a>
+  <button class="button3" onclick="">サークル作成</button>
+</div>
 
-      <a href="" class="name2-1"></a>
-      <a href="" class="name2-2"></a>
-      <a href="" class="name2-3"></a>
-      <a href="" class="inf3-1"></a>
-      <a href="" class="inf3-2"></a>
-      <a href="" class="inf3-3"></a>
-      <a href="" class="inf3-4"></a>
-      <a href="../event_answer/event_answer.html" class="event4-1"></a>
-      <a href="../event_answer/event_answer.html" class="event4-2"></a>
-      <p class="text1">検索</p>
-      <p class="text2">所属サークル</p>
-      <p class="text4">更新情報</p>
-      <p class="text5">イベント情報</p>
-      <p class="text6">収支管理</p>
-      <p class="text7">カレンダー</p>
-      <p class="text8"></p>
+<div class="box3"　
+date-step="4"
+data-intro='更新情報ではサークル内の最新情報が掲載されます。'>
+  <div class="boader3"></div>
+  <p class="text4">更新情報</p>
+  <a href="" class="inf3-1"></a>
+  <a href="" class="inf3-2"></a>
+  <a href="" class="inf3-3"></a>
+  <a href="" class="inf3-4"></a>
+</div>
 
+<div class="box4"　
+date-step="5"
+data-intro='イベント情報には直近のイベントが表示されます。出欠の確認はここから回答します。'>
+  <div class="boader4"></div>
+  <a href="" class="text5">イベント情報</a>
+  <a href="" class="event4-1"></a>
+  <a href="" class="event4-2"></a>
+  <a href="" class="event4-3"></a>
+  <a href="" class="event4-4"></a>
+  <button class="button1">
+    <%= image_pack_tag("chevron-left.svg", class: "img-ball") %>
+  </button>
 
+  <button class="button2">
+    <%= image_pack_tag("chevron-right.svg", class: "img-ball") %>
+  </button>
+</div>
 
-      <div id='calendar'></div>
+<div class="box5"
+date-step="6"
+data-intro='収支情報はあなたがサークルに支払わなければならない金額を示しています。'>
+  <div style="position:absolute;
+    top: 50%;                    /* 親要素の半分下にずらす */
+    left: 50%;                   /* 親要素の半分右にずらす */
+    width: 170%;
 
-      <%= render 'shared/sidebar'%>
+    transform: translateY(-50%) translateX(-50%);    /* 要素自体の半分、上と左にずらす */
+    ">
+    <canvas id="Balance"></canvas>
+  </div>
+  <a href="" class="text6">収支管理</a>
+</div>
+<%= render 'shared/sidebar' %>
+<%= render 'shared/menu' %>
 
-
-    <ul class="ul2">
-      <li class="fa-home"></li>
-      <li class="fa-suitcase"></li>
-      <li class="fa-flask"></li>
-      <li class="fa-user"></li>
-    </ul>
-
-    <script>
+<script>
       new Chart(document.getElementById("Balance"), {
     type: "doughnut",
     data: {

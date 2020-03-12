@@ -1,5 +1,5 @@
 body {
-  background-coor: #33325D;
+  /* background-color: #33325D; */
 }
 
 .name{
@@ -72,19 +72,19 @@ li {
 /*
 li:after{
   content: "";
-  display: block; 
-  bottom: 100%; 
-  left: 50%; 
-  height: ($offsetAmount*100%)-100; 
-  margin-left: -1px; 
-  position: absolute; 
-  width: 4px; 
-  background-color: inherit; 
-  opacity: 0; 
-  transition: opacity $transitionTime ease-out; 
+  display: block;
+  bottom: 100%;
+  left: 50%;
+  height: ($offsetAmount*100%)-100;
+  margin-left: -1px;
+  position: absolute;
+  width: 4px;
+  background-color: inherit;
+  opacity: 0;
+  transition: opacity $transitionTime ease-out;
 }
 */
-li:first-child:after {
+li:not(.introjs-bullets)first-child:after {
   display: none;
 }
 
@@ -229,7 +229,7 @@ ul:hover li:nth-child(5) {
         -webkit-transform: translate(0, 440%);
                 transform: translate(0, 440%);
 }
-      
+
 ul:hover li:nth-child(5):hover {
         opacity: 1;
         -webkit-transition-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
@@ -239,7 +239,7 @@ ul:hover li:nth-child(5):hover {
         -webkit-transition-duration: 0.24s;
                 transition-duration: 0.24s;
 }
-      
+
 ul:hover li:nth-child(5):after {
         opacity: 1;
         -webkit-transition-delay: 0.40s;

@@ -3,15 +3,11 @@
   <%= javascript_pack_tag 'events/form' %>
   <%= stylesheet_pack_tag 'events/form' %>
 <% end %>
-<div class="topbar1"></div>
 <div class="back"></div>
-<div class="box1"></div>
-
-<%= render 'shared/sidebar' %>
-
-<p class="name"><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></p>
-<input type="search" class="search">
-
+<div class="topbar1" >
+  <input type="search" class="search">
+  <%= image_pack_tag("help.png", class: "img-ball") %>
+</div>
 <%= form_for(@event, url: group_events_path(group_id: @group.id)) do |f| %>
   <p class="text1">イベント作成</p>
   <%= render 'shared/error_messages', object: f.object %>
@@ -45,12 +41,8 @@
   <%= f.submit "作成", class: "button1" %>
 <% end %>
 
-<ul class="ul2">
-  <li class="fa-home"></li>
-  <li class="fa-suitcase"></li>
-  <li class="fa-flask"></li>
-  <li class="fa-user"></li>
-</ul>
+<%= render 'shared/sidebar' %>
+<%= render 'shared/menu' %>
 
 
 
