@@ -7,6 +7,9 @@ class Events::TransactionsController < TransactionsController
     @event = Event.find(params[:event_id])
     @completed_transactions = Event::Transaction.completed_transactions(event: @event)
     @uncompleted_transactions = Event::Transaction.uncompleted_transactions(event: @event)
+    @attending_count = Answer.attending_count(event: @event)
+    @paid_event_total_amount = Event::Transaction.paid_event_total_amount(event: @event)
+    @expected_event_total_amount = Event::Transaction.expected_event_total_amount(event: @event)
   end
 
   def new

@@ -139,16 +139,16 @@ end
     Event::Transaction.create!(
       deadline: Date.today.next_year(3).to_datetime,
       debt: (n + 1) * 1000,
-      payment: (n + 1) * 1000,
+      payment: (n + 1) * 500,
       creditor_id: 2,
       debtor_id: i + 4,
       group_id: 1,
       event_id: n + 1,
       url_token: SecureRandom.hex(10),
-      completed: true
+      completed: false
     )
     Answer.create!(
-      status: Answer.statuses[:unanswered],
+      status: Answer.statuses[:attending],
       user_id: i + 4,
       event_id: n + 1
     )
@@ -179,7 +179,7 @@ end
     Event::Transaction.create!(
       deadline: Date.today.next_year(3).to_datetime,
       debt: (n + 1) * 1000,
-      payment: (n + 1) * 500,
+      payment: 0,
       creditor_id: 3,
       debtor_id: i + 9,
       group_id: 2,

@@ -16,15 +16,19 @@ class Answer < ApplicationRecord
   def self.divide_answers_in_three(event)
     answers = event.answers
     {
-      attending: answers.where(status: Answer.statuses[:attending]),
-      absent: answers.where(status: Answer.statuses[:absent]),
-      unanswered: answers.where(status: Answer.statuses[:unanswered])
+      attending: answers.where(status: statuses[:attending]),
+      absent: answers.where(status: statuses[:absent]),
+      unanswered: answers.where(status: statuses[:unanswered])
     }
   end
 
+  def self.attending_count(event:)
+    where(event_id: event.id, status: statuses[:attending]).count
+  end
+
   def self.new_answer_when_create_new_event(user, event)
-    Answer.create!(
-      status: Answer.statuses[:unanswered],
+    create!(
+      status: statuses[:unanswered],
       user_id: user.id,
       event_id: event.id
     )

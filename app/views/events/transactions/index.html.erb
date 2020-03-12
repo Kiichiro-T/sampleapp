@@ -4,8 +4,11 @@
   <%#= stylesheet_pack_tag 'transactions/index' %>
 <% end %>
 <h1><%= @event.name %>の収支情報</h1>
-<p>金額： <%= @event.amount %></p>
+<p>イベント金額： <%= @event.amount %>円</p>
+<p>集金合計： <%= @paid_event_total_amount %>円</p>
+<p>期待される合計(未完成)： <%= @expected_event_total_amount %>円</p>
 <p>支払い締切： <%= @event.pay_deadline.strftime("%Y/%m/%d") %></p>
+<p>出席者数： <%= @attending_count %>人</p>
 <h2>未払い</h2>
 <% if @uncompleted_transactions.any? %>
   <% @uncompleted_transactions.each do |t1| %>
