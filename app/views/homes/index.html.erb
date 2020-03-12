@@ -2,43 +2,43 @@
 <% content_for :pack_tag do %>
   <%= javascript_pack_tag 'homes/index' %>
   <%= stylesheet_pack_tag 'homes/index' %>
-<% end %>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-      header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-    defaultDate: '2020-03-12',
-    navLinks: true, // can click day/week names to navigate views
-    selectable: true,
-    selectMirror: true,
-    select: function(arg) {
-      var title = prompt('Event Title:');
-      if (title) {
-        calendar.addEvent({
-          title: title,
-          start: arg.start,
-          end: arg.end,
-          allDay: arg.allDay
-        })
-      }
-      calendar.unselect()
-    },
-    editable: true,
-    eventLimit: true, // allow "more" link when too many events
-    events: [
+        var calendarEl = document.getElementById('calendar');
 
-    ]
-  });
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+          header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        defaultDate: '2020-03-12',
+        navLinks: true, // can click day/week names to navigate views
+        selectable: true,
+        selectMirror: true,
+        select: function(arg) {
+          var title = prompt('Event Title:');
+          if (title) {
+            calendar.addEvent({
+              title: title,
+              start: arg.start,
+              end: arg.end,
+              allDay: arg.allDay
+            })
+          }
+          calendar.unselect()
+        },
+        editable: true,
+        eventLimit: true, // allow "more" link when too many events
+        events: [
 
-  calendar.render();
-});
+        ]
+      });
+
+      calendar.render();
+    });
 </script>
 
 <style>
@@ -52,12 +52,14 @@
   padding: 20px;               /* 余白指定 */
 }
 </style>
+<% end %>
 
 <div class="back"></div>
 <div class="topbar1" >
   <input type="search" class="search">
   <button  onclick="introJs().start()" class="help"
-  date-step="1" data-intro='ホーム画面へようこそ。ヘルプではチュートリアルを見ることができます。
+  date-step="1"
+  data-intro='ホーム画面へようこそ。ヘルプではチュートリアルを見ることができます。
   またヘルプはいつでも開けます。ページ内でわからないことがあれば押してみてください。'>
     <%= image_pack_tag("help.png", class: "img-ball") %>
   </button>
@@ -69,52 +71,45 @@
 
 
 
-<div class="box2" date-step="3" data-intro='所属サークル一覧では自分が見たいサークルを選びます。'>
-  <div class="boader2"></div>
+<div class="box-circle" date-step="3" data-intro='所属サークル一覧では自分が見たいサークルを選びます。'>
+  <div class="datebox"></div>
+  <div class="datebox"></div>
+  <div class="datebox"></div>
+
+  <div class="box-border"></div>
   <p class="text2">所属サークル</p>
-  <a href="" class="name2-1"></a>
-  <a href="" class="name2-2"></a>
-  <a href="" class="name2-3"></a>
   <button class="button3" onclick="">サークル作成</button>
 </div>
 
-<div class="box3"　
-date-step="4"
-data-intro='更新情報ではサークル内の最新情報が掲載されます。'>
-  <div class="boader3"></div>
+<div class="box-inf" date-step="4" data-intro='更新情報ではサークル内の最新情報が掲載されます。'>
+  <div class="box-border"></div>
   <p class="text4">更新情報</p>
-  <a href="" class="inf3-1"></a>
-  <a href="" class="inf3-2"></a>
-  <a href="" class="inf3-3"></a>
-  <a href="" class="inf3-4"></a>
+  <a href="" class="datebox"></a>
+  <a href="" class="datebox"></a>
+  <a href="" class="datebox"></a>
+  <a href="" class="datebox"></a>
 </div>
 
-<div class="box4"　
-date-step="5"
-data-intro='イベント情報には直近のイベントが表示されます。出欠の確認はここから回答します。'>
+<div class="box-event" date-step="5" data-intro='イベント情報には直近のイベントが表示されます。出欠の確認はここから回答します。'>
   <div class="boader4"></div>
   <a href="" class="text5">イベント情報</a>
-  <a href="" class="event4-1"></a>
-  <a href="" class="event4-2"></a>
-  <a href="" class="event4-3"></a>
-  <a href="" class="event4-4"></a>
+  <a href="" class="datebox"></a>
+  <a href="" class="datebox"></a>
+  <a href="" class="datebox"></a>
+  <a href="" class="datebox"></a>
   <button class="button1">
     <%= image_pack_tag("chevron-left.svg", class: "img-ball") %>
   </button>
-
   <button class="button2">
     <%= image_pack_tag("chevron-right.svg", class: "img-ball") %>
   </button>
 </div>
 
-<div class="box5"
-date-step="6"
-data-intro='収支情報はあなたがサークルに支払わなければならない金額を示しています。'>
+<div class="box-balance" date-step="6" data-intro='収支情報はあなたがサークルに支払わなければならない金額を示しています。'>
   <div style="position:absolute;
     top: 50%;                    /* 親要素の半分下にずらす */
     left: 50%;                   /* 親要素の半分右にずらす */
     width: 170%;
-
     transform: translateY(-50%) translateX(-50%);    /* 要素自体の半分、上と左にずらす */
     ">
     <canvas id="Balance"></canvas>
@@ -142,9 +137,4 @@ data-intro='収支情報はあなたがサークルに支払わなければな�
       ]
     }
   });
-    </script>
-
-
-
-  </body>
-</html>
+</script>

@@ -22,6 +22,10 @@ input:focus{
     outline: 0;
 }
 
+a{
+    display: block;
+}
+
 .inner{
     width:100%;
     overflow:hidden;
@@ -39,151 +43,6 @@ min-height: 100%;
 background: #9DC3C9 0% 0% no-repeat padding-box;
 border: 1px solid #707070;
 opacity: 0.23;
-
-
-}
-
-.topbar1{
-    position:absolute;
-    top: 0%;
-left: 4.758%;
-width: 95.39%;
-height: 25.58%;
-background: transparent linear-gradient(180deg, #83B4CE 0%, #53EEEE 100%) 0% 0% no-repeat padding-box;
-opacity: 1;
-}
-
-.iconbox{
-    position:fixed;
-    top: 11.04%;
-left: 0.366%;
-width: 4.026%;
-height: 7.143%;
-background: #F6F9FC 0% 0% no-repeat padding-box;
-border-radius: 5px;
-opacity: 1;
-}
-
-
-.iconbox2{
-    position:fixed;
-    top: 18.18%;
-left: 0.3660%;
-width: 4.026%;
-height: 7.143%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-border-radius: 5px;
-opacity: 1;
-}
-
-.iconbox3{
-    position:fixed;
-    top: 25.32%;
-left: 0.3660%;
-width: 4.026%;
-height: 7.143%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-border-radius: 5px;
-opacity: 1;
-}
-
-.iconbox4{
-    position:fixed;
-    top: 32.47%;
-left: 0.3660%;
-width: 4.026%;
-height: 7.143%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-border-radius: 5px;
-opacity: 1;
-}
-
-.iconbox5{
-    position:fixed;
-    top: 39.61%;
-left: 0.3660%;
-width: 4.026%;
-height: 7.143%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-border-radius: 5px;
-opacity: 1;
-}
-
-.iconbox6{
-    position:fixed;
-    top: 46.75%;
-left: 0.3660%;
-width: 4.026%;
-height: 7.143%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-border-radius: 5px;
-opacity: 1;
-}
-
-.iconbox7{
-    position:fixed;
-    top: 53.90%;
-left: 0.3660%;
-width: 4.026%;
-height: 7.143%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-border-radius: 5px;
-opacity: 1;
-}
-
-.icon1-humberger{
-    position:fixed;
-    top: 4.026%;
-left: 1.83%;
-width: 1.171%;
-height: 0px;
-border: 1px solid #172B4D;
-opacity: 1;
-}
-
-.icon2-humberger{
-    position:fixed;
-    top: 4.805%;
-left: 1.83%;
-width: 1.171%;
-height: 0px;
-border: 1px solid #172B4D;
-opacity: 1;
-}
-.icon3-humberger{
-    position:fixed;
-    top: 5.584%;
-left: 1.83%;
-width: 1.171%;
-height: 0px;
-border: 1px solid #172B4D;
-opacity: 1;
-}
-
-.name{
-    position:absolute;
-    top: 4.675%;
-left: 92.83%;
-width: 7.246%;
-height: 2.208%;
-text-align: left;
-font: Book;
-font-size: 0.8098vmax;
-letter-spacing: 0;
-color: #FFFFFF;
-opacity: 1;
-}
-
-.search{
-    position:absolute;
-    top: 2.597%;
-left: 6.515%;
-width: 18.08%;
-height: 6.494%;
-background: #F7FAFC 0% 0% no-repeat padding-box;
-box-shadow: 0px 3px 6px #1717172D;
-border-radius: 25px;
-opacity: 1;
 
 }
 
@@ -304,32 +163,27 @@ border-radius: 10px;
 opacity: 1;
 }
 
-.box1{
+
+.box-circle{
     position:absolute;
     top: 119.1%;
 left: 7.174%;
 width: 30.67%;
 height: 60.52%;
+
 background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px 3px 6px #2C28281C;
 border-radius: 10px;
 opacity: 1;
-}
-
-.box2{
-    position:absolute;
-    top: 119.1%;
-left: 7.174%;
-width: 30.67%;
-height: 60.52%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 3px 6px #2C28281C;
-border-radius: 10px;
-opacity: 1;
+padding: 100px 30px;
+margin: 0px;
+box-sizing: border-box;
 
 }
 
-.boader2{
+
+
+.box-border{
     position: absolute;
     top: 20%;
 left: 0%;
@@ -339,7 +193,7 @@ border: 0.5px solid #8898AA;
 opacity: 0.6;
 }
 
-.box3{
+.box-inf{
     position:absolute;
     top: 119.1%;
 left: 43.27%;
@@ -349,19 +203,14 @@ background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px 3px 6px #2C28281C;
 border-radius: 10px;
 opacity: 1;
+padding: 100px 30px;
+margin: 0px;
+box-sizing: border-box;
 
 }
-.boader3{
-    position: absolute;
-    top: 20%;
-    left: 0%;
-    width: 100%;
-height: 0px;
-border: 0.5px solid #8898AA;
-opacity: 0.6;
-}
 
-.box4{
+
+.box-event{
     position:absolute;
     top: 184.4%;
 left: 7.174%;
@@ -371,19 +220,12 @@ background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px 3px 6px #2C28281C;
 
 opacity: 1;
-
-}
-.boader4{
-    position: absolute;
-    top: 20%;
-    left: 0%;
-    width: 100%;
-height: 0px;
-border: 0.5px solid #8898AA;
-opacity: 0.6;
+padding: 100px 30px;
+margin: 0px;
+box-sizing: border-box;
 }
 
-.box5{
+.box-balance{
     position:absolute;
     top: 184.4%;
 left: 53.59%;
@@ -396,7 +238,7 @@ opacity: 1;
 overflow: hidden;
 }
 
-.button1{
+.button-left{
     position: absolute;
     top: 92%;
     left: 70%;
@@ -408,14 +250,14 @@ opacity: 1;
 line-height: 120px;
   border-radius: 50%;
 }
-.button1:hover{
+.button-left:hover{
     background: #FFFFFF 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
     border: 1px solid rgb(208, 122, 235);
 }
 
 
-.button2{
+.button-right{
     position: absolute;
     top: 92%;
     left: 90%;
@@ -427,7 +269,7 @@ opacity: 1;
 line-height: 120px;
   border-radius: 50%;
 }
-.button2:hover{
+.button-right:hover{
     background: #FFFFFF 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
     border: 1px solid rgb(208, 122, 235);
@@ -451,257 +293,20 @@ line-height: 120px;
     border: 1px solid rgb(208, 122, 235);
 }
 
-.name2-1{
-    position:absolute;
-    top: 25%;
-left: 4%;
-width: 92%;
-height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
+.datebox{
+    height:50px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px 2px 4px #1717172E;
 border: 1px solid #7764E4;
 border-radius: 5px;
 opacity: 0.8;
-
+margin: 30px 0px;
+box-sizing: border-box;
 }
-
-.name2-2{
-    position:absolute;
-    top: 43%;
-    left: 4%;
-    width: 92%;
-    height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-
-}
-
-.name2-3{
-    position:absolute;
-    top: 61%;
-    left: 4%;
-    width: 92%;
-    height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-
-}
-
-.inf3-1{
-    position:absolute;
-    top: 25%;
-left: 4%;
-width: 92%;
-height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-
-}
-.inf3-1:hover{
+.datebox:hover{
     background: #FFFFFF 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
     border: 1px solid rgb(208, 122, 235);
-
-
-
-}
-
-
-.inf3-2{
-    position:absolute;
-    top: 43%;
-    left: 4%;
-    width: 92%;
-    height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-}
-
-.inf3-2:hover{
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
-    border: 1px solid rgb(208, 122, 235);
-
-
-
-}
-
-.inf3-3{
-    position:absolute;
-    top: 61%;
-    left: 4%;
-    width: 92%;
-    height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-
-
-}
-.inf3-3:hover{
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
-    border: 1px solid rgb(208, 122, 235);
-
-
-
-}
-
-.inf3-4{
-    position:absolute;
-    top: 79%;
-    left: 4%;
-    width: 92%;
-    height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-
-}
-.inf3-4:hover{
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
-    border: 1px solid rgb(208, 122, 235);
-
-
-
-}
-.event4-1{
-    position:absolute;
-    top: 25%;
-    left: 4%;
-    width: 92%;
-    height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-
-
-}
-
-.event4-1:hover{
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
-border: 1px solid rgb(208, 122, 235);
-
-
-
-}
-
-.event4-2{
-    position:absolute;
-    top: 43%;
-    left: 4%;
-    width: 92%;
-    height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-
-}
-
-.event4-2:hover{
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
-    border: 1px solid rgb(208, 122, 235);
-
-
-
-    }
-
-
-.event4-3{
-    position:absolute;
-    top: 61%;
-    left: 4%;
-    width: 92%;
-    height: 10%;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 2px 4px #1717172E;
-border: 1px solid #7764E4;
-border-radius: 5px;
-opacity: 0.8;
-
-}
-
-.event4-3:hover{
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
-    border: 1px solid rgb(208, 122, 235);
-
-
-
-}
-.event4-4{
-        position:absolute;
-        top: 79%;
-        left: 4%;
-        width: 92%;
-        height: 10%;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 4px #1717172E;
-    border: 1px solid #7764E4;
-    border-radius: 5px;
-    opacity: 0.8;
-
-}
-
-.event4-4:hover{
-        background: #FFFFFF 0% 0% no-repeat padding-box;
-        box-shadow: 0px 2px 4px rgba(232, 177, 243, 0.18);
-        border: 1px solid rgb(208, 122, 235);
-
-
-
-}
-
-
-
-.img1-1{
-    position: absolute;
-    top: 247.4%;
-    left: 40.870%;
-    width: 1.464%;
-    height: 2.597%;
-    pointer-events: none;
-
-}
-.img1-2{
-    position:absolute;
-    position: absolute;
-    top: 247.4%;
-    left: 47%;
-    width: 1.464%;
-    height: 2.597%;
-    pointer-events: none;
-}
-.box2-3{
-    position:absolute;
-
-}
-.box2-3{
-    position:absolute;
-
 }
 
 
