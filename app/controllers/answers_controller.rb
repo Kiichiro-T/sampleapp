@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
+  def index
+    @transactions = Event::Transaction.all.limit(5)
+  end
+
   def create
     event = Event.find(params[:event_id])
     @answer = Answer.new(answer_params)
