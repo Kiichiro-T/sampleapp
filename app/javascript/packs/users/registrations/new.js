@@ -1,2 +1,2 @@
 import '../../../javascripts/rails-ujs'
-import '../registrations/new.css'
+import './new.css'
