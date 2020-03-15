@@ -5,15 +5,10 @@ class HomesController < ApplicationController
   before_action :confirm_definitive_registration
   before_action :set_group_for_current_executive
   def index
-    @relationships = GroupUser.where(user_id: current_user.id)
-    @executive_relationships = GroupUser.where(user_id: current_user.id, role: GroupUser.roles[:executives])
-    @events = []
-    @relationships.each do |relationship|
-      Event.where(group_id: relationship.group_id).each do |event|
-        @events << event
-      end
-    end
-    @transactions = Transaction.where(debtor_id: current_user.id)
+    @groups = Group.my_groups(current_user)
+    events = Event.my_events(current_user).order(start_date: :desc)
+    @events = Kaminari.paginate_array(events).page(params[:page]).per(5)
+    @new_events = Event.my_events(current_user).where(created_at: ((Time.now.midnight - 7.days)..Time.now.midnight).limit(5).order(created_at: :desc)
     # いずれは、Transaction.where("(creditor_id = ?) OR (debtor_id = ?)", user_id, user_id)
   end
 end
