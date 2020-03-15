@@ -1,4 +1,16 @@
 <ul class="ul2">
+  <% if current_user.definitive_registration %>
+    <ul class="ul2">
+    <li>
+      <a href="">
+        <div  class="up_tooltip">
+          <%= image_pack_tag("mail.png", class: "img-ball") %>
+          <span class="up_tooltiptext">お知らせ</span>
+        </div>
+      </a>
+    </li>
+  <% end %>
+
   <li class="fa-suitcase">
     <%= link_to edit_user_registration_path do %>
       <div  class="up_tooltip">
@@ -16,17 +28,8 @@
       </div>
     <% end %>
   </li>
-  <% unless current_user.definitive_registration %>
-    <ul class="ul2">
-    <li>
-      <a href="">
-        <div  class="up_tooltip">
-          <%= image_pack_tag("mail.png", class: "img-ball") %>
-          <span class="up_tooltiptext">お知らせ</span>
-        </div>
-      </a>
-    </li>
 
+  <% if current_user.definitive_registration %>
     <li class="fa-flask">
       <%= link_to user_transactions_path(user_id: current_user.id) do %>
         <div  class="up_tooltip">
