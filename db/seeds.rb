@@ -1,53 +1,72 @@
 # frozen_string_literal: true
 
+require 'gimei'
 # Admin User
 User.create!(
-  name: 'Admin',
+  name: '管理者',
+  furigana: 'カンリシャ',
   email: 'admin@example.com',
   password: 'password',
   password_confirmation: 'password',
   definitive_registration: true,
-  confirmed_at: Time.now
+  confirmed_at: Time.now,
+  gender: false,
+  grade: 3
 )
 
+gimei1 = Gimei.name
 # 幹事User1
 User.create!(
-  name: 'Executive 1',
+  name: gimei1.kanji,
+  furigana: gimei1.katakana.gsub(" ", ""),
   email: 'executive1@example.com',
   password: 'password',
   password_confirmation: 'password',
   definitive_registration: true,
-  confirmed_at: Time.now
+  confirmed_at: Time.now,
+  gender: gimei1.female?,
+  grade: 3
 )
 
+gimei2 = Gimei.name
 # 幹事User2
 User.create!(
-  name: 'Executive 2',
+  name: gimei2.kanji,
+  furigana: gimei2.katakana.gsub(" ", ""),
   email: 'executive2@example.com',
   password: 'password',
   password_confirmation: 'password',
   definitive_registration: true,
-  confirmed_at: Time.now
+  confirmed_at: Time.now,
+  gender: gimei2.female?,
+  grade: 3
 )
 
 10.times do |i|
+  gimei = Gimei.name
   User.create!(
-    name: "General #{i + 1}",
+    name: gimei.kanji,
+    furigana: gimei.katakana.gsub(" ", ""),
     email: "General#{i + 1}@example.com",
     password: 'password',
     password_confirmation: 'password',
     definitive_registration: true,
-    confirmed_at: Time.now
+    confirmed_at: Time.now,
+    gender: gimei.female?,
+    grade: i % 3
   )
 end
-
+gimei3 = Gimei.name
 User.create!(
-  name: 'definitive_test_user',
+  name: gimei3.kanji,
+  furigana: gimei3.katakana.gsub(" ", ""),
   email: 'definitive_test@example.com',
   password: 'password',
   password_confirmation: 'password',
   definitive_registration: false,
-  confirmed_at: Time.now
+  confirmed_at: Time.now,
+  gender: gimei3.female?,
+  grade: 1
 )
 
 # Group

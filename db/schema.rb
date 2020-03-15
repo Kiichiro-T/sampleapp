@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_11_202746) do
+ActiveRecord::Schema.define(version: 2020_03_12_094707) do
 
   create_table "answers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "status", default: 10, null: false, comment: "回答のステータス"
@@ -110,7 +110,11 @@ ActiveRecord::Schema.define(version: 2020_03_11_202746) do
     t.datetime "updated_at", null: false
     t.string "name", null: false
     t.boolean "definitive_registration", default: true, null: false
+    t.boolean "gender", comment: "性別"
+    t.integer "grade", comment: "学年"
+    t.string "furigana", comment: "フリガナ"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["furigana"], name: "index_users_on_furigana"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
