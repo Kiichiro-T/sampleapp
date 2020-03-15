@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :transactions, dependent: :destroy # :nullifyの方がよいか？
   validates :name, presence: true, length: { maximum: 100 }
   validates :definitive_registration, inclusion: { in: [true, false] }
-  validates :gender, presence: true, inclusion: { in: [true, false] }
+  validates :gender, inclusion: { in: [true, false] }
   validates :grade, presence: true
   validates :furigana, presence: true,
                        format: {
