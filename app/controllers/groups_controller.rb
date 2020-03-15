@@ -13,9 +13,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @executives = User.executives(@group)
-    @generals = User.generals(@group)
-    @events = Event.where(group_id: @group.id)
+    events = Event.my_events(current_user).order(start_date: :desc)
+    @events = Kaminari.paginate_array(events).page(params[:page]).per(5)
   end
 
   def new
@@ -76,6 +75,14 @@ class GroupsController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def deposit
+    @group = Group.find(params[:id])
+  end
+
+  def statistics
+    @group = Group.find(params[:id])
   end
 
   private
