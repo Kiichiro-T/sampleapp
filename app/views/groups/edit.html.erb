@@ -1,54 +1,90 @@
-<h3>グループの詳細を変更する</h3>
-<%= form_for(@group) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-  <div class="field">
-
-    <%= f.label :name, "グループ名" %>
-    <%= f.text_field :name, class: "form-control", placeholder: "例）○○テニスサークル" %><br />
-
-    <%= f.label :email, " 代表者メールアドレス" %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %><br />
-
-    <%= f.label :group_number, "グループID(6~25文字)" %>
-    <%= f.text_field :group_number, class: "form-control", placeholder: "英数字と_を使用できます)" %><br />
-
-    <%= f.submit "作成"%>
-  </div>
+<% provide(:title, "サークル情報") %>
+<% content_for :pack_tag do %>
+  <%= javascript_pack_tag 'groups/edit' %>
+  <%= stylesheet_pack_tag 'groups/edit' %>
 <% end %>
-<hr>
 
-<p>幹事は最大8名まで設定できます。</p>
-<h3>幹事を引き継ぐ</h3>
-<%= form_with url: inherit_group_path(group_id: @group.id) do |f| %>
-  <%= f.select :new_executive,
-    options_from_collection_for_select(@generals, :id, :name), 
-    { 
-      prompt: "選択できます"
-    }
-  %>
-  <%= f.submit "引き継ぐ" %>
-<% end %>
-<hr>
+<%= render 'shared/topbar' %>
 
-<h3>幹事を任命する</h3>
-<% if @executives.count <= 7 %>
-  <%= form_with url: assign_group_path(group_id: @group.id) do |f| %>
-    <%= f.select :new_executive,
-      options_from_collection_for_select(@generals, :id, :name), 
-      { 
-        prompt: "選択できます"
-      }
-    %>
-    <%= f.submit "任命する" %>
+<div class="box-option" date-step="1" data-intro='ここではサークルにかかわる情報が変更できます。'>
+  <p class="text1">サークル情報</p>
+  <%= form_for(@group) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="box-border-L"></div>
+
+      <%#= f.label :name, "サークル名" %>
+      <div date-step="2" data-intro='表示されるあなたのサークルの名前'>
+        <%= f.text_field :name, class: 'box-text', placeholder: "サークル名" %>
+      </div>
+
+      <%#= f.label :email, " 代表者メールアドレス" %>
+      <div date-step="4" data-intro='代表者メールアドレスを変更することができます'>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'box-text', placeholder: "代表者のメールアドレス" %>
+      </div>
+
+      <input type="text" class="box-text"  placeholder="支払いPayPalアカウント"
+      date-step="5"
+      data-intro='注意してください。支払いPaypalアカウントは幹事の人しか選ぶことができません。
+      また支払いPaypalアカウントとして登録されてる幹事は幹事をやめることができません。'>
+
+      <%#= f.label :group_number, "グループID(6~25文字)" %>
+      <div date-step="6" data-intro='あなたのサークルに誰かを加盟させたい場合に必要となるIDです。'>
+        <%= f.text_field :group_number, class: 'box-text', placeholder: "サークルID" %>
+      </div>
+
+      <%= f.submit "保存"%>
   <% end %>
-<% else %>
-  <p>現在幹事が８名いるため任命できません</p>
-<% end %>
+</div>
 <hr>
+
+<div class="box-succession"
+     date-step="11"
+     data-intro='引継ぎはあなた以外のメンバーを選び幹事を引き継ぎます。
+     引継ぎ完了後あなたは幹事情報にアクセスできなくなってしまうので注意してください。'>
+  <div class="box-border-S"></div>
+  <p class="text11">引継ぎ</p>
+  <%= form_with url: inherit_group_path(group_id: @group.id) do |f| %>
+    <%= f.select :new_executive,
+      options_from_collection_for_select(@generals, :id, :name),
+      {
+        prompt: "選択できます"
+      }, class: 'box10'
+    %>
+    <%= f.submit "引継ぐ", class: "button2" %>
+  <% end %>
+</div>
+
+<div class="box-assign"
+     date-step="12"
+     data-intro='任命ではあなた以外の誰かを幹事に任命できます。'>
+  <div class="box-border-S"></div>
+  <p class="text12">任命</p>
+  <% if @executives.count <= 7 %>
+    <%= form_with url: assign_group_path(group_id: @group.id) do |f| %>
+      <%= f.select :new_executive,
+        options_from_collection_for_select(@generals, :id, :name),
+        {
+          prompt: "選択できます"
+        }, class: 'box14'
+      %>
+      <%= f.submit "任命", class: "button3" %>
+    <% end %>
+  <% else %>
+    <p class='box14'>現在幹事が８名いるため任命できません</p>
+  <% end %>
+</div>
 <!-- delete, patchは一旦おいておく-->
-<h3>幹事を辞任する</h3>
-<% unless @executives.count == 1 %>
-  <button><%= link_to "辞任する", resign_group_path(group_id: @group.id), method: :patch %></button>
-<% else %>
-  <p>現在幹事が１名しかいないため辞任できません</p>
-<% end %>
+<div class="box-declinature"
+     date-step="13"
+     data-intro='辞退するとあなたは幹事ではなくなります。'>
+  <div class="box-border-S"></div>
+  <p class="text13">辞退</p>
+  <% unless @executives.count == 1 %>
+    <%= link_to "辞退", resign_group_path(group_id: @group.id), method: :patch, class: 'button4' %>
+  <% else %>
+    <p class='box15'>現在幹事が１名しかいないため辞退できません</p>
+  <% end %>
+</div>
+
+<%= render 'shared/sidebar' %>
+<%= render 'shared/menu' %>
