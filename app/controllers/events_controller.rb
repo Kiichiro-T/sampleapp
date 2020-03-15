@@ -8,7 +8,7 @@ class EventsController < ApplicationController
   before_action :set_group_for_current_executive
 
   def index
-    @events = Event.where(user_id: current_user.id)
+    @events = Event.where(group_id: current_user_group.id).order(start_date: :desc).page(params[:page]).per(20)
   end
 
   def show

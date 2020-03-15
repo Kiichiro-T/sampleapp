@@ -21,7 +21,7 @@
       </div>
       <br>
       <div class="iconbox3">
-        <%= link_to group_path(id: current_user_group.id) do %>
+        <%= link_to group_events_path(group_id: current_user_group.id) do %>
           <div  class="cp_tooltip">
             <%= image_pack_tag("event_page.png", class: "img-ball") %>
             <span class="cp_tooltiptext">イベント情報</span>
