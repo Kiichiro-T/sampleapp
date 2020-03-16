@@ -38,7 +38,12 @@
     <% transaction = Event::Transaction.find_by(event_id: @event.id, debtor_id: user.id) %>
     <div class="namebox"><%= user.name %></div>
     <div class="datebox"><%= l a.updated_at %></div>
-    <div class="balancebox"><%= transaction.payment %></div>
+    <% if transaction.completed? %>
+      <div class="balancebox"><%= link_to transaction.payment,
+                                          receipt_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token, format: 'pdf') %></div>
+    <% else %>
+      <div class="balancebox"><%= transaction.payment %></div>
+    <% end %>
     <div class="collectedbox"><%= transaction.debt %></div>
     <button class="change"><%= %></button>
     <select class="checkbox">
