@@ -3,7 +3,6 @@
 class HomesController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :set_group_for_current_executive
   def index
     @groups = Group.my_groups(current_user)
     events = Event.my_events(current_user).order(start_date: :desc)

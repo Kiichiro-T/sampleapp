@@ -3,7 +3,7 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :set_group_for_current_executive
+  # before_action :set_group_for_current_executive
   def index
     @transactions = Event::Transaction.includes(:group, :event).where(debtor_id: current_user.id).order(created_at: :desc).page(params[:page]).per(5)
     @paid_total_amount = Event::Transaction.paid_total_amount(current_user)

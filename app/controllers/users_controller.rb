@@ -5,10 +5,8 @@ class UsersController < ApplicationController
   before_action :confirm_definitive_registration
   before_action :set_group, only: %i[new batch]
   before_action :cannot_access_to_other_groups, only: %i[new batch]
-  before_action :set_group_for_current_executive
+  # before_action :set_group_for_current_executive
   # before_action :only_executives_can_access, only: [:new]
-  before_action :authenticate_user!
-  before_action :confirm_definitive_registration
   require 'csv'
 
   def index

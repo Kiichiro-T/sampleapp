@@ -4,7 +4,7 @@ class ReceiptPdfsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
   before_action :cannot_access_to_other_groups
-  before_action :set_group_for_current_executive
+  # before_action :set_group_for_current_executive
   def show
     transaction = Transaction.find_by(event_id: @event.id, url_token: params[:url_token])
     debtor = User.find(transaction.debtor_id)

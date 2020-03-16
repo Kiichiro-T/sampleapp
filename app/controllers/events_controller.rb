@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   before_action :confirm_definitive_registration
   before_action :set_group
   before_action :cannot_access_to_other_groups
-  before_action :set_group_for_current_executive
+  # before_action :set_group_for_current_executive
 
   def index
     @events = Event.where(group_id: current_user_group.id).order(start_date: :desc).page(params[:page]).per(20)

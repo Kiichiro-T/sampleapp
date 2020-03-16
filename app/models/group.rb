@@ -26,6 +26,10 @@ class Group < ApplicationRecord
     groups
   end
 
+  def self.is_my_group?(user:, group:)
+    Group.my_groups(user).include?(group)
+  end
+
   def self.my_own_group(user)
     relationship = GroupUser.find_by(user_id: user.id, role: GroupUser.roles[:executive])
     relationship.present? ? Group.find(relationship.group_id) : nil
