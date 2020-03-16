@@ -50,7 +50,7 @@ Rails.application.routes.draw do
         get :receipt, to: 'receipt_pdfs#show'
       end
     end
-    resources :answers, only: %i[index create update]
+    resources :answers, only: %i[edit update]
   end
 
   resources :orders, only: [:index]

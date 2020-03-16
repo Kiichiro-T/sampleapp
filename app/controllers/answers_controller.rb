@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  def index
-    @transactions = Event::Transaction.all.limit(5)
-  end
+  before_action :authenticate_user!
+  before_action :confirm_definitive_registration
+  before_action :set_answer, only: %i[update]
+  before_action :other_user_cannot_access, only: %i[update]
 
-  def create
-    event = Event.find(params[:event_id])
-    @answer = Answer.new(answer_params)
-    @answer.save
-    redirect_to group_event_path(group_id: event.group_id, id: event.id)
-  end
+  # def index
+  #   @transactions = Event::Transaction.all.limit(5)
+  # end
+
+  # def create
+  #   event = Event.find(params[:event_id])
+  #   @answer = Answer.new(answer_params)
+  #   @answer.save
+  #   redirect_to group_event_path(group_id: event.group_id, id: event.id)
+  # end
 
   def update
-    event = Event.find(params[:event_id])
-    @answer = Answer.find_by(user_id: current_user.id, event_id: event.id)
     @answer.update_attributes(answer_params)
     redirect_to group_event_path(group_id: event.group_id, id: event.id)
   end
@@ -23,5 +26,18 @@ class AnswersController < ApplicationController
 
     def answer_params
       params.require(:answer).permit(:status, :user_id, :event_id)
+    end
+
+    def set_answer
+      @answer = Answer.find(params[:id])
+    end
+
+    def other_user_cannot_access
+      event = Event.find(params[:event_id])
+      answer = Answer.find_by(user_id: current_user.id, event_id: event.id)
+      return if answer == @answer
+
+      flash[:danger] = '他のユーザーの回答は変更できません'
+      redirect_to root_url
     end
 end
