@@ -26,6 +26,14 @@ class Answer < ApplicationRecord
     where(event_id: event.id, status: statuses[:attending]).count
   end
 
+  def self.absent_count(event:)
+    where(event_id: event.id, status: statuses[:absent]).count
+  end
+
+  def self.unanswered_count(event:)
+    where(event_id: event.id, status: statuses[:unanswered]).count
+  end
+
   def self.new_answer_when_create_new_event(user, event)
     create!(
       status: statuses[:unanswered],
