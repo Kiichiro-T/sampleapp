@@ -5,24 +5,8 @@ class UsersController < ApplicationController
   before_action :confirm_definitive_registration
   before_action :set_group, only: %i[new batch]
   before_action :cannot_access_to_other_groups, only: %i[new batch]
-  # before_action :set_group_for_current_executive
-  # before_action :only_executives_can_access, only: [:new]
+  before_action :only_executives_can_access, only: %i[new batch]
   require 'csv'
-
-  def index
-    # 必要なくなる
-    @group = Group.find(params[:group_id])
-    @users = []
-    GroupUser.where(group_id: @group.id).each do |relationship|
-      user = User.find(relationship.user_id)
-      @users << user unless user.definitive_registration
-    end
-    # @users = User.where(group_id: @group.id).where(definitive_registration: false)
-  end
-
-  def show
-    @groups = Group.my_groups(current_user)
-  end
 
   def share
     group = Group.find(params[:group_id])
@@ -41,7 +25,6 @@ class UsersController < ApplicationController
   end
 
   def new
-    @group = Group.find(params[:group_id])
   end
 
   def csv_template
@@ -54,7 +37,6 @@ class UsersController < ApplicationController
   end
 
   def batch
-    @group = Group.find(params[:group_id])
     if params[:file].blank?
       flash[:danger] = '読み込むファイルを選択してください。'
       redirect_to new_users_url

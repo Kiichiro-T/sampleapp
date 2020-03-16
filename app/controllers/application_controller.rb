@@ -10,20 +10,13 @@ class ApplicationController < ActionController::Base
 
   private
 
-    # 後で実装
-    # def only_executives_can_access
-    #   GroupUser.where(user_id: current_user.id).each do |relationship|
-    #     if relationship.role == GroupUser.roles[:executive]
-    #       @exe_group = Group.find(relationship.group_id)
-    #     end
-    #   end
+    # 幹事のみアクセス可能
+    def only_executives_can_access
+      return unless GroupUser.general_relationship(group: @group, user: current_user)
 
-    #   if @exe_group && @exe_group.id == params[:exe_group_id]
-    #   else
-    #     flash[:danger] = '不正な操作です。'
-    #     redirect_to root_url
-    #   end
-    # end
+      flash[:danger] = '幹事しかアクセスできません'
+      redirect_to root_url
+    end
 
     # 所属していないグループにはアクセスできない
     def cannot_access_to_other_groups

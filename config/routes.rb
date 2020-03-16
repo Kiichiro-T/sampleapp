@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     # しばらく実装しない
   end
 
-  resources :users, only: [:show] do
+  resources :users, only: [] do
     resources :transactions, only: [:index]
   end
 

@@ -93,14 +93,6 @@ class GroupsController < ApplicationController
       redirect_to root_url
     end
 
-    # 幹事のみアクセス可能
-    def only_executives_can_access
-      return unless GroupUser.general_relationship(group: @group, user: current_user)
-
-      flash[:danger] = '幹事しかアクセスできません'
-      redirect_to root_url
-    end
-
     def group_params
       params.require(:group).permit(:name, :email, :group_number)
     end
