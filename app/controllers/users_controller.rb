@@ -67,10 +67,6 @@ class UsersController < ApplicationController
 
   private
 
-    def set_group
-      @group = Group.find(params[:group_id])
-    end
-
     def send_template_csv
       # bom = "\uFEFF"
       csv = CSV.generate(force_quotes: true, encoding: Encoding::SJIS) do |c|

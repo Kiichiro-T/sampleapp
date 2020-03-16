@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   before_action :confirm_definitive_registration
   before_action :set_group
   before_action :cannot_access_to_other_groups
-  # before_action :set_group_for_current_executive
+  before_action :only_executives_can_access, except: %i[show]
 
   def index
     @events = Event.where(group_id: current_user_group.id).order(start_date: :desc).page(params[:page]).per(20)
@@ -72,10 +72,6 @@ class EventsController < ApplicationController
   end
 
   private
-
-    def set_group
-      @group = Group.find(params[:group_id])
-    end
 
     def event_params
       params.require(:event).permit(:name, :start_date, :end_date, :answer_deadline,

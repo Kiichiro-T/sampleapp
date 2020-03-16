@@ -73,7 +73,12 @@
 
 <div class="box-circle" date-step="3" data-intro='所属サークル一覧では自分が見たいサークルを選びます。'>
   <% @groups.each do |group| %>
-    <%= link_to group.name, group_path(id: group.id), class: "datebox" %>
+    <% user = current_user %>
+    <% if group.my_own_group?(user) %>
+      <%= link_to group.name, group_path(id: group.id), class: "datebox" %>
+    <% else %>
+      <div class="datebox"><%= group.name %></div>
+    <% end %>
   <% end %>
 
   <div class="box-border"></div>

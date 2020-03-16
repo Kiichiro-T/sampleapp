@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   # before_action :configure_permitted_parameters, if: :devise_controller?
 
-  include GroupsHelper
+  include ApplicationHelper
 
   private
 
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
     # 所属していないグループにはアクセスできない
     def cannot_access_to_other_groups
-      return if Group.is_my_group?(user: current_user, group: @group)
+      return if @group.my_group?(current_user)
 
       flash[:danger] = '所属していないグループにはアクセスできません'
       redirect_to root_url
@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
     # def set_group_for_current_executive
     #   @current_executive_group = Group.my_own_group(current_user)
     # end
+
+    def set_group
+      @group = Group.find(params[:group_id])
+    end
 
     def confirm_definitive_registration
       return if current_user.definitive_registration
