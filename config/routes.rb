@@ -24,7 +24,6 @@ Rails.application.routes.draw do
         post :batch
         get  :share
       end
-      resources :transactions, only: [:index], param: :url_token
     end
     resources :events, only: %i[index new create show edit update]
 
@@ -46,7 +45,7 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [] do
-    resources :transactions, only: %i[index new create edit update], controller: 'events/transactions', param: :url_token do
+    resources :transactions, only: %i[new create edit update], controller: 'events/transactions', param: :url_token do
       member do
         get :receipt, to: 'receipt_pdfs#show'
       end
