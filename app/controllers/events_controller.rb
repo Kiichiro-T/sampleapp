@@ -8,21 +8,26 @@ class EventsController < ApplicationController
   before_action :set_group_for_current_executive
 
   def index
-    @events = Event.where(user_id: current_user.id)
+    @events = Event.where(group_id: current_user_group.id).order(start_date: :desc).page(params[:page]).per(20)
   end
 
   def show
     @event = Event.find(params[:id])
-    @group = Group.find(params[:group_id])
-    @executives = User.executives(@group)
-    @answer = Answer.find_by(user_id: current_user.id, event_id: @event.id)
+    @attending_count = Answer.attending_count(event: @event)
+    @absent_count = Answer.absent_count(event: @event)
+    @unanswered_count = Answer.unanswered_count(event: @event)
 
-    # 回答済みと未回答に分ける
-    hash = Answer.divide_answers_in_three(@event)
-    @attending_answers = hash[:attending] # 出席
-    @absent_answers = hash[:absent] # 欠席
-    @unanswered_answers = hash[:unanswered] # 未回答
-    @count = User.members(@group).count
+    h1 = Answer.divide_answers_in_three(@event)
+    @attending_answers = h1[:attending] # 出席
+    @absent_answers = h1[:absent] # 欠席
+    @unanswered_answers = h1[:unanswered] # 未回答
+
+    @hash = User.unpaid_members(answers: @attending_answers, event: @event)
+    @uncompleted_transactions = @hash[:uncompleted_transactions]
+    @unpaid_members = @hash[:unpaid_members]
+    @unpaid_members_count = @unpaid_members.count
+    @total_payment = @uncompleted_transactions.sum { |h| h[:payment] }
+    @expected_total_payment = @uncompleted_transactions.sum { |h| h[:debt] }
   end
 
   def new

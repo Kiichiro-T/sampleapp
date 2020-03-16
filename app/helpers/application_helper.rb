@@ -9,8 +9,4 @@ module ApplicationHelper
       page_title + ' | ' + base_title
     end
   end
-
-  def current_user_group
-    Group.my_own_group(current_user)
-  end
 end

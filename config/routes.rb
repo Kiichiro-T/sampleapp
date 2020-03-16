@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       end
       resources :transactions, only: [:index], param: :url_token
     end
-    resources :events, only: %i[new create show edit update]
+    resources :events, only: %i[index new create show edit update]
 
     member do
       get :dashboard

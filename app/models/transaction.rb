@@ -29,6 +29,14 @@ class Transaction < ApplicationRecord
     completed
   end
 
+  def total_payment
+    count('payment')
+  end
+
+  def expected_total_payment
+    count('debt')
+  end
+
   private
 
     def deadline_before_today
