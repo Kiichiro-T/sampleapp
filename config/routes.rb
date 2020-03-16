@@ -12,8 +12,6 @@ Rails.application.routes.draw do
     get 'sign_out', to: 'users/sessions#destroy'
   end
 
-  mount Sidekiq::Web => '/sidekiq'
-
   root 'homes#index'
   get 'homes/index'
   get 'users/csv_template', to: 'users#csv_template', as: 'csv_template'
@@ -59,4 +57,17 @@ Rails.application.routes.draw do
   post 'orders/paypal/execute_payment', to: 'orders#paypal_execute_payment', as: :paypal_execute_payment
   post 'orders/paypal/create_subscription', to: 'orders#paypal_create_subscription', as: :paypal_create_subscription
   post 'orders/paypal/execute_subscription', to: 'orders#paypal_execute_subscription', as: :paypal_execute_subscription
+
+
+  ##################### ADMIN ################################
+  namespace :admin do
+    get 'homes/index'
+  end
+
+  # Basic認証時のユーザー名とパスワードを設定する
+  Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+    [user, password] == [ENV['SIDEKIQ_USER'], ENV['SIDEKIQ_PASSWORD']] #環境変数にて設定
+  end
+
+  mount Sidekiq::Web => 'admin/sidekiq'
 end

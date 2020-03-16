@@ -11,7 +11,8 @@ User.create!(
   definitive_registration: true,
   confirmed_at: Time.now,
   gender: false,
-  grade: 3
+  grade: 3,
+  admin: true
 )
 
 gimei1 = Gimei.name
