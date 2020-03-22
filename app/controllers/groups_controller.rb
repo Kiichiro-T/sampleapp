@@ -4,13 +4,9 @@ class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
   before_action :one_user_cannot_be_some_executives, only: %i[new create]
-  before_action :set_group, only: %i[show edit update inherit assign resign]
-  before_action :cannot_access_to_other_groups, only: %i[show edit update inherit assign resign]
-  before_action :set_group_for_current_executive
-  # before_action :only_executives_can_access, only: [:edit]
-  def index
-    @groups = Group.all
-  end
+  before_action :set_group, except: %i[new create]
+  before_action :cannot_access_to_other_groups, except: %i[new create]
+  before_action :only_executives_can_access, except: %i[new create]
 
   def show
     events = Event.my_events(current_user).order(start_date: :desc)
@@ -78,11 +74,9 @@ class GroupsController < ApplicationController
   end
 
   def deposit
-    @group = Group.find(params[:id])
   end
 
   def statistics
-    @group = Group.find(params[:id])
   end
 
   private
@@ -93,11 +87,7 @@ class GroupsController < ApplicationController
 
     # １ユーザーにつき１幹事まで
     def one_user_cannot_be_some_executives
-      relationship = GroupUser.find_by(user_id: current_user.id, role: GroupUser.roles[:executive])
-      return unless relationship
-
-      current_executive_group = Group.find(relationship.group_id)
-      return unless current_executive_group
+      return unless GroupUser.executive_relationship(current_user)
 
       flash[:danger] = '幹事は複数のグループの幹事を兼任することはできません。複数のグループの幹事である場合は新しいアカウントを作成するようにしてください。'
       redirect_to root_url
@@ -110,15 +100,4 @@ class GroupsController < ApplicationController
     def new_executive_id
       params[:new_executive].to_i
     end
-
-  # def one_user_has_one_group
-  #   if current_user.group_id.present?
-  #     flash[:warning] = "１ユーザーにつき１グループなので作成できません"
-  #     redirect_to root_url
-  #   end
-  # end
-
-  # def user_group_id_params
-  #  params.require(:user).permit(:group_id)
-  # end
 end

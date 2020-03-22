@@ -22,6 +22,10 @@ class User < ApplicationRecord
                          message: '全角カタカナのみで入力して下さい'
                        }
 
+  def admin?
+    admin
+  end
+
   def self.import!(file, group, pass)
     added_users = []
     transaction do

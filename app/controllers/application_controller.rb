@@ -1,40 +1,38 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include Pundit
   protect_from_forgery with: :exception
 
   # before_action :configure_permitted_parameters, if: :devise_controller?
 
-  include GroupsHelper
+  include ApplicationHelper
 
   private
 
-    # 後で実装
+    # 幹事のみアクセス可能
     def only_executives_can_access
-      GroupUser.where(user_id: current_user.id).each do |relationship|
-        if relationship.role == GroupUser.roles[:executive]
-          @exe_group = Group.find(relationship.group_id)
-        end
-      end
+      return unless GroupUser.general_relationship(group: @group, user: current_user)
 
-      if @exe_group && @exe_group.id == params[:exe_group_id]
-      else
-        flash[:danger] = '不正な操作です。'
-        redirect_to root_url
-      end
+      flash[:danger] = '幹事しかアクセスできません'
+      redirect_to root_url
     end
 
     # 所属していないグループにはアクセスできない
     def cannot_access_to_other_groups
-      return if Group.my_groups(current_user).include?(@group)
+      return if @group.my_group?(current_user)
 
-      flash[:danger] = '不正な操作です。'
+      flash[:danger] = '所属していないグループにはアクセスできません'
       redirect_to root_url
     end
 
     # 現在のユーザーが幹事であるグループをセットする
-    def set_group_for_current_executive
-      @current_executive_group = Group.my_own_group(current_user)
+    # def set_group_for_current_executive
+    #   @current_executive_group = Group.my_own_group(current_user)
+    # end
+
+    def set_group
+      @group = Group.find(params[:group_id])
     end
 
     def confirm_definitive_registration
