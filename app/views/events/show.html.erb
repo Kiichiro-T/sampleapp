@@ -39,19 +39,20 @@
     <div class="namebox"><%= user.name %></div>
     <div class="datebox"><%= l a.updated_at %></div>
     <% if transaction.completed? %>
-      <div class="balancebox"><%= link_to transaction.payment,
-                                          receipt_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token, format: 'pdf') %></div>
+      <div class="balancebox"><%= transaction.payment %></div>
     <% else %>
       <div class="balancebox"><%= transaction.payment %></div>
     <% end %>
     <div class="collectedbox"><%= transaction.debt %></div>
     <% unless transaction.completed %>
       <button class="change"><%= link_to '変更', edit_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token) %></button>
+      <%= form_with model: transaction, url: event_transaction_path(event_id: @event.id, url_token: transaction.url_token), class: "checkbox" do |f| %>
+        <%= f.select :completed, [['出金済み', true], ['未納', false]] %>
+        <%= f.submit "変更" %>
+      <% end %>
+    <% else %>
+      <%= link_to '出金済み', receipt_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token, format: 'pdf') %>
     <% end %>
-    <select class="checkbox">
-      <option>出金済み</option>
-      <option>未納</option>
-    </select>
   <% end %>
 </div>
 
