@@ -79,6 +79,26 @@ class GroupsController < ApplicationController
   def statistics
   end
 
+  def invite
+    email = params[:email]
+    if email.blank?
+      flash[:notice] = "メールアドレスを入力してください"
+      render 'edit'
+    elsif user = User.find_by(email: email)
+      relationship = GroupUser.new(group_id: @group.id, user_id: user.id, role: GroupUser.roles[:general])
+      if relationship.save
+        flash[:notice] = "招待に成功しました"
+        redirect_to edit_group_url(@group)
+      else
+        flash[:notice] = 'そのメールアドレスはすでに招待済みです'
+        render 'edit'
+      end
+    else
+      flash[:notice] = "メールアドレスが存在しないまたは間違いがあります"
+      render 'edit'
+    end
+  end
+
   private
 
     def set_group

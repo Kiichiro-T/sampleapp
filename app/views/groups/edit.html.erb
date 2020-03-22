@@ -51,12 +51,14 @@
       date-step="9"
       data-intro='提出ボタンで情報が提出され登録が行えます。'></div>
 
-  <div class="box9"
-      date-step="10"
-      data-intro='メンバー招待では指定したメールアドレスに招待メールを通知できます。'>
-    <p class="text9">メンバー招待</p>
-  </div>
-  <div class="box18"></div>
+  <%= form_with url: invite_group_path(id: @group.id) do |f| %>
+    <div class="box9"
+        date-step="10"
+        data-intro='メンバー招待では指定したメールアドレスに招待メールを通知できます。'>
+        <p><%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: '招待者のメールアドレス', class: "text9" %></p>
+    </div>
+    <%= f.submit "招待する", class: "box18" %>
+  <% end %>
 
 </div>
 
