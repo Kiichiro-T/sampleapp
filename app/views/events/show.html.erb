@@ -14,7 +14,7 @@
     <p class="text8">出金額</p>
     <p class="text9">出金</p>
     <p class="text10">徴収額</p>
-    <p class="text11">支払いの有無</p>
+    <p class="text11">変更</p>
   </div>
   <div class="total-number"><%= @attending_count %>人</div>
   <div class="amount-total">￥<%= @total_payment %></div>
@@ -45,7 +45,9 @@
       <div class="balancebox"><%= transaction.payment %></div>
     <% end %>
     <div class="collectedbox"><%= transaction.debt %></div>
-    <button class="change"><%= %></button>
+    <% unless transaction.completed %>
+      <button class="change"><%= link_to '変更', edit_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token) %></button>
+    <% end %>
     <select class="checkbox">
       <option>出金済み</option>
       <option>未納</option>
