@@ -121,7 +121,7 @@
     width: 170%;
     transform: translateY(-50%) translateX(-50%);    /* 要素自体の半分、上と左にずらす */
     ">
-    <canvas id="Balance">あああ</canvas>
+    <canvas id="Balance"></canvas>
   </div>
   <a href="" class="text6">収支管理</a>
 </div>
@@ -129,18 +129,18 @@
 <%= render 'shared/menu' %>
 
 <script>
+  let a = <%= 200 %>;
+  let b = <%= 40 %>;
   new Chart(document.getElementById("Balance"), {
     type: "doughnut",
     data: {
       labels: ["支払い済み","未払い"],
       datasets: [
         {
-          data: [200, 50],
+          data: [a, b],
           backgroundColor: [
-
             "rgb(54, 162, 235)",
             "rgb(255, 99, 132)",
-
           ]
         }
       ]
