@@ -44,6 +44,7 @@ gem 'sidekiq-scheduler'
 gem 'sinatra', require: false
 gem 'redis'
 gem 'redis-namespace'
+gem "sentry-raven"
 # gem "jquery-rails"
 gem "money-rails"
 gem 'paypal-sdk-rest'
