@@ -12,7 +12,12 @@ class RemindAnswerJob < ApplicationJob
       answers = event.answers.includes(:user).where(status: Answer.statuses[:unanswered])
       answers.each do |answer|
         user = answer.user
-        NotificationMailer.remind_answer(user, group, event).deliver_now
+        begin
+          NotificationMailer.remind_answer(user, group, event).deliver_now
+          puts '出欠催促メール送信完了'
+        rescue => e
+          ErrorUtility.log_and_notify e
+        end
       end
     end
   end

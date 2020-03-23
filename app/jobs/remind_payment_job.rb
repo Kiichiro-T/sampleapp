@@ -11,8 +11,12 @@ class RemindPaymentJob < ApplicationJob
       event = transaction.event
       group = event.group
       debtor = transaction.debtor
-      NotificationMailer.remind_payment(debtor, group, event, transaction).deliver_now
-      puts '支払いメール送信'
+      begin
+        NotificationMailer.remind_payment(debtor, group, event, transaction).deliver_now
+        puts '支払い催促メール送信完了'
+      rescue => e
+        ErrorUtility.log_and_notify e
+      end
     end
   end
 end

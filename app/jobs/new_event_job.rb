@@ -6,7 +6,12 @@ class NewEventJob < ApplicationJob
     members.each do |member|
       Event::Transaction.new_transaction_when_create_new_event(member, current_user, group, event)
       Answer.new_answer_when_create_new_event(member, event)
-      NotificationMailer.send_when_make_new_event(member, current_user, group, event).deliver_later(wait: 1.minute)
+      begin
+        NotificationMailer.send_when_make_new_event(member, current_user, group, event).deliver_later(wait: 1.minute)
+        puts 'イベント作成メール送信完了'
+      rescue => e
+        ErrorUtility.log_and_notify e
+      end
     end
   end
 end
