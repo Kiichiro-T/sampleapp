@@ -41,10 +41,7 @@ class EventsController < ApplicationController
       members.delete(current_user) # イベント作成者は除く
       Event::Transaction.new_transaction_when_create_new_event(current_user, current_user, @group, @event)
       Answer.new_answer_when_create_new_event(current_user, @event)
-      members.each do |member|
-        NewEventJob.perform_later(member, current_user, @group, @event)
-        NotificationMailer.send_when_make_new_event(member, current_user, @group, @event).deliver_later(wait: 1.minute)
-      end
+      NewEventJob.perform_later(members, current_user, @group, @event)
       flash[:success] = 'イベントが作成されました。グループのユーザーにメールで作成を通知しました。'
       redirect_to group_event_url(group_id: @group.id, id: @event.id)
     else
@@ -60,10 +57,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     members = User.members(@group)
     if @event.update_attributes(event_params)
-      members.each do |member|
-        UpdateEventJob.perform_later(member, current_user, @group, @event)
-        NotificationMailer.send_when_update_event(member, current_user, @group, @event).deliver_later(wait: 1.minute)
-      end
+      UpdateEventJob.perform_later(members, current_user, @group, @event)
       flash[:success] = 'イベントの情報を更新しました'
       redirect_to group_event_url(group_id: @group.id, event_id: @event.id)
     else
