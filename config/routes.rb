@@ -70,4 +70,7 @@ Rails.application.routes.draw do
   end
 
   mount Sidekiq::Web => 'admin/sidekiq'
+
+  # エラーページ
+  get '*anything' => 'errors#routing_error'
 end
