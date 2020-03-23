@@ -110,7 +110,7 @@ class GroupsController < ApplicationController
       return unless GroupUser.executive_relationship(current_user)
 
       flash[:danger] = '幹事は複数のグループの幹事を兼任することはできません。複数のグループの幹事である場合は新しいアカウントを作成するようにしてください。'
-      redirect_to root_url
+      raise Forbidden
     end
 
     def group_params

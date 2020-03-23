@@ -12,6 +12,6 @@ class Admin::HomesController < ApplicationController
       return if current_user.admin?
 
       flash[:danger] = '不正な操作です'
-      redirect_to root_path
+      raise Forbidden
     end
 end

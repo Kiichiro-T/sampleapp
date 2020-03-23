@@ -68,7 +68,7 @@ class Events::TransactionsController < TransactionsController
       return unless GroupUser.general_relationship(group: @group, user: current_user)
 
       flash[:danger] = '幹事しかアクセスできません'
-      redirect_to root_url
+      raise Forbidden
     end
 
     # 所属していないグループにはアクセスできない
@@ -76,6 +76,6 @@ class Events::TransactionsController < TransactionsController
       return if @group.my_group?(current_user)
 
       flash[:danger] = '所属していないグループにはアクセスできません'
-      redirect_to root_url
+      raise Forbidden
     end
 end

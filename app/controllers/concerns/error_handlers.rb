@@ -14,7 +14,7 @@ module ErrorHandlers
 
     def rescue403(e)
       @exception = e
-      render 'errors/fobidden', status: 403
+      render 'errors/forbidden', status: 403
     end
 
     def rescue404(e)

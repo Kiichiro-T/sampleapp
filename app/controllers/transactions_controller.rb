@@ -48,6 +48,6 @@ class TransactionsController < ApplicationController
       return if me?(user)
 
       flash[:danger] = '他のユーザーのMy収支ページにはアクセスできません'
-      redirect_to root_url
+      raise Forbidden
     end
 end

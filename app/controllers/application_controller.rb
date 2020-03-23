@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
       return unless GroupUser.general_relationship(group: @group, user: current_user)
 
       flash[:danger] = '幹事しかアクセスできません'
-      redirect_to root_url
+      raise Forbidden
     end
 
     # 所属していないグループにはアクセスできない
@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
       return if @group.my_group?(current_user)
 
       flash[:danger] = '所属していないグループにはアクセスできません'
-      redirect_to root_url
+      raise Forbidden
     end
 
     # 現在のユーザーが幹事であるグループをセットする
