@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
 
+  class Forbidden < ActionController::ActionControllerError; end
+  class IpAddressRejected < ActionController::ActionControllerError; end
+  include ErrorHandlers # unless Rails.env.development?
+
   private
 
     # 幹事のみアクセス可能
