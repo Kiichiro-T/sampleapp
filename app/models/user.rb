@@ -14,34 +14,53 @@ class User < ApplicationRecord
   has_many :transactions, dependent: :destroy # :nullifyの方がよいか？
   validates :name, presence: true, length: { maximum: 100 }
   validates :definitive_registration, inclusion: { in: [true, false] }
-  validates :gender, inclusion: { in: [true, false] }
-  validates :grade, presence: true
-  validates :furigana, presence: true,
-                       format: {
-                         with: /\A[\p{katakana}　ー－&&[^ -~｡-ﾟ]]+\z/,
-                         message: '全角カタカナのみで入力して下さい'
-                       }
+  enum grade: {
+    other: 0,
+    grade1: 1,
+    grade2: 2,
+    grade3: 3,
+    grade4: 4,
+    grade5: 5,
+    grade6: 6
+  }
+  with_options unless: -> { validation_context == :batch } do |batch|
+    batch.validates :gender, inclusion: { in: [true, false] }
+    batch.validates :grade, presence: true
+    batch.validates :furigana, presence: true,
+                               format: {
+                                 with: /\A[\p{katakana}　ー－&&[^ -~｡-ﾟ]]+\z/,
+                                 message: 'は全角カタカナのみで入力して下さい'
+                               }
+  end
 
   def admin?
     admin
   end
 
-  def self.import!(file, group, pass)
+  def self.import!(file:, group:, password:)
     added_users = []
     transaction do
       CSV.foreach(file.path, headers: true, skip_blanks: true, encoding: 'CP932:UTF-8') do |row|
         name = row['名前']
         email = row['メールアドレス']
-        user = User.new(name: name, email: email, password: pass,
-                        definitive_registration: false)
+        gender = return_gender_format(row['性別'])
+        grade = return_grade_format(row['学年'])
+        user = User.new(name: name, email: email, password: password,
+                        definitive_registration: false, gender: gender, grade: grade)
         user.skip_confirmation!
-        user.save!
+        user.save!(context: :batch)
         GroupUser.create!(group_id: group.id, user_id: user.id, role: GroupUser.roles[:general])
         added_users << user
       end
     end
-    added_users
-    # 例外処理は今度書く
+    added_count = added_users.count
+    { added_users: added_users, added_count: added_count, status: 'success'}
+  rescue => e
+    ErrorUtility.log_and_notify(e)
+    failed_number = added_users.count + 1
+    error_message = e.message.gsub!(/バリデーションに失敗しました: /, '')
+    error_message = error_message.gsub!(/。/, '') + "(#{failed_number}人目)。" unless error_message.include?('パスワード')
+    { error_message: error_message, status: 'failure' }
   end
 
   # あるグループの幹事たち
@@ -85,4 +104,28 @@ class User < ApplicationRecord
     end
     {uncompleted_transactions: transactions, unpaid_members: users}
   end
+
+  private
+
+    def self.return_gender_format(str)
+      case str
+      when '女'
+        true
+      when '男'
+        false
+      else
+        nil
+      end
+    end
+
+    def self.return_grade_format(str)
+      number = str.to_i
+      if str == '0'
+        number
+      elsif number >= 1 && number <= 6
+        number
+      else
+        nil
+      end
+    end
 end
