@@ -1,51 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html class="body-full-height">
   <head>
     <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%#= stylesheet_pack_tag 'application', media: 'all' %>
     <%= yield(:pack_tag) %>
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
       </script>
     <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge" /> Optimal Internet Explorer compatibility -->
+    <!-- <link rel="shortcut icon" href="../assets/images/favicon.png" /> -->
+    <%= javascript_pack_tag 'application2' %>
   </head>
 
   <body>
-    <div style='z-index: 1;'><%= flash[:notice] %></div>
-    <header>
     <!--
-      <% if user_signed_in? %>
-        <h2><%= current_user.name %>さん</h2>
-        <ul>
-          <p>ナビゲーションバー</p>
-          <% if current_user.definitive_registration %>
-            <li><%= link_to "My収支情報", user_transactions_path(current_user.id) %></li>
-            <li><%= link_to "ユーザー設定", edit_user_registration_path %></li>
-          <% end %>
-           <li><%= link_to "ログアウト（エラーでまだできない）", destroy_user_session_path, method: :delete %></li>
-          <p>サイドバー<p>
-          <% if current_user.definitive_registration %>
-            <% if @current_executive_group %>
-              <li><%= link_to "ダッシュボード", dashboard_group_path(@current_executive_group.id) %></li>
-              <li><%= link_to "統計", statistics_group_path(@current_executive_group.id) %></li>
-              <li><%= link_to "デポジット", deposit_group_path(@current_executive_group.id) %></li>
-              <li><%= link_to "イベント新規作成", new_group_event_path(group_id: @current_executive_group) %></li>
-            <% else %>
-              <li><%= link_to "グループ新規作成",new_group_path %></li>
-            <% end %>
-          <% end %>
-
-        </ul>
-      <% end %>
-    -->
-    </header>
-    <div class="container">
+    <div style='z-index: 1;'><%= flash[:notice] %></div>
+    <div>
       <% flash.each do |message_type, message| %>
     　   <div class="alert alert-<%= message_type %>"><%= message %></div>
       <% end %>
+    -->
       <%= yield %>
     </div>
   </body>
