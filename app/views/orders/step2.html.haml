@@ -77,7 +77,25 @@
           }).then(function(executeData) {
             submitOrderPaypal(executeData.id)
           });
-        }
+        },
+        return fetch('/my-server/capture-paypal-transaction', {
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            orderID: data.orderID
+          })
+        }).then(function(res) {
+          return res.json();
+        }).then(function(details) {
+          if (details.error === 'INSTRUMENT_DECLINED') {
+            return actions.restart();
+          }
+        });
+      },
+      onError: function(err) {
+        // Show an error page here, when an error occurs
+        alert('エラーが発生しました'); // エラーが発生した際に書く
       }
     }).render('#submit-paypal');
   }());
