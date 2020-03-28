@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :paid_group_cannot_access
   before_action :prepare_new_order, only: [:paypal_create_payment, :paypal_create_subscription]
   def index
     products = Product.all
@@ -73,8 +74,14 @@ class OrdersController < ApplicationController
     end
 
     def paid_group_cannot_access
-      if current_user_group.payment_status == 'paid'
-        redirect_to
+      if current_user_group
+        return unless current_user_group.payment_status == 'paid'
+
+        flash[:note] = '購読済みです'
+        redirect_to root_url
+      else
+        flash[:note] = '権限がありません'
+        redirect_to root_url
       end
     end
 end
