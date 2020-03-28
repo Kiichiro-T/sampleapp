@@ -10,7 +10,9 @@ class OrdersController < ApplicationController
   def submit
     @order = Orders::Paypal.finish(order_params[:charge_id])
     if @order&.save # @orderがnilだとしてもエラーにならない(ぼっち演算子)
-      if @order.paid?
+      group = current_user_group
+      group.set_paid
+      if @order.paid? && group.save
         # Success is rendered when order is paid and saved
         return render html: '成功'
       elsif @order.failed? && !@order.error_message.blank?
@@ -48,7 +50,7 @@ class OrdersController < ApplicationController
   end
 
   def paypal_execute_subscription
-    result = Orders::Paypal.execute_subscription(token: params[:subscriptionToken], group: current_user_group)
+    result = Orders::Paypal.execute_subscription(token: params[:subscriptionToken])
     if result
       render json: { id: result }, status: :ok
     else
@@ -68,5 +70,11 @@ class OrdersController < ApplicationController
 
     def order_params
       params.require(:orders).permit(:product_id, :token, :charge_id)
+    end
+
+    def paid_group_cannot_access
+      if current_user_group.payment_status == 'paid'
+        redirect_to
+      end
     end
 end

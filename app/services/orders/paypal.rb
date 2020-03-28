@@ -73,7 +73,7 @@ class Orders::Paypal
     end
   end
 
-  def self.execute_subscription(token:, group:)
+  def self.execute_subscription(token:)
     order = Order.recently_created.find_by(token: token)
     return false unless order
 
@@ -82,11 +82,7 @@ class Orders::Paypal
     if agreement.execute
       order.charge_id = agreement.id
       order.set_paypal_executed
-      group.set_paid
-      # return order.charge_id if order.save
-      if order.save && group.save
-        return order.charge_id
-      end
+      return order.charge_id if order.save
     end
   end
 end
