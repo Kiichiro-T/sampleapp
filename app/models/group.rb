@@ -18,6 +18,11 @@ class Group < ApplicationRecord
                            format: { with: VALID_GRPUP_NUMBER_REGEX },
                            length: { in: 6..25 }
   enum payment_status: { unpaid: 0, paid: 1 }
+
+  def set_paid
+    self.payment_status = Group.payment_statuses[:paid]
+  end
+
   def self.my_groups(user)
     groups = []
     GroupUser.where(user_id: user.id).each do |relationship|

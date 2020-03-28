@@ -48,9 +48,9 @@ class OrdersController < ApplicationController
   end
 
   def paypal_execute_subscription
-    result = Orders::Paypal.execute_subscription(token: params[:subscriptionToken])
+    result = Orders::Paypal.execute_subscription(token: params[:subscriptionToken], group: current_user_group)
     if result
-      render json: { id: result}, status: :ok
+      render json: { id: result }, status: :ok
     else
       render json: {error: '失敗5'}, status: :unprocessable_entity
     end
