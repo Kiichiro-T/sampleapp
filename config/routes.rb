@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   get 'homes/index'
   get 'users/csv_template', to: 'users#csv_template', as: 'csv_template'
   # get 'groups/:group_id/users/share', to: 'users#share', as: 'share'
-  resources :groups do
+  resources :groups, except: [:new, :create] do
+
     member do
       get :dashboard
       get :deposit
@@ -51,7 +52,12 @@ Rails.application.routes.draw do
     resources :answers, only: %i[edit update]
   end
 
-  resources :orders, only: [:index]
+  resources :orders, only: [] do
+    collection do
+      get 'step1'
+      get 'step2'
+    end
+  end
   post 'orders/submit', to: 'orders#submit'
   post 'orders/paypal/create_payment', to: 'orders#paypal_create_payment', as: :paypal_create_payment
   post 'orders/paypal/execute_payment', to: 'orders#paypal_execute_payment', as: :paypal_execute_payment
