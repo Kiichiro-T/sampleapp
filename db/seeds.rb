@@ -124,7 +124,8 @@ end
     answer_deadline: Date.today.next_year(3).to_datetime,
     amount: (i + 1) * 1000,
     description: "これは合宿#{i + 1}用のテスト説明です。",
-    pay_deadline: Date.today.next_year(3).to_datetime
+    pay_deadline: Date.today.next_year(3).to_datetime,
+    comment: '楽しいぞ！！！！！'
   )
 end
 

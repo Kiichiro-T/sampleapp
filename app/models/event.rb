@@ -17,6 +17,7 @@ class Event < ApplicationRecord
   validate  :pay_deadline_not_before_today
   validates :user_id, presence: true
   validates :group_id, presence: true
+  validates :comment, length: { maximum: 40 }
 
   def self.my_events(user)
     group_ids = []
