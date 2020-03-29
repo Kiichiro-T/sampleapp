@@ -74,55 +74,33 @@
                   <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab">
                     <h3>引継ぎ</h3>
                     <section>
-                      <div class="form-group">
-                        <label style="display: block;">メンバー招待</label>
-                        <input type="search" class="form-control col-md-8" aria-describedby="emailHelp" placeholder="引継ぎ先のフリガナを入力してください" style="display: inline-block; color: white;">
-                        <button type="button" class="btn btn-success btn-icon-text" style="display: inline-block;">
-                          <i class="mdi mdi-email"></i> 検索
-                        </button>
-                        <button type="button" class="btn btn-danger btn-icon-text" style="display: inline-block;">
-                          <i class="mdi mdi-email"></i> 送信
-                        </button>
-                        <small id="emailHelp" class="form-text text-muted">引き継ぎたいメンバーを選択します。</small>
-                      </div>
+                      <%= form_with url: inherit_group_path(group_id: @group.id) do |f| %>
+                        <div class="form-group">
+                          <input type="form" id='inheritable-search' class="form-control col-md-8" aria-describedby="emailHelp" placeholder="引継ぎたい人の名前を入力してください"
+                                  style="display: inline-block; color: white;" data-generals="<%= @generals.to_json %>" data-group-id="<%= @group.id %>">
+                          <%# <button type="button" class="btn btn-success btn-icon-text" style="display: inline-block;">
+                            <i class="mdi mdi-email"></i> 検索
+                          </button> %>
+                          <%= button_tag type: 'submit', class: "btn btn-danger btn-icon-text", style: "display: inline-block;" do %>
+                            <i class="mdi mdi-email"></i> 引継ぐ
+                          <% end %>
+                          <small id="emailHelp" class="form-text text-muted">引き継ぎたいメンバーを選択します。</small>
+                        </div>
 
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col-12">
-                              <form action="#">
-                                <div class="form-group d-flex">
-                                  <input type="text" class="form-control" placeholder="Search Here" value="Bootstrapdash">
-                                  <button type="submit" class="btn btn-primary ml-3">Search</button>
-                                </div>
-                              </form>
-                            </div>
-                            <div class="col-12 mb-5">
-                              <h2>検索結果<u class="ml-2">"検索キーワード"</u></h2>
-
-                            </div>
-                            <div class="col-12 results">
-                              <div class="pt-4 border-bottom">
-                                <a class="d-block h4 mb-0" href="#">名前</a>
-                                <a class="page-url text-primary" href="#">可能ならマイページリンク</a>
-
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-12">
+                                <form action="#">
+                                  <div class="form-group d-flex">
+                                    <%= render 'inheritable_members', f: f %>
+                                  </div>
+                                </form>
                               </div>
                             </div>
-
-                            <nav class="col-12" aria-label="Page navigation">
-                              <ul class="pagination mt-5">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item  active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                              </ul>
-                            </nav>
                           </div>
                         </div>
-                      </div>
-
-
+                      <% end %>
                     </section>
                   </div>
                   <div class="tab-pane fade" id="contact-1" role="tabpanel" aria-labelledby="contact-tab">
@@ -206,3 +184,42 @@
   </div>
   <!-- page-body-wrapper ends -->
 </div>
+<script>
+  var search = $('#inheritable-search')
+  var generals = search.data('generals')
+  var groupId = search.data('group-id');
+  var url = `/groups/${groupId}/inheritable_search`
+  search.on('keyup', function(e){
+    e.preventDefault(); // キャンセル可能なイベントをキャンセル
+    var input = search.val(); // 前後の空白を取り除いて代入
+    $.ajax({
+      url: url,
+      type: 'GET',
+      data: { keyword: input },
+      // processData: false,
+      contentType: false,
+      dataType: 'json'
+    })
+    .done(function(data){
+      var result = $('#inheritable-result');
+      result.find('option').remove();
+      result.find('li').remove();
+      if (input.length === 0){
+        generals.each(function(i, user){
+          result.find('select').append(`<option value='${user.id}'>` + user.name + '</option>')
+        });
+      } else if (input.length !== 0){
+        $(data).each(function(i, user){
+          result.find('select').append(`<option value='${user.id}'>` + user.name + '</option>')
+          result.append('<li>' + user.name + '</li>') // <li>ユーザーの名前</li>を追加
+        });
+      } else {
+        result.append('<li>' + '一致するメンバーが見つかりません' + '</li>')
+      }
+    })
+
+    .fail(function() {
+      alert('検索に失敗しました');
+    });
+  });
+</script>

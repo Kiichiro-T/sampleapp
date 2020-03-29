@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get :deposit
       get :statistics
       get :change
+      get :inheritable_search
       post :inherit
       post :assign
       get :resign

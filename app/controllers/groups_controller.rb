@@ -27,6 +27,23 @@ class GroupsController < ApplicationController
     end
   end
 
+  def change
+    @generals = User.generals(@group)
+  end
+
+  def inheritable_search
+    keyword = params[:keyword]
+    user_ids = []
+    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:general]).each do |relationship|
+      user_ids << User.find(relationship.user_id).id
+    end
+    members = User.where(id: user_ids)
+    @members = members.where('name LIKE :keyword OR furigana LIKE :keyword ', keyword: "%#{keyword.tr('ぁ-ん','ァ-ン')}%")
+    respond_to do |format|
+      format.json { render 'inheritable_members', json: @members }
+    end
+  end
+
   def inherit
     executive_relationship = GroupUser.executive_relationship(@group, current_user.id)
     general_relationship = GroupUser.general_relationship(@group, new_executive_id)
