@@ -71,13 +71,20 @@ User.create!(
 )
 
 # Group
-2.times do |i|
-  Group.create!(
-    name: "Group #{i + 1}",
-    email: "executive#{i + 1}@example.com",
-    group_number: "group_test_#{i + 1}"
-  )
-end
+
+Group.create!(
+  name: "Group 1",
+  email: "executive1@example.com",
+  group_number: "group_test_1",
+  payment_status: Group.payment_statuses[:paid]
+)
+Group.create!(
+  name: "Group 2",
+  email: "executive2@example.com",
+  group_number: "group_test_2",
+  payment_status: Group.payment_statuses[:paid]
+)
+
 
 # GroupUser
 # Executive 1(Group1) & 2(Group2)
@@ -214,3 +221,36 @@ end
     )
   end
 end
+
+Product.create!(
+  name: 'ベーシックプラン(1年間)',
+  paypal_plan_name: 'P-9UY75926TX6644447EAODKPI',
+  price_cents: 1200
+)
+
+Product.create!(
+  name: '本番環境用テストプラン',
+  paypal_plan_name: 'P-23R0237493572070XEQ6XU6I',
+  price_cents: 100
+)
+
+Order.create!(
+  product_id: 1,
+  user_id: 2,
+  status: Order.statuses[:paid],
+  token: 'EC-6A003891L5079452E',
+  charge_id: 'I-FBNNMNE5C50B',
+  error_message: nil,
+  price_cents: 1200
+)
+
+Order.create!(
+  product_id: 1,
+  user_id: 3,
+  status: Order.statuses[:paid],
+  token: 'EC-6SE14003BW286930V',
+  charge_id: 'I-BKW5RB2HF85A',
+  error_message: nil,
+  price_cents: 1200
+)
+

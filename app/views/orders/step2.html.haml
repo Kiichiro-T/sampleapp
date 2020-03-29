@@ -77,21 +77,7 @@
           }).then(function(executeData) {
             submitOrderPaypal(executeData.id)
           });
-        },
-        return fetch('/my-server/capture-paypal-transaction', {
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderID: data.orderID
-          })
-        }).then(function(res) {
-          return res.json();
-        }).then(function(details) {
-          if (details.error === 'INSTRUMENT_DECLINED') {
-            return actions.restart();
-          }
-        });
+        }
       },
       onCancel: function (data) {
         // Show a cancel page, or return to cart
