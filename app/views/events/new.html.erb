@@ -1,54 +1,251 @@
-<% provide(:title, "イベント新規作成") %>
-<% content_for :pack_tag do %>
-  <%= javascript_pack_tag 'events/new' %>
-  <%= stylesheet_pack_tag 'events/new' %>
-<% end %>
-<%= render 'shared/topbar' %>
-<div class="box-newevent" date-step="1" data-intro='新規イベントを作成しましょう。'>
-  <%= form_for(@event, url: group_events_path(group_id: current_user_group.id)) do |f| %>
-    <p class="text1">イベント作成</p>
-    <div class="box-border"></div>
-    <%= render 'shared/error_messages', object: f.object %>
-    <%= f.hidden_field :user_id, :value => current_user.id %>
-    <%= f.hidden_field :group_id, :value => current_user_group.id %>
+<div class="sidebar-fixed container-scroller" style="background-color: rgb(44, 44, 44);">
+  <!-- partial:partials/_sidebar.html -->
+  <nav class="sidebar sidebar-offcanvas" id="sidebar" >
+    <%= render 'shared/logo'%>
+    <ul class="nav">
+      <%= render 'shared/profile' %>
+      <li class="nav-item menu-items">
+        <%= link_to root_path, class: "nav-link" do %>
+          <span class="menu-icon">
+            <i class="mdi mdi-home" style="color: blue;"></i>
+          </span>
+          <span class="menu-title">ホーム</span>
+        <% end %>
+      </li>
 
-    <div date-step="2" data-intro='イベント名を記入しましょう'>
-      <%= f.text_field :name, class: "box2", placeholder: 'イベント名' %>
+      <li class="nav-item menu-items">
+        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+          <span class="menu-icon">
+            <i class="mdi mdi-account"></i>
+          </span>
+          <span class="menu-title">マイページ</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="ui-basic">
+          <ul class="nav flex-column sub-menu">
+            <% if current_user.definitive_registration %>
+              <li class="nav-item"> <a class="nav-link" href="#">お知らせ</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">Myカレンダー</a></li>
+              <li class="nav-item"> <%= link_to 'My収支情報', user_transactions_path(user_id: current_user.id), class: "nav-link" %></li>
+              <li class="nav-item"> <a class="nav-link" href="#">イベント一覧</a></li>
+            <% end %>
+            <li class="nav-item"> <%= link_to 'プロフィール変更', edit_user_registration_path, class: "nav-link" %></li>
+          </ul>
+        </div>
+      </li>
+
+      <% unless current_user_group.blank? %>
+        <li class="nav-item menu-items">
+          <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false" aria-controls="page-layouts">
+            <span class="menu-icon">
+              <i class="mdi mdi-account-multiple"></i>
+            </span>
+            <span class="menu-title">サークルページ</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="page-layouts">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="#">サークルプロフィール</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">サークルカレンダー</a></li>
+              <li class="nav-item"> <%= link_to '統計情報', statistics_group_path(id: current_user_group.id), class: "nav-link" %></li>
+              <li class="nav-item"> <%= link_to 'デポジット', deposit_group_path(id: current_user_group.id), class: "nav-link" %></li>
+
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item menu-items">
+          <a class="nav-link" data-toggle="collapse" href="#sidebar-layouts" aria-expanded="false" aria-controls="sidebar-layouts">
+            <span class="menu-icon">
+              <i class="mdi mdi-message-text-outline"></i>
+            </span>
+            <span class="menu-title">イベント情報</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="sidebar-layouts">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <%= link_to 'イベント作成', new_group_event_path(group_id: current_user_group.id), class: "nav-link" %></li>
+              <li class="nav-item"> <a class="nav-link" href="#">イベント一覧</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
+            <span class="menu-icon">
+              <i class="mdi mdi-settings" style="color: blueviolet;"></i>
+            </span>
+            <span class="menu-title">サークル設定</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-advanced">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="#">メンバー情報</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">メンバー設定</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">サークル情報</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">支払い情報</a></li>
+            </ul>
+          </div>
+        </li>
+      <% end %>
+
+      <li class="nav-item menu-items">
+        <a class="nav-link" href="#">
+          <span class="menu-icon">
+            <i class="mdi mdi-help-circle-outline" style="color: chartreuse;"></i>
+          </span>
+          <span class="menu-title">FAQ</span>
+        </a>
+      </li>
+
+      <li class="nav-item menu-items">
+        <a class="nav-link" href="#">
+          <span class="menu-icon">
+            <i class="mdi mdi-apps" style="color:yellow;"></i>
+          </span>
+          <span class="menu-title">カスタム</span>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_navbar.html -->
+    <%= render 'shared/topbar' %>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="page-header">
+          <h3 class="page-title"> イベント作成 </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">サークルページ</a></li>
+              <li class="breadcrumb-item active" aria-current="page">イベント作成</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="row">
+          <div class="col-12 grid-margin">
+            <div class="card">
+              <div class="card-body" style="color: black;">
+                <h4 class="card-title">イベント作成</h4>
+                <%= form_with model: @event, url: group_events_path(group_id: current_user_group.id), local: true, id: :exampleform do |f| %>
+                  <!-- エラーメッセージ -->
+                  <%= f.hidden_field :user_id, value: current_user.id %>
+                  <%= f.hidden_field :group_id, value: @group.id %>
+                  <div>
+                    <h3>イベント概要</h3>
+                    <section>
+                      <div class="form-group">
+                        <%= f.label :name, 'イベント名' %>
+                        <%= f.text_field :name, class: "form-control", placeholder: 'イベント名を入力してください', style: "color: white;" %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.label :start_date, '開始日' %>
+                        <%= f.date_field :start_date, class: "form-control" %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.label :end_date, '終了日' %>
+                        <%= f.date_field :end_date, class: "form-control" %>
+                      </div>
+                    </section>
+
+                    <h3>集金設定</h3>
+                    <section>
+                      <h3>集金設定</h3>
+                      <div class="form-group">
+                        <%= f.label :amount, '集金額' %>
+                        <%= f.number_field :amount, class: "form-control", placeholder: '集金額を設定してください', style: "color:white;" %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.label :answer_deadline, '出欠締め切り日' %>
+                        <%= f.date_field :answer_deadline, class: "form-control" %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.label :pay_deadline, '集金締め切り日' %>
+                        <%= f.date_field :pay_deadline, class: "form-control" %>
+                      </div>
+                    </section>
+
+                    <h3>イベント内容</h3>
+                    <section>
+                      <h3>イベント内容</h3>
+                      <div class="form-group">
+                        <%= f.label :comment, 'みんなへ一言' %>
+                        <%= f.text_field :comment, class: "form-control", style: "color: white;" %>
+                        <small id="emailHelp" class="form-text text-muted">サムネイルに使用される一言(任意)</small>
+                      </div>
+                      <div class="form-group">
+                        <%= f.label :description, 'イベントの説明' %>
+                        <%= f.text_area :description, class: "form-control", rows: "8", style: "color: white;" %>
+                        <small id="emailHelp" class="form-text text-muted">イベントの詳しい説明(任意)</small>
+                      </div>
+                    </section>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- content-wrapper ends -->
+      <!-- partial:partials/_footer.html -->
+      <%= render 'shared/footer' %>
+      <!-- partial -->
     </div>
-
-    <div type="text" class="box3"><%= current_user_group.name %></div>
-
-    <div date-step="3" data-intro='集金額を設定'>
-      <%= f.number_field :amount, class: "box4", placeholder: '集金額' %>
-    </div>
-
-    <div onfocus="(this.type='date')" id="date" date-step="4" data-intro='各種日付を登録' >
-      <%= f.date_field :pay_deadline, class: "box5", placeholder: '集金締め切り日' %>
-    </div>
-
-    <div onfocus="(this.type='date')" id="date" date-step="4" data-intro='各種日付を登録' >
-      <%= f.date_field :start_date, class: "box6", placeholder: 'イベント開始日' %>
-    </div>
-
-    <div onfocus="(this.type='date')" id="date" date-step="4" data-intro='各種日付を登録' >
-      <%= f.date_field :end_date, class: "box7", placeholder: 'イベント終了日' %>
-    </div>
-
-    <div onfocus="(this.type='date')" id="date" date-step="4" data-intro='各種日付を登録' >
-      <%= f.date_field :answer_deadline, class: "box8", placeholder: '回答締め切り日' %>
-    </div>
-
-    <div date-step="5" data-intro='イベントの詳しい情報を記入しましょう'>
-      <%= f.text_area :description, class: "box9", placeholder: 'イベントの説明' %>
-    </div>
-
-    <%= f.submit "作成", class: "button1" %>
-  <% end %>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
 </div>
-
-<%= render 'shared/sidebar' %>
-<%= render 'shared/menu' %>
-
-
-
-
+<script>
+(function($) {
+  'use strict';
+  var form = $("#exampleform");
+  // var userId = $('#event_user_id').val();
+  // var groupId = $('#event_group_id').val();
+  // var name = $('#event_name').val();
+  // var startDate = $('#event_start_date').val();
+  // var endDate = $('#event_end_date').val();
+  // var amount = $('#event_amount').val();
+  // var answerDeadline = $('#event_answer_deadline').val();
+  // var payDeadline = $('#event_pay_deadline').val();
+  // var comment = $('#event_comment').val();
+  // var description = $('#event_description').val();
+  // var url = `/groups/${groupId}/events`
+  form.children("div").steps({
+    headerTag: "h3",
+    bodyTag: "section",
+    transitionEffect: "slideLeft",
+    onFinished: function(event, currentIndex) {
+      $('form').submit();
+      // $.ajax({
+      //   url: url,
+      //   type: "POST",
+      //   dataType: 'html',
+      //   async: false,
+      //   data: {
+      //     event: {
+      //       user_id: userId,
+      //       group_id: groupId,
+      //       name: name,
+      //       start_date: startDate,
+      //       end_date: endDate,
+      //       amount: amount,
+      //       answer_deadline: answerDeadline,
+      //       pay_deadline: payDeadline,
+      //       comment: comment,
+      //       description: description
+      //     }
+      //   },
+      //   success: function(data) {
+      //       alert("success");
+      //   },
+      //   error: function(data) {
+      //       alert("errror");
+      //   }
+      // });
+    }
+  });
+})(jQuery);
+</script>

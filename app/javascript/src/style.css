@@ -10020,7 +10020,7 @@ input[type="button"].btn-block {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center; }
-  
+
   .btn-group-vertical > .btn,
   .fc .btn-group-vertical > button,
   .ajax-upload-dragdrop .btn-group-vertical > .ajax-file-upload,
@@ -10366,7 +10366,7 @@ input[type="button"].btn-block {
   .asColorPicker-wrap > .custom-select:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
-  
+
   .input-group > .custom-file,
   .asColorPicker-wrap > .custom-file {
     display: flex;
@@ -15168,7 +15168,7 @@ a.text-dark:hover, a.text-dark:focus {
     border: 1px solid #000; }
   .table, .jsgrid .jsgrid-table {
     border-collapse: collapse !important; }
-    
+
     .table td,
     .jsgrid .jsgrid-table td, .table th, .jsgrid .jsgrid-table th {
       background-color: #ffffff !important; }
@@ -21670,7 +21670,7 @@ div.tagsinput {
     .wizard > .steps .number {
       font-size: 0.875rem; }
     .wizard > .steps > ul > li {
-      width: 25%;
+      width: 33%;
       float: left;
       text-align: center; }
       @media (max-width: 767px) {
@@ -21714,7 +21714,7 @@ div.tagsinput {
         color: #434a54;
         cursor: default; }
     .wizard > .steps .current a {
-      background: rgba(0, 136, 204, 0.2);
+      background: rgba(0, 136, 204);
       color: #ffffff;
       cursor: default; }
       .wizard > .steps .current a:active {
@@ -21909,19 +21909,19 @@ div.tagsinput {
 /* === Landing screens === */
 /* Auth */
 .auth.login-bg {
-  /* background: url("../images/auth/Login_bg.jpg"); */
+  /* background: url("../../images/auth/Login_bg.jpg"); */
   background-size: cover; }
 
 .auth .login-half-bg {
-  /* background: url("../images/auth/login-bg.jpg"); */
+  /* background: url("../../images/auth/login-bg.jpg"); */
   background-size: cover; }
 
 .auth.register-half-bg {
-  /* background: url("../images/auth/Login_bg2.jpg"); */
+  /* background: url("../../images/auth/Login_bg2.jpg"); */
   background-size: cover; }
 
 .auth.lock-full-bg {
-  /* background: url("../images/auth/lockscreen-bg.jpg"); */
+  /* background: url("../../images/auth/lockscreen-bg.jpg"); */
   background-size: cover; }
 
 .auth .lock-profile-img {
@@ -22061,7 +22061,7 @@ div.tagsinput {
     right: -20px;
     left: -20px;
     bottom: -20px;
-    /* background: url("images/samples/lockscreen-bg.jpg") no-repeat center center; */
+    /* background: url("../images/samples/lockscreen-bg.jpg") no-repeat center center; */
     background-size: cover;
     overflow: hidden;
     min-height: 100%; }
@@ -23070,6 +23070,7 @@ div.tagsinput {
 
 .content-wrapper {
   background: rgba(222, 231, 255, 0.933);
+  min-height: calc(100vh - 131px);
   padding: 1.875rem 1.75rem;
   width: 100%;
   -webkit-flex-grow: 1;
