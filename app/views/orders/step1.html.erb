@@ -1,6 +1,6 @@
 <% provide(:title, "グループ作成") %>
-
-<%= form_for(@group) do |f| %>
+<h1>STEP 1</h1>
+<%= form_for @group, url: step2_orders_path, method: :get do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
 
@@ -13,7 +13,7 @@
     <%= f.label :group_number, "グループID(6~25文字)" %>
     <%= f.text_field :group_number, class: "form-control", placeholder: "英数字と_を使用できます)" %><br />
 
-    <%= f.submit "作成"%>
+    <%= f.submit "作成" %>
 
   </div>
 <% end %>

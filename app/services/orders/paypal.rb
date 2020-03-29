@@ -6,7 +6,6 @@ class Orders::Paypal
     return nil if order.nil?
 
     order.set_paid # statusをset_paidに変更
-    puts order
     order
   end
 
@@ -59,7 +58,7 @@ class Orders::Paypal
   def self.create_subscription(order:, product:)
     agreement = PayPal::SDK::REST::Agreement.new({
       name: product.name,
-      description: "Subscription for: #{product.name}",
+      description: "#{product.name}のサブスクリプション",
       start_date: (Time.current + 1.minute).iso8601,
       payer: {
         payment_method: "paypal"
@@ -75,7 +74,6 @@ class Orders::Paypal
   end
 
   def self.execute_subscription(token:)
-    puts token
     order = Order.recently_created.find_by(token: token)
     return false unless order
 

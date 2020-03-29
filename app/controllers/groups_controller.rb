@@ -13,21 +13,6 @@ class GroupsController < ApplicationController
     @events = Kaminari.paginate_array(events).page(params[:page]).per(5)
   end
 
-  def new
-    @group = Group.new
-  end
-
-  def create
-    @group = Group.new(group_params)
-    if @group.save
-      GroupUser.new_group(@group, current_user)
-      flash[:success] = 'グループ作成成功！'
-      redirect_to root_url
-    else
-      render 'new'
-    end
-  end
-
   def edit
     @executives = User.executives(@group)
     @generals = User.generals(@group)

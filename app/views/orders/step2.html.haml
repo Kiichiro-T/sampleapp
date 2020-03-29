@@ -78,6 +78,14 @@
             submitOrderPaypal(executeData.id)
           });
         }
+      },
+      onCancel: function (data) {
+        // Show a cancel page, or return to cart
+        alert('キャンセルしました');
+      },
+      onError: function(err) {
+        // Show an error page here, when an error occurs
+        alert('エラーが発生しました'); // エラーが発生した際に書く
       }
     }).render('#submit-paypal');
   }());
