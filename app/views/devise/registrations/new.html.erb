@@ -1,62 +1,71 @@
-<% provide(:title, "新規登録") %>
-<% content_for :pack_tag do %>
-  <%= javascript_pack_tag 'users/registrations/new' %>
-  <%= stylesheet_pack_tag 'users/registrations/new' %>
-<% end %>
+<% provide(:title, "ユーザー新規登録") %>
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+    <div class="row w-100">
+      <div class="content-wrapper full-page-wrapper d-flex align-items-center" style="background-image: url(/images/Login_bg.jpg);">
+        <div class="card col-lg-4 mx-auto" style="background-color: black;">
+          <div class="card-body px-5 py-5">
+            <h3 class="card-title text-left mb-3" style="color: white;">新規登録</h3>
+            <%= form_with model: @user, url: user_registration_path, local: true do |f| %>
+              <%= render "devise/shared/error_messages", resource: resource %>
+              <div class="form-group">
+                <%= f.label :name, '氏名' %>
+                <%= f.text_field :name, class: "form-control p_input", style: "color: white;" %>
+              </div>
+              <div class="form-group">
+                <%= f.label :furigana, 'フリガナ' %>
+                <%= f.text_field :furigana, class: "form-control p_input", style: "color: white;" %>
+              </div>
+              <div class="form-group">
+                <%= f.label :gender, '性別' %>
+                <%= f.select :gender, [['男性', false], ['女性', true]], {}, { class: "form-control p_input", style: "color: white;" } %>
+              </div>
+              <div class="form-group">
+                <% grades = [] %>
+              <% 6.times do |i| %>
+                <% grades << ["#{i + 1}年生", "grade#{i + 1}"] %>
+                <% grades << ['その他', 'other'] %>
+              <% end %>
+                <%= f.label :grade, '学年' %>
+                <%= f.select :grade, grades, {}, { class: "form-control p_input", style: "color: white;" } %>
+              </div>
+              <div class="form-group">
+                <%= f.label :email, 'メールアドレス' %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control p_input", style: "color: white;" %>
+              </div>
+              <div class="form-group">
+                <%= f.label :password, 'パスワード' %>
+                <%= f.password_field :password, autocomplete: "new-password", class: "form-control p_input", style: "color: white;" %>
+              </div>
+              <div class="form-group">
+                <%= f.label :password_confirmation, 'パスワード確認' %>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control p_input", style: "color: white;" %>
+              </div>
 
-<div class="back1"></div>
-<div class="back2"></div>
+              <div class="form-group d-flex align-items-center justify-content-between">
+              <a href="#" class="forgot-pass">利用規約</a>
 
-<div class="box-newaccount">
-  <div class="text1">新規登録</div>
-  <p class="text2">ようこそ。登録をしてすぐに利用できます。</p>
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <div class="form-check-input"></div>利用規約に同意
+                </label>
+              </div>
 
-    <div class="field">
-      <%= f.select :gender, [['男', false], ['女', true]], include_blank: '性別', class: "textbox1"  %>
+              </div>
+              <div class="text-center">
+                <%= f.submit "登録", class: "btn btn-primary btn-block enter-btn", style: "margin-bottom: 20px;" %>
+              </div>
+
+              <p class="sign-up text-center">既に登録済み?<%= link_to "ログイン", new_session_path(resource_name), class: "text9" %></p>
+              <p class="terms">By creating an account you are accepting our<a href="#"> Terms & Conditions</a></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
     </div>
-
-    <div class="field">
-      <%= f.text_field :name, class: "textbox2", placeholder: '氏名' %>
-    </div>
-
-    <div class="field">
-      <%= f.text_field :furigana, class: "textbox3", placeholder: 'フリガナ' %>
-    </div>
-
-    <div class="field">
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "textbox4", placeholder: 'メールアドレス' %>
-    </div>
-
-    <% grade = [] %>
-    <% 6.times do |i| %>
-      <% grade << ["#{i + 1}年生", i+1] %>
-    <% end %>
-    <% grade << ['その他', 7] %>
-    <div class="field">
-      <%= f.select :grade, grade, include_blank: '学年' %>
-    </div>
-
-    <div class="field">
-      <%= f.password_field :password, autocomplete: "new-password", class: "textbox5", placeholder: 'パスワード' %>
-    </div>
-
-    <div class="field">
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "textbox6", placeholder: '確認用パスワード' %>
-    </div>
-
-    <input type="checkbox" class="checkbox">
-    <a href="" class="text8">利用規約に同意する</a>
-
-    <%= f.submit "登録", class: "button1" %>
-  <% end %>
-
-  <%- if controller_name != 'sessions' %>
-    <%= link_to "登録済みならログイン", new_session_path(resource_name), class: "text9" %><br />
-  <% end %>
-
-  <%#- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-    <%#= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), class: "text9" %><br />
-  <%# end %>
+    <!-- row ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
 </div>
+
