@@ -6,54 +6,23 @@
         <p class="text-muted mb-1 small"></p>
       </div>
       <div class="preview-list">
-        <div class="preview-item border-bottom">
-    
-          <div class="preview-item-content d-flex flex-grow">
-            <div class="flex-grow">
-              <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                <h6 class="preview-subject">Balony</h6>
-                <p class="text-muted text-small"></p>
+        <% if @my_groups.present? %>
+          <% @my_groups.each do |group| %>
+            <div class="preview-item border-bottom">
+              <div class="preview-item-content d-flex flex-grow">
+                <div class="flex-grow">
+                  <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                    <h6 class="preview-subject"><%= group.name %></h6>
+                    <p class="text-muted text-small"></p>
+                  </div>
+                  <p class="text-muted"><%= group.group_number %></p>
+                </div>
               </div>
-              <p class="text-muted">文章</p>
             </div>
-          </div>
-        </div>
-        <div class="preview-item border-bottom">
-        
-          <div class="preview-item-content d-flex flex-grow">
-            <div class="flex-grow">
-              <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                <h6 class="preview-subject">Balony</h6>
-                <p class="text-muted text-small"></p>
-              </div>
-              <p class="text-muted">文章</p>
-            </div>
-          </div>
-        </div>
-        <div class="preview-item border-bottom">
-        
-          <div class="preview-item-content d-flex flex-grow">
-            <div class="flex-grow">
-              <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                <h6 class="preview-subject">Balony</h6>
-                <p class="text-muted text-small"></p>
-              </div>
-              <p class="text-muted">文章</p>
-            </div>
-          </div>
-        </div>
-        <div class="preview-item border-bottom">
-        
-          <div class="preview-item-content d-flex flex-grow">
-            <div class="flex-grow">
-              <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                <h6 class="preview-subject">Balony</h6>
-                <p class="text-muted text-small"></p>
-              </div>
-              <p class="text-muted">文章</p>
-            </div>
-          </div>
-        </div>
+          <% end %>
+        <% else %>
+          <h6 class="preview-subject">グループに参加しよう！</h6>
+        <% end %>
       </div>
     </div>
   </div>
