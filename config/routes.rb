@@ -52,7 +52,7 @@ Rails.application.routes.draw do
     resources :answers, only: %i[edit update]
   end
 
-  resources :orders, only: [] do
+  resources :orders, only: [:index] do
     collection do
       get 'step1'
       get 'step2'

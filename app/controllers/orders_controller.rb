@@ -4,6 +4,11 @@ class OrdersController < ApplicationController
   before_action :save_to_session, only: :step2
   before_action :prepare_new_order, only: [:paypal_create_payment, :paypal_create_subscription]
 
+  def index
+    @order = Order.find_by(user_id: current_user.id, status: Order.statuses[:paid])
+    @product = Product.find(@order.product_id)
+  end
+
   def step1
     @group = Group.new
   end
