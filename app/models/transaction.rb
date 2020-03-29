@@ -37,6 +37,10 @@ class Transaction < ApplicationRecord
     count('debt')
   end
 
+  def self.total_payment_by_user(user)
+    Transaction.where(completed: true, debtor_id: user.id).sum('debt')
+  end
+
   private
 
     def deadline_before_today
