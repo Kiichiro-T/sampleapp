@@ -10,7 +10,7 @@
         <div class="profile-desc">
           <div class="profile-pic">
             <div class="count-indicator">
-            
+
               <span class="count bg-success"></span>
             </div>
             <div class="profile-name">
@@ -102,7 +102,7 @@
               <li class="nav-item"> <a class="nav-link" href="#">サークルカレンダー</a></li>
               <li class="nav-item"> <%= link_to '統計情報', statistics_group_path(id: current_user_group.id), class: "nav-link" %></li>
               <li class="nav-item"> <%= link_to 'デポジット', deposit_group_path(id: current_user_group.id), class: "nav-link" %></li>
-              
+
             </ul>
           </div>
         </li>
@@ -140,7 +140,7 @@
           </div>
         </li>
       <% end %>
-      
+
       <li class="nav-item menu-items">
         <a class="nav-link" href="#">
           <span class="menu-icon">
@@ -169,7 +169,7 @@
     <div class="main-panel">
       <div class="content-wrapper">
         <%= render 'shared/ad' %>
-        <%= render 'latest_imformation' %>
+        <%= render 'new_imformation' %>
         <div class="row">
           <%= render 'my_groups' %>
           <%= render 'my_balance' %>
