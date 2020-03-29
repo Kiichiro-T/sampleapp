@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       get :dashboard
       get :deposit
       get :statistics
+      get :change
       post :inherit
       post :assign
       get :resign

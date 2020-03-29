@@ -1,0 +1,208 @@
+
+<div class="sidebar-fixed container-scroller" style="background-color: rgb(44, 44, 44);">
+  <%= render 'shared/sidebar' %>
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_navbar.html -->
+    <%= render 'shared/topbar' %>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="page-header">
+          <h3 class="page-title"> サークル情報 </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">サークルページ</a></li>
+              <li class="breadcrumb-item active" aria-current="page">サークル情報</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="row">
+
+          <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body" style="background-color: rgb(255, 255, 255); color: #000;">
+                <h4 class="card-title" >メンバー設定</h4>
+                <p class="card-description">Horizontal bootstrap tab</p>
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home-1" role="tab" aria-controls="home" aria-selected="true">メンバー追加</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile-1" role="tab" aria-controls="profile" aria-selected="false">引継ぎ</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact-1" role="tab" aria-controls="contact" aria-selected="false">任命</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="contact2-tab" data-toggle="tab" href="#contact-2" role="tab" aria-controls="contact2" aria-selected="false">辞退</a>
+                  </li>
+                </ul>
+
+
+
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="home-1" role="tabpanel" aria-labelledby="home-tab">
+                    <h3>メンバー設定</h3>
+                    <section>
+                      <div class="form-group">
+                        <label style="display: block;">メンバー招待</label>
+                        <input type="text" class="form-control col-md-10" aria-describedby="emailHelp" placeholder="招待先アドレス" style="color: white; display:inline-block ;">
+                        <button type="button" class="btn btn-danger btn-icon-text">
+                          <i class="mdi mdi-email" style="display: inline-block;"></i> 送信 </button>
+                        <small id="emailHelp" class="form-text text-muted">登録したいアドレスに招待メールを送ります。</small>
+                      </div>
+                      <div class="form-group">
+                        <label>一括登録</label>
+                        <input type="text" class="form-control" placeholder="登録用初期パスワード" style="color: white;">
+                        <button type="button" class="btn btn-success btn-icon-text">
+                          <i class="mdi mdi-debug-step-into"></i> csvダウンロード
+                        </button>
+                        <button type="button" class="btn btn-danger btn-icon-text">
+                          <i class="mdi mdi-email"></i> 送信
+                        </button>
+                        <form>
+                          <input type="file" name="ファイル呼び出し">
+                        </form>
+
+                        <small id="emailHelp" class="form-text text-muted">csvファイルに必要事項を記入し提出してください。</small>
+
+                      </div>
+
+                    </section>
+                  </div>
+                  <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab">
+                    <h3>引継ぎ</h3>
+                    <section>
+                      <div class="form-group">
+                        <label style="display: block;">メンバー招待</label>
+                        <input type="search" class="form-control col-md-8" aria-describedby="emailHelp" placeholder="引継ぎ先のフリガナを入力してください" style="display: inline-block; color: white;">
+                        <button type="button" class="btn btn-success btn-icon-text" style="display: inline-block;">
+                          <i class="mdi mdi-email"></i> 検索
+                        </button>
+                        <button type="button" class="btn btn-danger btn-icon-text" style="display: inline-block;">
+                          <i class="mdi mdi-email"></i> 送信
+                        </button>
+                        <small id="emailHelp" class="form-text text-muted">引き継ぎたいメンバーを選択します。</small>
+                      </div>
+
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-12">
+                              <form action="#">
+                                <div class="form-group d-flex">
+                                  <input type="text" class="form-control" placeholder="Search Here" value="Bootstrapdash">
+                                  <button type="submit" class="btn btn-primary ml-3">Search</button>
+                                </div>
+                              </form>
+                            </div>
+                            <div class="col-12 mb-5">
+                              <h2>検索結果<u class="ml-2">"検索キーワード"</u></h2>
+
+                            </div>
+                            <div class="col-12 results">
+                              <div class="pt-4 border-bottom">
+                                <a class="d-block h4 mb-0" href="#">名前</a>
+                                <a class="page-url text-primary" href="#">可能ならマイページリンク</a>
+
+                              </div>
+                            </div>
+
+                            <nav class="col-12" aria-label="Page navigation">
+                              <ul class="pagination mt-5">
+                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <li class="page-item  active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                              </ul>
+                            </nav>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </section>
+                  </div>
+                  <div class="tab-pane fade" id="contact-1" role="tabpanel" aria-labelledby="contact-tab">
+                    <h3>任命</h3>
+                    <section>
+                      <div class="form-group">
+                        <label style="display: block;">任命先選択</label>
+                        <input type="search" class="form-control col-md-8" aria-describedby="emailHelp" placeholder="任命先のフリガナを入力してください" style="display: inline-block; color: white;">
+                        <button type="button" class="btn btn-success btn-icon-text" style="display: inline-block;">
+                          <i class="mdi mdi-email"></i> 検索
+                        </button>
+                        <button type="button" class="btn btn-danger btn-icon-text" style="display: inline-block;">
+                          <i class="mdi mdi-email"></i> 送信
+                        </button>
+                        <small id="emailHelp" class="form-text text-muted">引き継ぎたいメンバーを選択します。</small>
+                      </div>
+
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-12">
+                              <form action="#">
+                                <div class="form-group d-flex">
+                                  <input type="text" class="form-control" placeholder="Search Here" value="Bootstrapdash">
+                                  <button type="submit" class="btn btn-primary ml-3">Search</button>
+                                </div>
+                              </form>
+                            </div>
+                            <div class="col-12 mb-5">
+                              <h2>検索結果<u class="ml-2">"検索キーワード"</u></h2>
+
+                            </div>
+                            <div class="col-12 results">
+                              <div class="pt-4 border-bottom">
+                                <a class="d-block h4 mb-0" href="#">名前</a>
+                                <a class="page-url text-primary" href="#">可能ならマイページリンク</a>
+
+                              </div>
+                            </div>
+
+                            <nav class="col-12" aria-label="Page navigation">
+                              <ul class="pagination mt-5">
+                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <li class="page-item  active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                              </ul>
+                            </nav>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </section>
+                  </div>
+
+                  <div class="tab-pane fade" id="contact-2" role="tabpanel" aria-labelledby="contact2-tab">
+                    <h3>辞退</h3>
+                    <section>
+                      <button class="btn btn-outline-primary col-md-12" onclick="showSwal('warning-message-and-cancel')">辞退する</button>
+
+                    </section>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- content-wrapper ends -->
+      <!-- partial:partials/_footer.html -->
+      <%= render 'shared/footer' %>
+      <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
