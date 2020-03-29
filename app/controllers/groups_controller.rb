@@ -65,7 +65,7 @@ class GroupsController < ApplicationController
   end
 
   def invite
-    email = params[:email]
+    email = params[:email].try(:downcase!)
     if email.blank?
       flash[:notice] = "メールアドレスを入力してください"
       render 'edit'
