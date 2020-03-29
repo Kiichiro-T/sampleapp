@@ -9712,7 +9712,7 @@ input[type="button"].btn-block {
   color: #ffffff;
   text-align: left;
   list-style: none;
-  background-color: #191c24;
+  background-color:rgb(44, 44, 44);
   background-clip: padding-box;
   border: 1px solid #2c2e33;
   border-radius: 0.25rem; }
@@ -10020,7 +10020,7 @@ input[type="button"].btn-block {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center; }
-
+  
   .btn-group-vertical > .btn,
   .fc .btn-group-vertical > button,
   .ajax-upload-dragdrop .btn-group-vertical > .ajax-file-upload,
@@ -10366,7 +10366,7 @@ input[type="button"].btn-block {
   .asColorPicker-wrap > .custom-select:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
-
+  
   .input-group > .custom-file,
   .asColorPicker-wrap > .custom-file {
     display: flex;
@@ -11313,7 +11313,7 @@ input[type="button"].btn-block {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #191c24;
+  background-color:rgb(255, 255, 255);
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem; }
@@ -12759,7 +12759,7 @@ button.bg-light:focus {
   background-color: #e6e6e6 !important; }
 
 .bg-dark {
-  background-color: #0d0d0d !important; }
+  background-color: #cccccc !important; }
 
 a.bg-dark:hover, a.bg-dark:focus,
 button.bg-dark:hover,
@@ -15168,7 +15168,7 @@ a.text-dark:hover, a.text-dark:focus {
     border: 1px solid #000; }
   .table, .jsgrid .jsgrid-table {
     border-collapse: collapse !important; }
-
+    
     .table td,
     .jsgrid .jsgrid-table td, .table th, .jsgrid .jsgrid-table th {
       background-color: #ffffff !important; }
@@ -17101,7 +17101,7 @@ code {
     .card .card-body + .card-body {
       padding-top: 1rem; }
   .card .card-title {
-    color: #ffffff;
+    color: #000000;
     margin-bottom: 1.125rem;
     text-transform: capitalize; }
   .card .card-subtitle {
@@ -18328,7 +18328,7 @@ dl {
       height: 11px;
       top: 2px;
       left: 2px;
-      background: #191c24;
+      background:rgb(44, 44, 44);
       border-radius: 100%; }
     .gradient-bullet-list li:nth-child(1):before {
       background: #fc424a; }
@@ -20745,7 +20745,7 @@ body.avgrund-active {
     color: #ffffff; }
 
 .fc-external-events .fc-event {
-  background: #191c24;
+  background:rgb(44, 44, 44);
   color: #ffffff;
   border-width: 0 0 0 4px;
   padding: 16px;
@@ -21909,19 +21909,19 @@ div.tagsinput {
 /* === Landing screens === */
 /* Auth */
 .auth.login-bg {
-  /* background: url("../../images/auth/Login_bg.jpg"); */
+  /* background: url("../images/auth/Login_bg.jpg"); */
   background-size: cover; }
 
 .auth .login-half-bg {
-  /* background: url("../../images/auth/login-bg.jpg"); */
+  /* background: url("../images/auth/login-bg.jpg"); */
   background-size: cover; }
 
 .auth.register-half-bg {
-  /* background: url("../../images/auth/Login_bg2.jpg"); */
+  /* background: url("../images/auth/Login_bg2.jpg"); */
   background-size: cover; }
 
 .auth.lock-full-bg {
-  /* background: url("../../images/auth/lockscreen-bg.jpg"); */
+  /* background: url("../images/auth/lockscreen-bg.jpg"); */
   background-size: cover; }
 
 .auth .lock-profile-img {
@@ -22061,7 +22061,7 @@ div.tagsinput {
     right: -20px;
     left: -20px;
     bottom: -20px;
-    /* background: url("../images/samples/lockscreen-bg.jpg") no-repeat center center; */
+    /* background: url("images/samples/lockscreen-bg.jpg") no-repeat center center; */
     background-size: cover;
     overflow: hidden;
     min-height: 100%; }
@@ -22082,7 +22082,7 @@ div.tagsinput {
 /* Navbar */
 .navbar {
   font-weight: normal;
-  background: #191c24;
+  background:#57cecd;
   left: 244px;
   transition: left 0.25s ease;
   -webkit-transition: left 0.25s ease;
@@ -22096,7 +22096,7 @@ div.tagsinput {
     -webkit-transition: width 0.25s ease, background 0.25s ease;
     -moz-transition: width 0.25s ease, background 0.25s ease;
     -ms-transition: width 0.25s ease, background 0.25s ease;
-    background: #191c24;
+    background:rgb(44, 44, 44);
     width: 244px;
     height: 70px; }
     @media (max-width: 991px) {
@@ -22188,7 +22188,7 @@ div.tagsinput {
       .navbar .navbar-menu-wrapper .count-indicator .count-number {
         position: absolute;
         border-radius: 100%;
-        border: 2px solid #191c24; }
+        border: 2px solidrgb(44, 44, 44); }
       .navbar .navbar-menu-wrapper .count-indicator .count-symbol {
         top: 17px;
         right: -3px;
@@ -22329,7 +22329,7 @@ div.tagsinput {
             margin-left: 0;
             margin-right: auto; } }
     .navbar .navbar-menu-wrapper .search input {
-      background: #191c24;
+      background:rgb(44, 44, 44);
       padding: 13px 20px 11px 20px;
       border: 1px solid #2c2e33; }
       .navbar .navbar-menu-wrapper .search input::placeholder {
@@ -22361,7 +22361,7 @@ div.tagsinput {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 70px);
-  background: #191c24;
+  background:rgb(44, 44, 44);
   font-weight: normal;
   padding: 0;
   width: 244px;
@@ -22375,7 +22375,7 @@ div.tagsinput {
     -webkit-transition: width 0.25s ease, background 0.25s ease;
     -moz-transition: width 0.25s ease, background 0.25s ease;
     -ms-transition: width 0.25s ease, background 0.25s ease;
-    background: #191c24;
+    background:rgb(44, 44, 44);
     width: 244px;
     height: 70px; }
     @media (max-width: 991px) {
@@ -22552,7 +22552,7 @@ div.tagsinput {
               .sidebar .nav .nav-item.profile .profile-desc .profile-pic .count-indicator .count-number {
                 position: absolute;
                 border-radius: 100%;
-                border: 2px solid #191c24; }
+                border: 2px solidrgb(44, 44, 44); }
               .sidebar .nav .nav-item.profile .profile-desc .profile-pic .count-indicator .count-symbol {
                 top: 17px;
                 right: -3px;
@@ -22877,7 +22877,7 @@ div.tagsinput {
           left: 70px;
           width: 190px; }
           .sidebar-dark.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse, .sidebar-dark.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapsing {
-            background: #191c24; }
+            background: rgb(44, 44, 44); }
           .rtl.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse, .rtl.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapsing {
             left: auto;
             right: 70px;
@@ -23069,7 +23069,7 @@ div.tagsinput {
       width: 100%; } }
 
 .content-wrapper {
-  background: #000000;
+  background: rgba(222, 231, 255, 0.933);
   padding: 1.875rem 1.75rem;
   width: 100%;
   -webkit-flex-grow: 1;
