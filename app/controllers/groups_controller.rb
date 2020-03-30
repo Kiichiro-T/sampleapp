@@ -28,7 +28,12 @@ class GroupsController < ApplicationController
   end
 
   def change
-    @generals = User.generals(@group)
+    @executives = User.executives(@group)
+    user_ids = []
+    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:general]).each do |relationship|
+      user_ids << User.find(relationship.user_id).id
+    end
+    @generals = User.where(id: user_ids).order(furigana: :asc)
   end
 
   def inheritable_search
@@ -38,7 +43,7 @@ class GroupsController < ApplicationController
       user_ids << User.find(relationship.user_id).id
     end
     members = User.where(id: user_ids)
-    @members = members.where('name LIKE :keyword OR furigana LIKE :keyword ', keyword: "%#{keyword.tr('ぁ-ん','ァ-ン')}%")
+    @members = members.where('name LIKE :keyword OR furigana LIKE :keyword ', keyword: "%#{keyword.tr('ぁ-ん','ァ-ン')}%").order(furigana: :asc)
     respond_to do |format|
       format.json { render 'inheritable_members', json: @members }
     end
@@ -52,6 +57,19 @@ class GroupsController < ApplicationController
       redirect_to @group
     else
       render 'edit'
+    end
+  end
+
+  def assignable_search
+    keyword = params[:keyword]
+    user_ids = []
+    GroupUser.where(group_id: @group.id, role: GroupUser.roles[:general]).each do |relationship|
+      user_ids << User.find(relationship.user_id).id
+    end
+    members = User.where(id: user_ids)
+    @members = members.where('name LIKE :keyword OR furigana LIKE :keyword ', keyword: "%#{keyword.tr('ぁ-ん','ァ-ン')}%").order(furigana: :asc)
+    respond_to do |format|
+      format.json { render 'inheritable_members', json: @members }
     end
   end
 

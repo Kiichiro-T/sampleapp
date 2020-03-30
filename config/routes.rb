@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       get :change
       get :inheritable_search
       post :inherit
+      get :assignable_search
       post :assign
       get :resign
       post :invite
