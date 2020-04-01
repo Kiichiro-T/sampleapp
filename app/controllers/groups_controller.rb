@@ -100,22 +100,19 @@ class GroupsController < ApplicationController
   end
 
   def invite
-    email = params[:email].try(:downcase!)
+    email = params[:email].try(:downcase)
     if email.blank?
-      flash[:notice] = "メールアドレスを入力してください"
-      render 'edit'
+      flash_and_render(key: :notice, message: "メールアドレスを入力してください", action: 'change')
     elsif user = User.find_by(email: email)
       relationship = GroupUser.new(group_id: @group.id, user_id: user.id, role: GroupUser.roles[:general])
       if relationship.save
-        flash[:notice] = "招待に成功しました"
-        redirect_to edit_group_url(@group)
+        NotificationMailer.invite(group: @group, user: user, current_user: current_user).deliver_later
+        flash_and_redirect(key: :notice, message: "招待に成功しました", redirect_url: change_group_url(@group))
       else
-        flash[:notice] = 'そのメールアドレスはすでに招待済みです'
-        render 'edit'
+        flash_and_render(key: :notice, message: 'そのメールアドレスはすでに招待済みです', action: 'change')
       end
     else
-      flash[:notice] = "メールアドレスが存在しないまたは間違いがあります"
-      render 'edit'
+      flash_and_render(key: :notice, message: "メールアドレスは登録されていないまたは間違いがあります", action: 'change')
     end
   end
 

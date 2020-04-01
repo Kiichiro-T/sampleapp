@@ -62,4 +62,16 @@ class NotificationMailer < ApplicationMailer
       format.text
     end
   end
+
+  def invite(group:, user:, current_user:)
+    @group = group
+    @user = user
+    @current_user = current_user
+    mail(
+      subject: '仮登録のお知らせ',
+      to: @user.email
+    ) do |format|
+      format.text
+    end
+  end
 end

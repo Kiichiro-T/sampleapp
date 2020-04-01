@@ -59,4 +59,14 @@ class ApplicationController < ActionController::Base
     def after_sign_out_path_for(resource_or_scope)
       new_user_session_path
     end
+
+    def flash_and_redirect(key: :notice, message:, redirect_url:)
+      flash[key] = message
+      redirect_to redirect_url
+    end
+
+    def flash_and_render(key: :notice, message:, action:)
+      flash.now[key] = message
+      render action
+    end
 end
