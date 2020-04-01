@@ -100,14 +100,14 @@
   <!-- page-body-wrapper ends -->
 </div>
 <script>
-  var inheritableSearch = $('#inheritable-search');
-  var assignableSearch = $('#assignable-search');
-  var groupId = inheritableSearch.data('group-id');
-  var url1 = `/groups/${groupId}/inheritable_search`
-  var url2 = `/groups/${groupId}/assignable_search`
+  let inheritableSearch = $('#inheritable-search');
+  let assignableSearch = $('#assignable-search');
+  let groupId = inheritableSearch.data('group-id');
+  let url1 = `/groups/${groupId}/inheritable_search`
+  let url2 = `/groups/${groupId}/assignable_search`
   inheritableSearch.on('keyup', function(e){
     e.preventDefault(); // キャンセル可能なイベントをキャンセル
-    var input = inheritableSearch.val(); // 前後の空白を取り除いて代入
+    let input = inheritableSearch.val(); // 前後の空白を取り除いて代入
     $.ajax({
       url: url1,
       type: 'GET',
@@ -117,7 +117,7 @@
       dataType: 'json'
     })
     .done(function(data){
-      var result = $('#inheritable-result');
+      let result = $('#inheritable-result');
       result.find('option').remove();
       result.find('li').remove();
       if (input.length !== 0){
@@ -141,7 +141,7 @@
 
   assignableSearch.on('keyup', function(e){
     e.preventDefault(); // キャンセル可能なイベントをキャンセル
-    var input = assignableSearch.val(); // 前後の空白を取り除いて代入
+    let input = assignableSearch.val(); // 前後の空白を取り除いて代入
     $.ajax({
       url: url2,
       type: 'GET',
@@ -151,7 +151,7 @@
       dataType: 'json'
     })
     .done(function(data){
-      var result = $('#assignable-result');
+      let result = $('#assignable-result');
       result.find('option').remove();
       result.find('li').remove();
       if (input.length !== 0){
@@ -172,4 +172,50 @@
       alert('検索に失敗しました');
     });
   });
+
+  (function($) {
+    showSwal = function(type) {
+      'use strict';
+      let options = {
+        title: '本当に辞退しますか?',
+        text: "あなたの幹事情報が失われます！",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3f51b5',
+        cancelButtonColor: '#ff4081',
+        confirmButtonText: 'Great ',
+        buttons: {
+          cancel: {
+            text: "Cancel",
+            value: null,
+            visible: true,
+            className: "btn btn-danger",
+            closeModal: true,
+          },
+          confirm: {
+            text: "OK",
+            value: true,
+            visible: true,
+            className: "btn btn-primary",
+            closeModal: true
+          }
+        }
+      };
+      swal(options).then(function(val) {
+        let url = `/groups/${groupId}/resign`
+        if (val) {
+          // Okボタンが押された時の処理
+          window.location.href = url;
+        } else {
+          // キャンセルボタンを押した時の処理
+          swal({
+            text: "キャンセルされました",
+            icon: "warning",
+            buttons: false,
+            timer: 1000 // 2.5秒後に自動的に閉じる
+          });
+        }
+      });
+    }
+  })(jQuery);
 </script>
