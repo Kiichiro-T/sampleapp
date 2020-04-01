@@ -9,7 +9,7 @@
   <div class="collapse" id="sidebar-layouts">
     <ul class="nav flex-column sub-menu">
       <li class="nav-item"> <%= link_to 'イベント作成', new_group_event_path(group_id: current_user_group.id), class: "nav-link" %></li>
-      <li class="nav-item"> <a class="nav-link" href="#">イベント一覧</a></li>
+      <li class="nav-item"> <%= link_to 'イベント一覧', group_events_path(group_id: current_user_group.id), class: "nav-link" %></li>
     </ul>
   </div>
 </li>

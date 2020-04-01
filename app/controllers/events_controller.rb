@@ -8,7 +8,7 @@ class EventsController < ApplicationController
   before_action :only_executives_can_access, except: %i[show]
 
   def index
-    @events = Event.where(group_id: current_user_group.id).order(start_date: :desc).page(params[:page]).per(20)
+    @events = Event.where(group_id: current_user_group.id).order(start_date: :desc).page(params[:page]).per(10)
   end
 
   def show

@@ -1,76 +1,105 @@
-<% provide(:title, "イベント一覧") %>
-<% content_for :pack_tag do %>
-  <%= javascript_pack_tag 'events/index' %>
-  <%= stylesheet_pack_tag 'events/index' %>
-<% end %>
 
-<%= render 'shared/topbar'%>
 
-<div class="box-allevent" date-step="1" data-intro='サークル内の全イベントが表示されています。任意のイベントを選択することで個別の詳細情報が表示されます。'>
+<div class="sidebar-fixed container-scroller" style="background-color: rgb(44, 44, 44);">
+  <%= render 'shared/sidebar' %>
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_navbar.html -->
+    <%= render 'shared/topbar' %>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="page-header">
+          <h3 class="page-title"> イベント一覧 </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Tables</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Data table</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="card">
+          <div class="card-body" style="color: black;">
+            <h4 class="card-title">イベント一覧</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive">
+                  <table id="order-listing" class="table">
+                    <thead>
+                      <tr>
+                        <th>イベント名</th>
+                        <th>日時</th>
+                        <th>人数</th>
+                        <th>出席率</th>
+                        <th>出金額</th>
+                        <th>総提出額</th>
+                        <th>出金状況</th>
+                        <th>編集</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @events.each do |event| %>
+                        <tr>
+                          <td><%=link_to event.name, group_event_path(group_id: event.group_id, id: event.id) %></td>
+                          <td>
+                            <% start_date, end_date = event.start_date, event.end_date %>
+                            <% if start_date == end_date %>
+                              <%= l start_date, format: :short %>
+                            <% else %>
+                              <%= l start_date, format: :short %> ~ <%= l end_date, format: :short %>
+                            <% end %>
+                          </td>
+                          <td>88人</td>
+                          <td>88%</td>
+                          <td>￥<%= event.amount %></td>
+                          <td>88%</td>
+                          <td>
+                            <label class="badge badge-danger">未完</label>
+                          </td>
+                          <td>
+                            <%= link_to '変更する', edit_group_event_path(group_id: event.group_id, id: event.id), class: "btn btn-outline-primary" %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
 
-  <div class="box-border">
-    <p class="text1">イベント一覧</p>
-    <p class="text2">イベント名</p>
-    <p class="text3">開催日</p>
-    <p class="text4">出金額</p>
+      <%= render 'shared/footer' %>
+    </div>
+    <!-- main-panel ends -->
   </div>
-
-  <button class="button-left-upper">
-    <%# <%= image_pack_tag("chevron-left.svg", class: "img-ball") %>
-  </button>
-  <button class="button-1-upper"></button>
-  <button class="button-2-upper"></button>
-  <button class="button-3-upper"></button>
-  <button class="button-4-upper"></button>
-  <button class="button-right-upper">
-    <%# <%= image_pack_tag("chevron-right.svg", class: "img-ball") %>
-  </button>
-
-  <button class="button-left-bottum">
-    <%# <%= image_pack_tag("chevron-left.svg", class: "img-ball") %>
-  </button>
-  <button class="button-1-bottum"></button>
-  <button class="button-2-bottum"></button>
-  <button class="button-3-bottum"></button>
-  <button class="button-4-bottum"></button>
-  <button class="button-right-bottum">
-    <%# <%= image_pack_tag("chevron-right.svg", class: "img-ball") %>
-  </button>
-
-
-  <div class="name1"></div>
-  <div class="name2"></div>
-  <div class="name3"></div>
-  <div class="name4"></div>
-  <div class="name5"></div>
-  <div class="name6"></div>
-  <div class="name7"></div>
-  <div class="name8"></div>
-  <div class="name9"></div>
-  <div class="name10"></div>
-  <div class="name11"></div>
-  <div class="name12"></div>
-  <div class="name13"></div>
-  <div class="name14"></div>
-  <div class="name15"></div>
-  <div class="name16"></div>
-  <div class="name17"></div>
-  <div class="name18"></div>
-  <div class="name19"></div>
-  <div class="name20"></div>
+  <!-- page-body-wrapper ends -->
 </div>
-
-
-<div class="box-shadow">
-  <% @events.each do |event| %>
-    <div class="namebox"><%= link_to event.name, group_event_path(group_id: event.group_id, id: event.id) %></div>
-    <div class="datebox"><%= l event.start_date %> ~ <%= l event.end_date %></div>
-    <div class="balancebox">￥<%= event.amount.to_s(:delimited) %></div>
-    <div class="change"></div>
-    <div class="checkbox"></div> <!--1-->
-  <% end %>
-</div>
-
-<%= render 'shared/sidebar' %>
-<%= render 'shared/menu' %>
-
+<script>
+  (function($) {
+    'use strict';
+    $(function() {
+      $('#order-listing').DataTable({
+        "aLengthMenu": [
+          [5, 10, 15, -1],
+          [5, 10, 15, "All"]
+        ],
+        "iDisplayLength": 10,
+        "language": {
+          search: ""
+        }
+      });
+      $('#order-listing').each(function() {
+        var datatable = $(this);
+        // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+        var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+        search_input.attr('placeholder', 'Search');
+        search_input.removeClass('form-control-sm');
+        // LENGTH - Inline-Form control
+        var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+        length_sel.removeClass('form-control-sm');
+      });
+    });
+  })(jQuery);
+</script>
