@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       get :resign
       post :invite
     end
-    resources :users, only: [:new] do
+    resources :users, only: [:index,:new] do
       collection do
         post :batch
         get  :share

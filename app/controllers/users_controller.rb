@@ -3,10 +3,14 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :set_group, only: %i[new batch]
+  before_action :set_group, only: %i[index new batch]
   before_action :cannot_access_to_other_groups, only: %i[new batch]
   before_action :only_executives_can_access, only: %i[new batch]
   require 'csv'
+
+  def index
+    @members = User.members_by_grade(group: @group, grade: User.grades[:grade1])
+  end
 
   def share
     group = Group.find(params[:group_id])

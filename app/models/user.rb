@@ -37,6 +37,14 @@ class User < ApplicationRecord
     admin
   end
 
+  def executive?(group)
+    if GroupUser.find_by(group_id: group.id, user_id: self.id, role: GroupUser.roles[:executives])
+      true
+    else
+      false
+    end
+  end
+
   def self.import!(file:, group:, password:)
     added_users = []
     transaction do
@@ -86,6 +94,15 @@ class User < ApplicationRecord
     members = []
     GroupUser.where(group_id: group.id).each do |relationship|
       members << User.find(relationship.user_id)
+    end
+    members
+  end
+
+  def self.members_by_grade(group:, grade:)
+    members = []
+    GroupUser.where(group_id: group.id).each do |relationship|
+      user = User.find_by(id: relationship.user_id, grade: grade)
+      members << user if user
     end
     members
   end

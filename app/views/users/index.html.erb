@@ -1,0 +1,77 @@
+<% provide(:title, "メンバー情報") %>
+<div class="sidebar-fixed container-scroller" style="background-color: rgb(44, 44, 44);">
+  <%= render 'shared/sidebar' %>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_navbar.html -->
+    <%= render 'shared/topbar' %>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="page-header">
+          <h3 class="page-title"> メンバー一覧 </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">サークルページ</a></li>
+              <li class="breadcrumb-item active" aria-current="page">メンバー一覧</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="card">
+          <div class="card-body" style="color: black;">
+            <h4 class="card-title">1年生</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive">
+                  <table id="order-listing" class="table">
+                    <thead>
+                      <tr>
+                        <th>名前</th>
+                        <th></th>
+                        <th>学年</th>
+                        <th></th>
+                        <th>性別</th>
+                        <th></th>
+                        <th>ステータス</th>
+                        <th>編集</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if @members.any? %>
+                        <% @members.each do |member| %>
+                          <tr>
+                            <td><%= member.name %></td>
+                            <td></td>
+                            <td><%= member.grade %></td>
+                            <td></td>
+                            <td><%= member.gender %></td>
+                            <td></td>
+                            <td>
+                              <% if member.executive?(@group) %>
+                                <label class="badge badge-danger">幹事</label>
+                              <% else %>
+                                <label class="badge badge-success">メンバー</label>
+                              <% end %>
+                            </td>
+                            <td>
+                              <button class="btn btn-outline-primary">?</button>
+                            </td>
+                          </tr>
+                        <% end %>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+
+      <%= render 'shared/footer' %>
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
