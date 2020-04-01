@@ -32,10 +32,10 @@
                 <td>?</td>
                 <td>
                   <% if transaction.completed? %>
-                    <%= link_to '完了', receipt_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token, format: 'pdf') %>
+                    <%= link_to '完了', receipt_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token, format: 'pdf'), class: 'btn btn-success' %>
                   <% else %>
                     <%= form_with model: transaction, url: event_transaction_path(event_id: @event.id, url_token: transaction.url_token) do |f| %>
-                      <%= f.select :completed, [['完了', true], ['未完了', false]], class: "btn-secondary", style: "background-color:rgb(236, 236, 236)" %>
+                      <%= f.select :completed, [['完了', true], ['未完了', false]], {}, { class: "btn btn-secondary", style: "background-color:rgb(236, 236, 236)" } %>
                     <% end %>
                   <% end %>
                 </td>
@@ -46,16 +46,7 @@
               <% end %>
             </tbody>
           </table>
-          <nav style="margin-top: 20px;">
-            <ul class="pagination d-flex justify-content-end pagination-primary">
-              <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-chevron-left"></i></a></li>
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-chevron-right"></i></a></li>
-            </ul>
-          </nav>
+          <%= paginate @attending_answers %>
           <button type="button" class="btn btn-danger btn-icon-text">
             <i class="mdi mdi-check"></i> 保存
           </button>

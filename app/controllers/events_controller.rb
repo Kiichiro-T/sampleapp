@@ -18,12 +18,12 @@ class EventsController < ApplicationController
     @unanswered_count = Answer.unanswered_count(event: @event)
 
     h1 = Answer.divide_answers_in_three(@event)
-    @attending_answers = h1[:attending] # 出席
-    @absent_answers = h1[:absent] # 欠席
-    @unanswered_answers = h1[:unanswered] # 未回答
+    @attending_answers = h1[:attending].page(params[:page]).per(10) # 出席
+    @absent_answers = h1[:absent].page(params[:page]).per(10) # 欠席
+    @unanswered_answers = h1[:unanswered].page(params[:page]).per(10) # 未回答
 
     @hash = User.unpaid_members(answers: @attending_answers, event: @event)
-    @uncompleted_transactions = @hash[:uncompleted_transactions]
+    @uncompleted_transactions = Kaminari.paginate_array(@hash[:uncompleted_transactions]).page(params[:page]).per(10)
     @unpaid_members = @hash[:unpaid_members]
     @unpaid_members_count = @unpaid_members.count
     @total_payment = @uncompleted_transactions.sum { |h| h[:payment] }
