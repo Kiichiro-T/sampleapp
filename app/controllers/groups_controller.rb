@@ -33,7 +33,6 @@ class GroupsController < ApplicationController
     GroupUser.where(group_id: @group.id, role: GroupUser.roles[:general]).each do |relationship|
       user_ids << User.find(relationship.user_id).id
     end
-    @generals = User.where(id: user_ids).order(furigana: :asc)
   end
 
   def inheritable_search
