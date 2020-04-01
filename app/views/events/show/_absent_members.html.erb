@@ -1,0 +1,55 @@
+<div class="card" style="margin-bottom: 20px;">
+  <div class="card-body">
+    <h4 class="card-title">欠席</h4>
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table id="order-listing" class="table">
+            <thead>
+              <tr>
+                <th>名前</th>
+                <th>回答日</th>
+                <th>学年</th>
+
+                <th>出金額</th>
+                <th>提出額</th>
+
+                <th>何か</th>
+                <th></th>
+                <th>編集</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @absent_answers.each do |answer| %>
+                <% user = User.find(answer.user_id) %>
+                <tr>
+                  <td><%= user.name %></td>
+                  <td><%= l answer.updated_at, format: :short %></td>
+                  <td><%= user.grade %></td>
+                  <td>?</td>
+                  <td>?</td>
+                  <td>?</td>
+                  <td></td>
+                  <td>
+                    <%= link_to '変更する', edit_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token), class: "btn btn-outline-primary" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <nav style="margin-top: 20px;">
+            <ul class="pagination d-flex justify-content-end pagination-primary">
+              <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-chevron-left"></i></a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">4</a></li>
+              <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-chevron-right"></i></a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
