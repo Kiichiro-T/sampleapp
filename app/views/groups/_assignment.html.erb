@@ -2,7 +2,7 @@
   <h3>任命</h3>
   <% if executives.count <= 7 %>
     <section>
-      <%= form_with url: assign_group_path(group_id: group.id) do |f| %>
+      <%= form_with url: assign_group_path(group_id: group.id), local: true do |f| %>
         <div class="form-group">
           <label style="display: block;">任命先選択</label>
           <input type="form" id="assignable-search" class="form-control col-md-8" aria-describedby="emailHelp" placeholder="任命したい人の名前を入力してください" style="display: inline-block; color: white;">

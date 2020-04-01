@@ -81,28 +81,34 @@ class GroupsController < ApplicationController
     members = User.where(id: user_ids)
     @members = members.where('name LIKE :keyword OR furigana LIKE :keyword ', keyword: "%#{keyword.tr('ぁ-ん','ァ-ン')}%").order(furigana: :asc)
     respond_to do |format|
-      format.json { render 'inheritable_members', json: @members }
+      format.json { render 'assignable_members', json: @members }
     end
   end
 
   def assign
     @executives = User.executives(@group)
-    general_relationship = GroupUser.general_relationship(group: @group, user: new_executive)
-    if general_relationship.update_attribute(:role, GroupUser.roles[:executive])
-      flash[:success] = '任命に成功しました'
-      redirect_to @group
+    if params[:new_executive].present?
+      if new_executive.present?
+        general_relationship = GroupUser.general_relationship(group: @group, user: new_executive)
+        if general_relationship.update(role: GroupUser.roles[:executive])
+          flash_and_redirect(key: :success, message: '任命に成功しました', redirect_url: root_url)
+        else
+          flash_and_render(key: :danger, message: 'エラーが発生しました。', action: 'change')
+        end
+      else
+        flash_and_render(key: :danger, message: '選択した人はすでに他のグループの幹事です。本人にご確認ください', action: 'change')
+      end
     else
-      render 'edit'
+      flash_and_render(key: :danger, message: '任命したい人を選択してください', action: 'change')
     end
   end
 
   def resign
     executive_relationship = GroupUser.executive_relationship(@group, current_user.id)
     if executive_relationship.update_attribute(:role, GroupUser.roles[:general])
-      flash[:success] = '辞任しました'
-      redirect_to @group
+      flash_and_redirect(key: :success, message: '辞任しました', redirect_url: root_url)
     else
-      render 'edit'
+      flash_and_render(key: :danger, message: 'エラーが発生しました。', action: 'change')
     end
   end
 
