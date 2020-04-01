@@ -49,13 +49,26 @@ class GroupsController < ApplicationController
   end
 
   def inherit
-    executive_relationship = GroupUser.executive_relationship(@group, current_user.id)
-    general_relationship = GroupUser.general_relationship(@group, new_executive_id)
-    if executive_relationship.update_attribute(:role, GroupUser.roles[:general]) && general_relationship.update_attribute(:role, GroupUser.roles[:executive])
-      flash[:success] = '引継ぎが成功しました'
-      redirect_to @group
+    @executives = User.executives(@group)
+    if params[:new_executive].present?
+      if new_executive.present?
+        executive_relationship = GroupUser.executive_relationship(group: @group, user: current_user)
+        general_relationship = GroupUser.general_relationship(group: @group, user: new_executive)
+        begin
+          GroupUser.transaction do
+            executive_relationship.update!(role: GroupUser.roles[:general])
+            general_relationship.update!(role: GroupUser.roles[:executive])
+          end
+          flash_and_redirect(key: :success, message: '引継ぎが成功しました', redirect_url: root_url)
+        rescue => e
+          ErrorUtility.log_and_notify(e)
+          flash_and_render(key: :danger, message: 'エラーが発生しました。', action: 'change')
+        end
+      else
+        flash_and_render(key: :danger, message: '選択した人はすでに他のグループの幹事です。本人にご確認ください', action: 'change')
+      end
     else
-      render 'edit'
+      flash_and_render(key: :danger, message: '引継ぎたい人を選択してください', action: 'change')
     end
   end
 
@@ -73,7 +86,8 @@ class GroupsController < ApplicationController
   end
 
   def assign
-    general_relationship = GroupUser.general_relationship(@group, new_executive_id)
+    @executives = User.executives(@group)
+    general_relationship = GroupUser.general_relationship(group: @group, user: new_executive)
     if general_relationship.update_attribute(:role, GroupUser.roles[:executive])
       flash[:success] = '任命に成功しました'
       redirect_to @group
@@ -133,7 +147,12 @@ class GroupsController < ApplicationController
       params.require(:group).permit(:name, :email, :group_number)
     end
 
-    def new_executive_id
-      params[:new_executive].to_i
+    def new_executive
+      user_id = params[:new_executive].to_i
+      if GroupUser.where(user_id: user_id, role: GroupUser.roles[:executive]).present?
+        nil
+      else
+        User.find(user_id)
+      end
     end
 end
