@@ -11,10 +11,11 @@ class HomesController < ApplicationController
     @new_events = Event.my_events(user).where(created_at: (today - 7.days)..today.end_of_day).limit(4).order(created_at: :asc)
     @total_payment = Transaction.total_payment_by_user(user)
     all_debts = Transaction.where(completed: false, debtor_id: user.id)
-    unpaid_debts = all_debts.where('deadline <= ?', Time.current.end_of_day)
+    t = Time.current.end_of_day
+    unpaid_debts = all_debts.where('deadline <= ?', t)
     @total_unpaid_debt = unpaid_debts.sum('debt') - unpaid_debts.sum('payment')
-    expected_debts = all_debts.where('deadline >= ?', Time.current.end_of_day)
+    expected_debts = all_debts.where('deadline >= ?', t)
     @total_expected_debt = expected_debts.sum('debt') - expected_debts.sum('payment')
-    @urgent_expected_debts = expected_debts.order(deadline: :asc).limit(2)
+    @urgent_expected_debts = all_debts.where(deadline: t..t.since(7.days)).order(deadline: :asc).limit(2)
   end
 end

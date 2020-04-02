@@ -21,7 +21,7 @@
               </p>
             </div>
             <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-              <h6 class="font-weight-bold mb-0">￥<%= debt.debt %></h6>
+              <h6 class="font-weight-bold mb-0">￥<%= debt.debt - debt.payment %></h6>
             </div>
           </div>
         <% end %>
