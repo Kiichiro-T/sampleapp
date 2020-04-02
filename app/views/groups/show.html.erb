@@ -1,139 +1,134 @@
-<% provide(:title, "サークルページ") %>
-<% content_for :pack_tag do %>
-  <%= javascript_pack_tag 'groups/show' %>
-  <%= stylesheet_pack_tag 'groups/show' %>
+<% provide(:title, "ークルプロフィール") %>
+<div class="sidebar-fixed container-scroller" style="background-color: rgb(44, 44, 44);">
+  <%= render 'shared/sidebar' %>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_navbar.html -->
+    <%= render 'shared/topbar' %>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="page-header">
+          <h3 class="page-title"> サークルプロフィール </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">サークルページ</a></li>
+              <li class="breadcrumb-item active" aria-current="page">サークルプロフィール</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body" style="background-color:rgb(255, 255, 255); color: black;" >
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h3>サークル名</h3>
+                      </div>
+                      <div>
+                        <button class="btn btn-outline-secondary btn-icon">
+                          <i class="mdi mdi-comment-processing"></i>
+                        </button>
+                        <button class="btn btn-primary">入部希望的な</button>
+                      </div>
+                    </div>
+                    <div class="mt-4 py-2 border-top border-bottom">
+                      <ul class="nav profile-navbar">
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">
+                            <i class="mdi mdi-account-outline"></i> 代表者 </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link active" href="#">
+                            <i class="mdi mdi-newspaper"></i> Feed </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">
+                            <i class="mdi mdi-calendar"></i> Agenda </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">
+                            <i class="mdi mdi-attachment"></i> Resume </a>
+                        </li>
+                      </ul>
+                    </div>
 
-  <!-- jQuery読み込み
-  <link href='../fullcalendar-4.3.1/packages/core/main.css' rel='stylesheet' />
-  <link href='../fullcalendar-4.3.1/packages/daygrid/main.css' rel='stylesheet' />
-  <link href='../fullcalendar-4.3.1/packages/timegrid/main.css' rel='stylesheet' />
-  <script src='../fullcalendar-4.3.1/packages/core/main.js'></script>
-  <script src='../fullcalendar-4.3.1/packages/interaction/main.js'></script>
-  <script src='../fullcalendar-4.3.1/packages/daygrid/main.js'></script>
-  <script src='../fullcalendar-4.3.1/packages/timegrid/main.js'></script>
-  <script>
+                  </div>
 
-    document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+                  <div class="col-lg-12">
+                    <div class="border-bottom text-center pb-4">
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      defaultDate: '2020-03-12',
-      navLinks: true, // can click day/week names to navigate views
-      selectable: true,
-      selectMirror: true,
-      select: function(arg) {
-        var title = prompt('Event Title:');
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay
-          })
-        }
-        calendar.unselect()
-      },
-      editable: true,
-      eventLimit: true, // allow "more" link when too many events
-      events: [
+                      <p>一言 </p>
+                      <div class="d-flex justify-content-between">
+                        <button class="btn btn-success">Hire Me</button>
+                        <button class="btn btn-success">Follow</button>
+                      </div>
+                    </div>
+                    <div class="border-bottom py-4">
+                      <p>サークルの特徴的なタグ</p>
+                      <div>
+                        <label class="badge badge-outline-light">BALONY</label>
+                        <label class="badge badge-outline-light">BALOFFY</label>
+                        <label class="badge badge-outline-light">BALONLY</label>
+                        <label class="badge badge-outline-light"></label>
+                        <label class="badge badge-outline-light"></label>
+                      </div>
+                    </div>
+                    <div class="border-bottom py-4">
+                      <div class="d-flex mb-3">
 
-      ]
-    });
+                        <div class="progress progress-md flex-grow">
+                          <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="55" style="width: 55%" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
 
-    calendar.render();
-    });
+                      </div>
+                      <div class="d-flex">
+                        <div class="progress progress-md flex-grow">
+                          <div class="progress-bar bg-success" role="progressbar" aria-valuenow="75" style="width: 75%" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="py-4">
+                      <p class="clearfix">
+                        <span class="float-left"> Status </span>
+                        <span class="float-right text-muted"> Active </span>
+                      </p>
+                      <p class="clearfix">
+                        <span class="float-left"> Phone </span>
+                        <span class="float-right text-muted"> 006 3435 22 </span>
+                      </p>
+                      <p class="clearfix">
+                        <span class="float-left"> Mail </span>
+                        <span class="float-right text-muted"> Jacod@testmail.com </span>
+                      </p>
+                      <p class="clearfix">
+                        <span class="float-left"> Facebook </span>
+                        <span class="float-right text-muted">
+                          <a href="#">David Grey</a>
+                        </span>
+                      </p>
+                      <p class="clearfix">
+                        <span class="float-left"> Twitter </span>
+                        <span class="float-right text-muted">
+                          <a href="#">@davidgrey</a>
+                        </span>
+                      </p>
+                    </div>
+                    <button class="btn btn-primary btn-block">Preview</button>
+                  </div>
 
-  </script>
-  -->
-<% end %>
-
-<%= render 'shared/topbar' %>
-
-<div class="box-calender" date-step="1" data-intro='カレンダーにはサークル内のイベントが自動で登録されています。また書き込みたい日時をクリックすると拡大します。'>
-  <div id='calendar'></div>
-</div>
-
-<div class="box-statistic" date-step="2" data-intro='統計情報はサークルの総合出席率が表示されています。クリックすることでより詳細を確認することができます。'>
-  <div style="position:absolute;
-              top: 50%;                    /* 親要素の半分下にずらす */
-              left: 50%;                   /* 親要素の半分右にずらす */
-              width: 170%;
-              transform: translateY(-50%) translateX(-50%);    /* 要素自体の半分、上と左にずらす */
-              padding: 20px;               /* 余白指定 */">
-    <canvas id="attend"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+      <%= render 'shared/footer' %>
+    </div>
+    <!-- main-panel ends -->
   </div>
-  <%= link_to '統計情報', statistics_group_path(@group), class: "text1" %>
+  <!-- page-body-wrapper ends -->
 </div>
-
-<div class="box-deposit" date-step="3" data-intro='デポジットの内訳を確認できます。クリックすることでデポジット残高を確認できます。'>
-  <div style="position:absolute;
-              top: 50%;                    /* 親要素の半分下にずらす */
-              left: 50%;                   /* 親要素の半分右にずらす */
-              width: 170%;
-              transform: translateY(-50%) translateX(-50%);    /* 要素自体の半分、上と左にずらす */
-              padding: 20px;               /* 余白指定 */">
-    <canvas id="Balance"></canvas>
-  </div>
-  <%= link_to 'デポジット', deposit_group_path(@group), class: "text2" %>
-</div>
-
-<div class="box-event"　date-step="4" data-intro='イベント情報には直近のイベントが表示されます。'>
-  <div class="box-border"></div>
-  <%= link_to 'イベント情報', group_events_path(group_id: @group.id), class: "text3" %>
-  <% if @events.any? %>
-    <% @events.each do |event| %>
-      <%= link_to event.name, group_event_path(group_id: @group.id, id: event.id), class: "datebox" %>
-    <% end %>
-    <%= paginate @events %>
-  <% end %>
-  <button class="button1">
-    <%#= image_pack_tag("chevron-left.svg", class: "img-ball") %>
-  </button>
-  <button class="button2">
-    <%#= image_pack_tag("chevron-right.svg", class: "img-ball") %>
-  </button>
-</div>
-
-<%= render 'shared/sidebar' %>
-<%= render 'shared/menu' %>
-
-<script>
-  new Chart(document.getElementById("attend"), {
-    type: "doughnut",
-    data: {
-      labels: ["出席", "欠席", "未回答"],
-      datasets: [
-        {
-          data: [500, 50, 200],
-          backgroundColor: [
-            "rgb(54, 162, 235)",
-            "rgb(255, 99, 132)",
-            "rgb(255, 205, 86)"
-          ]
-        }
-      ]
-    }
-  });
-  new Chart(document.getElementById("Balance"), {
-    type: "doughnut",
-    data: {
-      labels: ["準備金", "剰余デポジット"],
-      datasets: [
-        {
-          data: [900, 300],
-          backgroundColor: [
-            "rgb(54, 162, 235)",
-            "rgb(255, 99, 132)",
-
-          ]
-        }
-      ]
-    }
-  });
-</script>
