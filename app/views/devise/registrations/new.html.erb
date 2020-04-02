@@ -22,10 +22,10 @@
               </div>
               <div class="form-group">
                 <% grades = [] %>
-              <% 6.times do |i| %>
-                <% grades << ["#{i + 1}年生", "grade#{i + 1}"] %>
+                <% 6.times do |i| %>
+                  <% grades << ["#{i + 1}年生", "grade#{i + 1}"] %>
+                <% end %>
                 <% grades << ['その他', 'other'] %>
-              <% end %>
                 <%= f.label :grade, '学年' %>
                 <%= f.select :grade, grades, {}, { class: "form-control p_input", style: "color: white;" } %>
               </div>
