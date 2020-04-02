@@ -58,13 +58,7 @@
                           <td>￥<%= transaction.debt %></td>
                           <td>￥<%= transaction.payment %></td>
                           <td>
-
                             <%= render 'answer_select', answer: answer %>
-
-                            <%# <select class="btn-secondary" style="background-color: rgb(143, 143, 143); color: white;">
-                            <option>未回答</option>
-                            <option>出席</option>
-                            <option>欠席</option> %>
                           </td>
                           <td>
                             <% if transaction.completed? %>
@@ -129,10 +123,10 @@
   let answerSelect = $('select[id=answer-select]');
   answerSelect.change(function(e) {
     e.preventDefault(); // キャンセル可能なイベントをキャンセル
-    let answerId = $(this).data('answer-id');
-    let status = $(this).val();
+    let select = $(this)
+    let answerId = select.data('answer-id');
+    let status = select.val();
     let answerUrl = `/answers/${answerId}/change`;
-    let abc = $(this)
     $.ajax({
       url: answerUrl,
       type: 'PATCH',
@@ -142,11 +136,11 @@
       // contentType: false
     })
     .done(function() {
-      abc.removeAttr('class')
+      select.removeAttr('class')
       if (status === 'attending') {
-        abc.addClass('btn btn-success')
+        select.addClass('btn btn-success')
       } else if (status === 'absent') {
-        abc.addClass('btn btn-danger')
+        select.addClass('btn btn-danger')
       }
     })
     .fail(function() {

@@ -33,13 +33,13 @@
                   <% if transaction.completed? %>
                     <%= link_to '完了', receipt_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token, format: 'pdf') %>
                   <% else %>
-                    <%= form_with model: transaction, url: event_transaction_path(event_id: @event.id, url_token: transaction.url_token) do |f| %>
+                    <%= form_with model: transaction, url: transaction_path(url_token: transaction.url_token) do |f| %>
                       <%= f.select :completed, [['完了', true], ['未完了', false]], {}, { class: "btn btn-secondary", style: "background-color:rgb(236, 236, 236)" } %>
                     <% end %>
                   <% end %>
                 </td>
                 <td>
-                  <%= link_to '変更する', edit_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token), class: "btn btn-outline-primary" %>
+                  <%= link_to '変更する', edit_transaction_path(url_token: transaction.url_token), class: "btn btn-outline-primary" %>
                 </td>
               </tr>
             <% end %>

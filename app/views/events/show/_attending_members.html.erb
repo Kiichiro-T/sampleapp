@@ -23,26 +23,12 @@
               <% @attending_answers.each do |answer| %>
                 <% user = User.find(answer.user_id) %>
                 <% transaction = Event::Transaction.find_by(event_id: @event.id, debtor_id: user.id) %>
-              <tr>
-                <td><%= user.name %></td>
-                <td><%= l answer.updated_at, format: :short %></td>
-                <td><%= user.grade %></td>
-                <td>￥<%= transaction.debt %></td>
-                <td>￥<%= transaction.payment %></td>
-                <td>?</td>
-                <td>
-                  <% if transaction.completed? %>
-                    <%= link_to '完了', receipt_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token, format: 'pdf'), class: 'btn btn-success' %>
-                  <% else %>
-                    <%= form_with model: transaction, url: event_transaction_path(event_id: @event.id, url_token: transaction.url_token) do |f| %>
-                      <%= f.select :completed, [['完了', true], ['未完了', false]], {}, { class: "btn btn-secondary", style: "background-color:rgb(236, 236, 236)" } %>
-                    <% end %>
-                  <% end %>
-                </td>
-                <td>
-                  <%= link_to '変更', edit_event_transaction_path(event_id: transaction.event_id, url_token: transaction.url_token), class: "btn btn-outline-primary" %>
-                </td>
-              </tr>
+                <tr>
+                  <td><%= user.name %></td>
+                  <td><%= l answer.updated_at, format: :short %></td>
+                  <td><%= user.grade %></td>
+                  <%= render 'events/show/transaction', transaction: transaction %>
+                </tr>
               <% end %>
             </tbody>
           </table>
@@ -55,3 +41,35 @@
     </div>
   </div>
 </div>
+<script>
+  let transactionSelect = $('select[id=transaction-select]');
+  transactionSelect.change(function(e) {
+    e.preventDefault(); // キャンセル可能なイベントをキャンセル
+    let select = $(this)
+    let urlToken = select.data('url-token');
+    let payment = select.data('payment');
+    let completed = select.val();
+    let transactionUrl = `/transactions/${urlToken}/change`;
+    $.ajax({
+      url: transactionUrl,
+      type: 'PATCH',
+      data: { url_token: urlToken, completed: completed },
+      // dataType: 'json',
+      // processData: false,
+      // contentType: false
+    })
+    .done(function() {
+      td = select.parent().parent();
+      select.parent().remove();
+      let html = `<a class='btn btn-success' href='/transactions/${urlToken}/receipt.pdf'>完了</a>`;
+      if (completed === 'true') {
+        $('#payment').html(payment);
+        td.append(html);
+      }
+    })
+    .fail(function() {
+      alert('失敗しました');
+    });
+  });
+</script>
+

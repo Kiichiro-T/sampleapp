@@ -18,10 +18,7 @@ class AnswersController < ApplicationController
   # end
 
   def change
-    puts "あいあいあい#{params[:answer_id]}"
     if params[:answer_id]
-      puts params[:answer_id]
-      puts 'いいいいいいいいいいい'
       answer = Answer.find(params[:answer_id])
       if answer&.update(status: params[:status])
         flash.now[:success] = '回答を変更しました'
@@ -29,8 +26,6 @@ class AnswersController < ApplicationController
         flash.now[:danger] = '回答を変更できませんでした'
       end
       render partial: 'events/answer_select', locals: { answer: answer }
-    else
-      puts 'ああああああああああああ'
     end
   end
 

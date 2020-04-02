@@ -107,7 +107,7 @@
                                   <label class="badge badge-success">完了</label>
                                 </td>
                                 <td>
-                                  <%= link_to "発行", receipt_event_transaction_path(event_id: event.id, url_token: transaction.url_token, format: "pdf"), class: "btn btn-outline-primary" %>
+                                  <%= link_to "発行", receipt_transaction_path(url_token: transaction.url_token, format: "pdf"), class: "btn btn-outline-primary" %>
                                 </td>
                               <% else %>
                                 <td>
