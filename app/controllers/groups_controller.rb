@@ -14,12 +14,10 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @executives = User.executives(@group)
-    @generals = User.generals(@group)
   end
 
   def update
-    if @group.update_attributes(group_params)
+    if @group.update(group_params)
       flash[:success] = 'グループの設定を変更しました'
       redirect_to @group
     else
