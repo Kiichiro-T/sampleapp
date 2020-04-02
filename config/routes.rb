@@ -52,12 +52,15 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [] do
-    resources :transactions, only: %i[new create edit update], controller: 'events/transactions', param: :url_token do
-      member do
-        get :receipt, to: 'receipt_pdfs#show'
-      end
-    end
+    resources :transactions, only: %i[new create], controller: 'events/transactions', param: :url_token
     resources :answers, only: %i[edit update]
+  end
+
+  resources :transactions, only: %i[edit update], param: :url_token do
+    member do
+      get :receipt, to: 'receipt_pdfs#show'
+      patch :change
+    end
   end
 
   resources :answers, only: [] do

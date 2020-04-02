@@ -5,7 +5,8 @@ class ReceiptPdfsController < ApplicationController
   before_action :confirm_definitive_registration
   # 支払えてなかったら(後で実装？)
   def show
-    transaction = Transaction.find_by(event_id: @event.id, url_token: params[:url_token])
+    transaction = Transaction.find_by(url_token: params[:url_token])
+    @event = Event.find(transaction.event_id)
     debtor = User.find(transaction.debtor_id)
     respond_to do |format|
       format.html
