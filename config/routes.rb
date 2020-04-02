@@ -60,6 +60,12 @@ Rails.application.routes.draw do
     resources :answers, only: %i[edit update]
   end
 
+  resources :answers, only: [] do
+    member do
+      patch :change
+    end
+  end
+
   resources :orders, only: [:index] do
     collection do
       get 'step1'

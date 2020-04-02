@@ -34,8 +34,8 @@ gem 'prawn-table'
 # paypal sdk for checkout
 # gem 'paypal-checkout-sdk'
 # bulk insert
-gem 'activerecord-import'
-gem 'cancancan'
+# gem 'activerecord-import'
+# gem 'cancancan'
 gem 'roo'
 gem 'rails-i18n'
 # gems for sidekiq
@@ -51,7 +51,7 @@ gem 'paypal-sdk-rest'
 gem 'haml'
 gem 'kaminari'
 gem 'gimei'
-gem "pundit"
+# gem "pundit"
 gem 'chart-js-rails'
 
 group :development, :test do

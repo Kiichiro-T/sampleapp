@@ -7,6 +7,7 @@
     <!-- partial -->
     <div class="main-panel">
       <div class="content-wrapper" style="color: black;">
+        <%= render 'shared/flash' %>
         <div class="page-header">
           <h3 class="page-title"> Myイベント一覧 </h3>
           <nav aria-label="breadcrumb">
@@ -57,14 +58,13 @@
                           <td>￥<%= transaction.debt %></td>
                           <td>￥<%= transaction.payment %></td>
                           <td>
-                            <%= form_with model: answer, url: event_answer_path(event_id: event.id, id: answer.id) do |f| %>
-                              <%= f.select :status, [['未回答', 10], ['回答', 20], ['欠席', 30]], {}, { class: "btn btn-secondary", style: "background-color:rgb(236, 236, 236)" } %>
-                            <% end %>
+
+                            <%= render 'answer_select', answer: answer %>
+
                             <%# <select class="btn-secondary" style="background-color: rgb(143, 143, 143); color: white;">
                             <option>未回答</option>
                             <option>出席</option>
                             <option>欠席</option> %>
-                          </select>
                           </td>
                           <td>
                             <% if transaction.completed? %>
@@ -124,4 +124,33 @@
       });
     });
   })(jQuery);
+</script>
+<script>
+  let answerSelect = $('select[id=answer-select]');
+  answerSelect.change(function(e) {
+    e.preventDefault(); // キャンセル可能なイベントをキャンセル
+    let answerId = $(this).data('answer-id');
+    let status = $(this).val();
+    let answerUrl = `/answers/${answerId}/change`;
+    let abc = $(this)
+    $.ajax({
+      url: answerUrl,
+      type: 'PATCH',
+      data: { answer_id: answerId, status: status },
+      // dataType: 'json',
+      // processData: false,
+      // contentType: false
+    })
+    .done(function() {
+      abc.removeAttr('class')
+      if (status === 'attending') {
+        abc.addClass('btn btn-success')
+      } else if (status === 'absent') {
+        abc.addClass('btn btn-danger')
+      }
+    })
+    .fail(function() {
+      alert('失敗しました');
+    });
+  });
 </script>
