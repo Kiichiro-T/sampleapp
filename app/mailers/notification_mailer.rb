@@ -25,7 +25,7 @@ class NotificationMailer < ApplicationMailer
     end
   end
 
-  def send_when_update_event(user, current_user, group, event)
+  def send_when_update_event(user:, current_user:, group:, event:)
     @user = user
     @current_user = current_user
     @group = group

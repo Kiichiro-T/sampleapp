@@ -37,9 +37,6 @@ Rails.application.routes.draw do
       end
     end
     resources :events, only: %i[index new create show edit update]
-
-    # resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'groups/transactions'
-    # しばらく実装しない
   end
 
   resources :users, only: [] do

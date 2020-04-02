@@ -66,10 +66,9 @@ class EventsController < ApplicationController
   def update
     @event = Event.find(params[:id])
     members = User.members(@group)
-    if @event.update_attributes(event_params)
-      UpdateEventJob.perform_later(members, current_user, @group, @event)
-      flash[:success] = 'イベントの情報を更新しました'
-      redirect_to group_event_url(group_id: @group.id, event_id: @event.id)
+    if @event.update(event_params)
+      UpdateEventJob.perform_later(members: members, current_user: current_user, group: @group, event: @event)
+      flash_and_redirect(key: :success, message: 'イベント情報を更新しました', redirect_url: group_event_url(group_id: @group.id, id: @event.id))
     else
       render 'edit'
     end
