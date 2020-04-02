@@ -44,6 +44,11 @@ Rails.application.routes.draw do
 
   resources :users, only: [] do
     resources :transactions, only: [:index]
+    resources :events, only: [] do
+      collection do
+        get 'list'
+      end
+    end
   end
 
   resources :events, only: [] do

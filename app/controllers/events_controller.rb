@@ -3,12 +3,22 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :set_group
-  before_action :cannot_access_to_other_groups
-  before_action :only_executives_can_access, except: %i[show]
+  before_action :set_group, except: %i[list]
+  before_action :cannot_access_to_other_groups, except: %i[list]
+  before_action :cannot_access_to_other_user_page, only: %i[list]
+  before_action :only_executives_can_access, except: %i[show list]
 
   def index
     @events = Event.where(group_id: current_user_group.id).order(start_date: :desc).page(params[:page]).per(10)
+  end
+
+  def list
+    user = User.find(params[:user_id])
+    group_ids = []
+    Group.my_groups(user).each do |group|
+      group_ids << group.id
+    end
+    @events = Event.where(group_id: group_ids).order(start_date: :desc).page(params[:page]).per(10)
   end
 
   def show
@@ -71,5 +81,12 @@ class EventsController < ApplicationController
       params.require(:event).permit(:name, :start_date, :end_date, :answer_deadline,
                                     :description, :comment, :amount,
                                     :pay_deadline, :user_id, :group_id)
+    end
+
+    def cannot_access_to_other_user_page
+      return if current_user.id == params[:user_id].to_i
+
+      flash[:danger] = 'アクセス権限がありません'
+      raise Forbidden
     end
 end
