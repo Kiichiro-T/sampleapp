@@ -38,7 +38,7 @@ class User < ApplicationRecord
   end
 
   def executive?(group)
-    if GroupUser.find_by(group_id: group.id, user_id: self.id, role: GroupUser.roles[:executives])
+    if GroupUser.find_by(group_id: group.id, user_id: self.id, role: GroupUser.roles[:executive])
       true
     else
       false
