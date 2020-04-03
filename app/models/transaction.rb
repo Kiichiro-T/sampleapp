@@ -38,7 +38,8 @@ class Transaction < ApplicationRecord
   end
 
   def self.total_payment_by_user(user)
-    Transaction.where(completed: true, debtor_id: user.id).sum('debt')
+    # Transaction.where(debtor_id: user.id, completed: true).joins(event: :answers).where(event: { answers: { status: 'attending' } }).sum('debt')
+    Transaction.joins(event: :answers).where(debtor_id: user.id, completed: true, event: { answers: { status: 'attending' } }).distinct.sum('debt')
   end
 
   private

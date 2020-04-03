@@ -7,10 +7,10 @@ class HomesController < ApplicationController
     user = current_user
     @my_groups = Group.my_groups(user)
     today = Time.current.midnight
-    @events = Event.my_events(user).where('start_date >= ?', today).order(start_date: :asc).limit(5)
-    @new_events = Event.my_events(user).where(created_at: (today - 7.days)..today.end_of_day).limit(4).order(created_at: :asc)
+    @events = Event.my_attending_events(user).where('start_date >= ?', today).order(start_date: :asc).limit(5)
+    @new_events = Event.my_events(user).where(created_at: (today - 7.days)..today.end_of_day).limit(4).order(created_at: :desc)
     @total_payment = Transaction.total_payment_by_user(user)
-    all_debts = Transaction.where(completed: false, debtor_id: user.id)
+    all_debts = Transaction.joins(event: :answers).where(completed: false, debtor_id: user.id, event: { answers: { status: 'attending' } }).distinct
     t = Time.current.end_of_day
     unpaid_debts = all_debts.where('deadline <= ?', t)
     @total_unpaid_debt = unpaid_debts.sum('debt') - unpaid_debts.sum('payment')

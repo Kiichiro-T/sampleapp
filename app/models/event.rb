@@ -27,6 +27,14 @@ class Event < ApplicationRecord
     Event.where(group_id: group_ids)
   end
 
+  def self.my_attending_events(user)
+    group_ids = []
+    Group.my_groups(user).each do |group|
+      group_ids << group.id
+    end
+    Event.where(group_id: group_ids).joins(:answers).where(answers: { status: 'attending' })
+  end
+
   private
 
     # 開始日は今日以降の日付
