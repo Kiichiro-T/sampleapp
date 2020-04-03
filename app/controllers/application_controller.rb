@@ -46,6 +46,14 @@ class ApplicationController < ActionController::Base
                          redirect_url: edit_user_registration_url)
     end
 
+    def cannot_access_to_other_user_page
+      user = User.find(params[:user_id])
+      return if me?(user)
+
+      flash[:danger] = 'アクセス権限がありません'
+      raise Forbidden
+    end
+
     # ログイン後のリダイレクト先
     def after_sign_in_path_for(resource_or_scope)
       if current_user.admin?

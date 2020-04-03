@@ -81,11 +81,4 @@ class EventsController < ApplicationController
                                     :description, :comment, :amount,
                                     :pay_deadline, :user_id, :group_id)
     end
-
-    def cannot_access_to_other_user_page
-      return if current_user.id == params[:user_id].to_i
-
-      flash[:danger] = 'アクセス権限がありません'
-      raise Forbidden
-    end
 end

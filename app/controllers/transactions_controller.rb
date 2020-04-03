@@ -3,7 +3,7 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :other_user_cannot_access, only: %i[index]
+  before_action :cannot_access_to_other_user_page, only: %i[index]
   def index
     @transactions = Transaction.joins(event: :answers).includes(:group, :event).where(debtor_id: current_user.id, event: { answers: { status: 'attending' } }).distinct.order(deadline: :asc).page(params[:page]).per(5)
     # @paid_total_amount = Event::Transaction.paid_total_amount(current_user)
@@ -69,13 +69,4 @@ class TransactionsController < ApplicationController
   # "transaction/event".gsub('/', '_') => "transaction_event" 第1引数にマッチしたものを第2引数に置き換える
   # .to_sym => 文字列をシンボルに変換する
 
-  private
-
-    def other_user_cannot_access
-      user = User.find(params[:user_id])
-      return if me?(user)
-
-      flash[:danger] = '他のユーザーのMy収支ページにはアクセスできません'
-      raise Forbidden
-    end
 end
