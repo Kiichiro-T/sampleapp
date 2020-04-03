@@ -22,34 +22,48 @@ Rails.application.routes.draw do
       get :dashboard
       get :deposit
       get :statistics
+      get :change
+      get :inheritable_search
       post :inherit
+      get :assignable_search
       post :assign
       get :resign
       post :invite
     end
-    resources :users, only: [:new] do
+    resources :users, only: [:index,:new] do
       collection do
         post :batch
         get  :share
       end
     end
     resources :events, only: %i[index new create show edit update]
-
-    # resources :transactions, only: [:index, :new, :create, :edit, :update], controller: 'groups/transactions'
-    # しばらく実装しない
   end
 
   resources :users, only: [] do
     resources :transactions, only: [:index]
+    resources :events, only: [] do
+      collection do
+        get 'list'
+      end
+    end
   end
 
   resources :events, only: [] do
-    resources :transactions, only: %i[new create edit update], controller: 'events/transactions', param: :url_token do
-      member do
-        get :receipt, to: 'receipt_pdfs#show'
-      end
-    end
+    resources :transactions, only: %i[new create], controller: 'events/transactions', param: :url_token
     resources :answers, only: %i[edit update]
+  end
+
+  resources :transactions, only: %i[edit update], param: :url_token do
+    member do
+      get :receipt, to: 'receipt_pdfs#show'
+      patch :change
+    end
+  end
+
+  resources :answers, only: [] do
+    member do
+      patch :change
+    end
   end
 
   resources :orders, only: [:index] do

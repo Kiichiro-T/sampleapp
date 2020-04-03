@@ -37,6 +37,14 @@ class User < ApplicationRecord
     admin
   end
 
+  def executive?(group)
+    if GroupUser.find_by(group_id: group.id, user_id: self.id, role: GroupUser.roles[:executive])
+      true
+    else
+      false
+    end
+  end
+
   def self.import!(file:, group:, password:)
     added_users = []
     transaction do
@@ -90,6 +98,15 @@ class User < ApplicationRecord
     members
   end
 
+  def self.members_by_grade(group:, grade:)
+    members = []
+    GroupUser.where(group_id: group.id).each do |relationship|
+      user = User.find_by(id: relationship.user_id, grade: grade)
+      members << user if user
+    end
+    members
+  end
+
   # 支払いが済んでいない人たち
   def self.unpaid_members(answers:, event:)
     users = []
@@ -97,7 +114,7 @@ class User < ApplicationRecord
     answers.each do |answer|
       user = User.find(answer.user_id)
       transaction = Event::Transaction.find_by(event_id: event.id, debtor_id: user.id)
-      if transaction.completed?
+      unless transaction.completed?
         transactions << transaction
         users << user
       end

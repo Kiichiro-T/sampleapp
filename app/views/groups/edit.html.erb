@@ -1,116 +1,72 @@
 <% provide(:title, "サークル情報") %>
-<% content_for :pack_tag do %>
-  <%#= javascript_pack_tag 'groups/edit' %>
-  <%#= stylesheet_pack_tag 'groups/edit' %>
-<% end %>
 
-<main>
-  <div class="container-L">
-    <form class="box-option"
-          date-step="1"
-          data-intro='ここではサークルにかかわる情報が変更できます。'>
-      <p class="text1">サークル情報</p>
-      <div class="box-border-L"></div>
-      <div class="box-container">
-          <div class="container">
-            <div class="nice-wrap">
-              <input type="text" class="nice-textbox" id="event"
-              date-step="2"
-              data-intro='イベント名を記入し'>
-              <label for="event" class="nice-label">サークル名:BALONY</label>
+<div class="sidebar-fixed container-scroller" style="background-color: rgb(44, 44, 44);">
+  <%= render 'shared/sidebar' %>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_navbar.html -->
+    <%= render 'shared/topbar' %>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper" style="height: 100%;">
+        <div class="page-header">
+          <h3 class="page-title"> サークル情報 </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">サークルページ</a></li>
+              <li class="breadcrumb-item active" aria-current="page">サークル情報</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="row">
+          <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body" style="background-color: rgb(255, 255, 255); color: #000;">
+                <h4 class="card-title">サークル設定</h4>
+                <p class="card-description">サークルの設定ができます。</p>
+                <%= form_with model: @group, class: "forms-sample", local: true do |f| %>
+                  <div class="form-group row">
+                    <%= f.label :name, "サークル名", for: "exampleInputUsername2", class: 'col-sm-3 col-form-label' %>
+                    <div class="col-sm-9">
+                      <%= f.text_field :name, class: "form-control", id: "exampleInputUsername2", placeholder: "登録名", style: "color: white;" %>
+                    </div>
+                  </div>
+                  <%# <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">代表者名</label>
+                    <div class="col-sm-9">
+                      <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" style="color: white;">
+                    </div>
+                  </div> %>
+                  <div class="form-group row">
+                    <%= f.label :email, "代表者メールアドレス", for: "exampleInputMobile", class: "col-sm-3 col-form-label" %>
+                    <div class="col-sm-9">
+                      <%= f.email_field :email, autofocus: true, autocomplete: "email", id: "exampleInputMobile", class: 'form-control', placeholder: "代表者メールアドレス", style: "color: white;" %>
+                    </div>
+                  </div>
+                  <%# <div class="form-group row">
+                    <label for="exampleInputPassword2" class="col-sm-3 col-form-label">支払いPayPalアカウント</label>
+                    <div class="col-sm-9">
+                      <input type="password" class="form-control" id="exampleInputPassword2" placeholder="現在のPaypal" style="color: white;">
+                    </div>
+                  </div> %>
+                  <div class="form-group row">
+                    <%= f.label :group_number, "グループID(6~25文字)", for: "exampleInputConfirmPassword2", class: "col-sm-3 col-form-label" %>
+                    <div class="col-sm-9">
+                      <%= f.text_field :group_number, id: "exampleInputConfirmPassword2", class: 'form-control', placeholder: "現在のサークルID", style: "color: white;" %>
+                    </div>
+                  </div>
+                  <%= button_tag '変更', type: 'submit', class: "btn btn-primary mr-2" %>
+                  <%# <button class="btn btn-dark">リセット</button> %>
+                <% end %>
+              </div>
             </div>
           </div>
-          <div class="container">
-            <div class="nice-wrap">
-              <input type="text" class="nice-textbox" id="event"
-              date-step="2"
-              data-intro='イベント名を記入し'>
-              <label for="event" class="nice-label">代表者名:〇〇</label>
-            </div>
-          </div>
-          <div class="container">
-            <div class="nice-wrap">
-              <input type="text" class="nice-textbox" id="event"
-              date-step="2"
-              data-intro='イベント名を記入し'>
-              <label for="event" class="nice-label">代表者メールアドレス:</label>
-            </div>
-          </div>
-          <div class="container">
-            <div class="nice-wrap">
-              <input type="text" class="nice-textbox" id="event"
-              date-step="2"
-              data-intro='イベント名を記入し'>
-              <label for="event" class="nice-label">支払いPaypalアカウント:</label>
-            </div>
-          </div>
-          <div class="container">
-            <div class="nice-wrap">
-              <input type="text" class="nice-textbox" id="event"
-              date-step="2"
-              data-intro='イベント名を記入し'>
-              <label for="event" class="nice-label">サークルID:</label>
-            </div>
-          </div>
-          <button class="button1">保存</button>
         </div>
       </div>
-    </form>
-    <div class="box-member">
-      <a href="../roster/roster.html" class="text1">メンバー</a>
-      <div class="box-border-L"></div>
-      <div class="box-container">
-        <%= form_tag batch_group_users_path(group_id: @group.id), multipart: true do %>
-          <%= password_field_tag :password %><br>
-          <button class="button2-1"><%= file_field_tag :file %></button><br>
-          <%= submit_tag "インポート", class: "button2-1" %>
-        <% end %>
-        <%= form_with url: invite_group_path(id: @group.id) do |f| %>
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: '招待者のメールアドレス', class: "box9" %>
-          <%= f.submit "招待する", class: "box18" %>
-        <% end %>
-      </div>
+      <!-- content-wrapper ends -->
+      <%= render 'shared/footer' %>
     </div>
-    <div class="box-succession">
-      <p class="text1">引継ぎ</p>
-      <div class="box-border-S"></div>
-      <%= form_with url: inherit_group_path(group_id: @group.id) do |f| %>
-        <%= f.select :new_executive,
-          options_from_collection_for_select(@generals, :id, :name),
-          {
-            prompt: "選択できます"
-          }, class: 'box10'
-        %>
-        <%= f.submit "引継ぐ", class: "box18" %>
-      <% end %>
-    </div>
-    <div class="box-assign">
-      <p class="text1">任命</p>
-      <div class="box-border-S"></div>
-      <% if @executives.count <= 7 %>
-        <%= form_with url: assign_group_path(group_id: @group.id) do |f| %>
-          <%= f.select :new_executive,
-            options_from_collection_for_select(@generals, :id, :name),
-            {
-              prompt: "選択できます"
-            }, class: 'box10'
-          %>
-          <%= f.submit "任命", class: "box18" %>
-        <% end %>
-      <% else %>
-        <p class='box10'>現在幹事が８名いるため任命できません</p>
-      <% end %>
-    </div>
-    <div class="box-declinature">
-      <p class="text1">辞退</p>
-      <div class="box-border-S"></div>
-      <% unless @executives.count == 1 %>
-        <%= link_to "辞退", resign_group_path(group_id: @group.id), method: :patch, class: 'box15' %>
-      <% else %>
-        <p class='box15'>現在幹事が１名しかいないため辞退できません</p>
-      <% end %>
-    </div>
+    <!-- main-panel ends -->
   </div>
-</main>
-<%= render 'shared/sidebar' %>
-<%= render 'shared/menu' %>
+  <!-- page-body-wrapper ends -->
+</div>

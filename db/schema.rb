@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_28_081825) do
+ActiveRecord::Schema.define(version: 2020_03_29_103723) do
 
   create_table "answers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "status", default: 10, null: false, comment: "回答のステータス"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2020_03_28_081825) do
     t.text "description", null: false, comment: "イベント説明"
     t.integer "amount", null: false, comment: "イベントの金額"
     t.datetime "pay_deadline", null: false, comment: "支払い期限"
+    t.string "comment"
     t.index ["group_id"], name: "index_events_on_group_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end

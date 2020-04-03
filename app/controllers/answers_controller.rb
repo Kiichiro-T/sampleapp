@@ -17,6 +17,18 @@ class AnswersController < ApplicationController
   #   redirect_to group_event_path(group_id: event.group_id, id: event.id)
   # end
 
+  def change
+    if params[:answer_id]
+      answer = Answer.find(params[:answer_id])
+      if answer&.update(status: params[:status])
+        flash.now[:success] = '回答を変更しました'
+      else
+        flash.now[:danger] = '回答を変更できませんでした'
+      end
+      render partial: 'events/answer_select', locals: { answer: answer }
+    end
+  end
+
   def update
     @answer.update_attributes(answer_params)
     redirect_to group_event_path(group_id: event.group_id, id: event.id)

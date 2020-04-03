@@ -25,7 +25,7 @@ class NotificationMailer < ApplicationMailer
     end
   end
 
-  def send_when_update_event(user, current_user, group, event)
+  def send_when_update_event(user:, current_user:, group:, event:)
     @user = user
     @current_user = current_user
     @group = group
@@ -58,6 +58,18 @@ class NotificationMailer < ApplicationMailer
     mail(
       subject: "#{@event.name}の支払い期限が近づいています。",
       to: @debtor.email
+    ) do |format|
+      format.text
+    end
+  end
+
+  def invite(group:, user:, current_user:)
+    @group = group
+    @user = user
+    @current_user = current_user
+    mail(
+      subject: '仮登録のお知らせ',
+      to: @user.email
     ) do |format|
       format.text
     end

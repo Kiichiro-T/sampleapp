@@ -39,7 +39,7 @@ class Event::Transaction < Transaction
     )
   end
 
-  def update_transaction_when_update_event(member, user, event)
+  def update_transaction_when_update_event(member:, user:, event:)
     update_attributes(
       deadline: event.pay_deadline,
       debt: event.amount,
