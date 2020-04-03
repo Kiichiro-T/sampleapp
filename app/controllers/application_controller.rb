@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
     # 幹事のみアクセス可能
     def only_executives_can_access
-      return unless GroupUser.general_relationship(group: @group, user: current_user)
+      return if current_user_group
 
       flash[:danger] = '幹事しかアクセスできません'
       raise Forbidden
@@ -42,8 +42,8 @@ class ApplicationController < ActionController::Base
     def confirm_definitive_registration
       return if current_user.definitive_registration
 
-      flash[:danger] = 'アカウントは一括登録後の状態ですので、パスワードまたはメールアドレスを変更するようにしてください。'
-      redirect_to edit_user_registration_url
+      flash_and_redirect(key: :danger, message: 'アカウントは一括登録後の状態ですので、パスワードまたはメールアドレスを変更するようにしてください。',
+                         redirect_url: edit_user_registration_url)
     end
 
     # ログイン後のリダイレクト先

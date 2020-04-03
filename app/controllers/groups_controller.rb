@@ -3,10 +3,9 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :one_user_cannot_be_some_executives, only: %i[new create]
-  before_action :set_group, except: %i[new create]
-  before_action :cannot_access_to_other_groups, except: %i[new create]
-  before_action :only_executives_can_access, except: %i[new create]
+  before_action :set_group
+  before_action :cannot_access_to_other_groups, except: %i[show]
+  before_action :only_executives_can_access, except: %i[show]
 
   def show
     events = Event.my_events(current_user).order(start_date: :desc)
@@ -105,14 +104,6 @@ class GroupsController < ApplicationController
 
     def set_group
       @group = Group.find(params[:id])
-    end
-
-    # １ユーザーにつき１幹事まで
-    def one_user_cannot_be_some_executives
-      return unless GroupUser.executive_relationship(current_user)
-
-      flash[:danger] = '幹事は複数のグループの幹事を兼任することはできません。複数のグループの幹事である場合は新しいアカウントを作成するようにしてください。'
-      raise Forbidden
     end
 
     def group_params
