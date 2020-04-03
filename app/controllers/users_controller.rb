@@ -48,32 +48,33 @@ class UsersController < ApplicationController
   end
 
   def batch
-    if params[:file].blank?
-      message_and_redirect('ファイルを選択してください。')
+    file = params[:file]
+    if file.blank?
+      flash_and_redirect(key: :danger, message: 'ファイルを選択してください。', redirect_url: change_group_url(@group))
       return
-    elsif File.extname(params[:file].original_filename) != '.csv'
-      message_and_redirect('csvファイルのみ読み込み可能です。')
+    elsif File.extname(file.original_filename) != '.csv'
+      flash_and_redirect(key: :danger, message: 'csvファイルのみ読み込み可能です。', redirect_url: change_group_url(@group))
       return
     elsif params[:password].blank?
-      message_and_redirect('パスワードを入力してください。')
+      flash_and_redirect(key: :danger, message: 'パスワードを入力してください。', redirect_url: change_group_url(@group))
       return
     end
 
-    hash = User.import!(file: params[:file], group: @group, password: params[:password])
+    hash = User.import!(file: file, group: @group, password: params[:password])
     if hash[:status] == 'success'
       added_users = hash[:added_users]
       added_count = hash[:added_count]
       if added_count <= 0
-        message_and_redirect('データがありません')
+        flash_and_redirect(key: :danger, message: 'データがありません', redirect_url: change_group_url(@group))
       else
         added_users.each do |user|
           NotificationMailer.send_when_batch_registration(user, current_user).deliver_later(wait: 1.minute)
         end
-        flash[:success] = "#{added_count}人のユーザーを追加し通知メールを送信しました。"
-        redirect_to edit_group_url(@group)
+        flash_and_redirect(key: :success, message: "#{added_count}人のユーザーを追加し通知メールを送信しました。",
+                           redirect_url: group_users_url(group_id: @group.id))
       end
     else
-      message_and_redirect(hash[:error_message])
+      flash_and_redirect(key: :danger, message: hash[:error_message], redirect_url: change_group_url(@group))
     end
   end
 
@@ -100,10 +101,5 @@ class UsersController < ApplicationController
         end
       end
       send_data(csv, filename: 'share.csv', type: 'application/csv')
-    end
-
-    def message_and_redirect(message)
-      flash[:danger] = message
-      redirect_to edit_group_url(@group)
     end
 end

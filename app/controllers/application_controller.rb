@@ -60,12 +60,12 @@ class ApplicationController < ActionController::Base
       new_user_session_path
     end
 
-    def flash_and_redirect(key: :notice, message:, redirect_url:)
+    def flash_and_redirect(key: :primary, message:, redirect_url:)
       flash[key] = message
       redirect_to redirect_url
     end
 
-    def flash_and_render(key: :notice, message:, action:)
+    def flash_and_render(key: :primary, message:, action:)
       flash.now[key] = message
       render action
     end

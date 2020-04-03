@@ -104,7 +104,7 @@ class User < ApplicationRecord
       user = User.find_by(id: relationship.user_id, grade: grade)
       members << user if user
     end
-    members.sort_by { |member| member.furigana } # 配列をフリガナ順に並べる
+    members #.sort_by { |member| member.furigana } # 配列をフリガナ順に並べる
   end
 
   # 支払いが済んでいない人たち
