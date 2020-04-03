@@ -5,12 +5,12 @@ class TransactionsController < ApplicationController
   before_action :confirm_definitive_registration
   before_action :other_user_cannot_access, only: %i[index]
   def index
-    @transactions = Transaction.includes(:group, :event).where(debtor_id: current_user.id).order(deadline: :asc).page(params[:page]).per(5)
+    @transactions = Transaction.joins(event: :answers).includes(:group, :event).where(debtor_id: current_user.id, event: { answers: { status: 'attending' } }).distinct.order(deadline: :asc).page(params[:page]).per(5)
     # @paid_total_amount = Event::Transaction.paid_total_amount(current_user)
     # @unpaid_total_amount = Event::Transaction.unpaid_total_amount(current_user)
     user = current_user
     @total_payment = Transaction.total_payment_by_user(user)
-    all_debts = Transaction.where(completed: false, debtor_id: user.id)
+    all_debts = Transaction.joins(event: :answers).where(completed: false, debtor_id: user.id, event: { answers: { status: 'attending' } }).distinct
     t = Time.current.end_of_day
     unpaid_debts = all_debts.where('deadline <= ?', t)
     @total_unpaid_debt = unpaid_debts.sum('debt') - unpaid_debts.sum('payment')
