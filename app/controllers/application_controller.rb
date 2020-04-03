@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
                          redirect_url: edit_user_registration_url)
     end
 
-    def cannot_access_to_other_user_page
+    def other_user_cannot_access
       user = User.find(params[:user_id])
       return if me?(user)
 

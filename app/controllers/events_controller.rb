@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   before_action :confirm_definitive_registration
   before_action :set_group, except: %i[list]
   before_action :cannot_access_to_other_groups, except: %i[list]
-  before_action :cannot_access_to_other_user_page, only: %i[list]
+  before_action :other_user_cannot_access, only: %i[list]
   before_action :only_executives_can_access, except: %i[show list]
 
   def index
