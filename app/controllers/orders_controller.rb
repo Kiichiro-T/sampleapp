@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :confirm_definitive_registration
   before_action :executives_cannot_access, except: [:index]
   before_action :set_group, only: [:index]
   before_action :only_executives_can_access, only: [:index]
