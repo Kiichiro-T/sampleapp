@@ -16,6 +16,7 @@ module AppName
     config.i18n.default_locale = :ja
     config.active_job.queue_adapter = :sidekiq
     config.filter_parameters += [/password/]
+    config.assets.enabled = false
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
