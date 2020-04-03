@@ -1,16 +1,6 @@
 require.context('../images', true)
 
-import '../src/materialdesignicons.min.css'
-import '../src/vendor.bundle.base.css'
-import '../src/jquery-jvectormap.css'
-// import '../src/flag-icon.min.css'
-import '../src/owl.carousel.min.css'
-import '../src/owl.theme.default.min.css'
-import '../src/css-stars.css'
 import './application.css'
-import '../src/dataTables.bootstrap4.css'
-import '../src/select2.min.css'
-import '../src/select2-bootstrap.min.css'
 import '../javascripts/rails-ujs'
 import '../javascripts/vendor.bundle.base'
 import '../javascripts/Chart.min'
