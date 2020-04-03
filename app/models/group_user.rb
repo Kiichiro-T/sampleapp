@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class GroupUser < ApplicationRecord
-  belongs_to :group, dependent: :destroy
-  belongs_to :user, dependent: :destroy
+  belongs_to :group
+  belongs_to :user
   enum role: {
     general: 10,  # 一般人
     executive: 90 # 幹部
