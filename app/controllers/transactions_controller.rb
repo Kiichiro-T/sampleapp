@@ -69,13 +69,4 @@ class TransactionsController < ApplicationController
   # "transaction/event".gsub('/', '_') => "transaction_event" 第1引数にマッチしたものを第2引数に置き換える
   # .to_sym => 文字列をシンボルに変換する
 
-  private
-
-    def other_user_cannot_access
-      user = User.find(params[:user_id])
-      return if me?(user)
-
-      flash[:danger] = '他のユーザーのMy収支ページにはアクセスできません'
-      raise Forbidden
-    end
 end

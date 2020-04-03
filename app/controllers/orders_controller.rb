@@ -1,7 +1,10 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  # before_action :paid_group_cannot_access
-  before_action :save_to_session, only: :step2
+  before_action :confirm_definitive_registration
+  before_action :executives_cannot_access, except: [:index]
+  before_action :set_group, only: [:index]
+  before_action :only_executives_can_access, only: [:index]
+  before_action :save_to_session, only: [:step2]
   before_action :prepare_new_order, only: [:paypal_create_payment, :paypal_create_subscription]
 
   def index
@@ -98,15 +101,9 @@ class OrdersController < ApplicationController
       params.require(:orders).permit(:product_id, :token, :charge_id)
     end
 
-    def paid_group_cannot_access
+    def executives_cannot_access
       if current_user_group
-        return unless current_user_group.payment_status == 'paid'
-
-        flash[:note] = '購読済みです'
-        redirect_to root_url
-      else
-        flash[:note] = '権限がありません'
-        redirect_to root_url
+        flash_and_redirect(key: :danger, message: 'すでにグループの幹事である人は新しくグループを作成することができません', redirect_url: root_url)
       end
     end
 
@@ -115,6 +112,8 @@ class OrdersController < ApplicationController
     end
 
     def save_to_session
+      return flash_and_redirect(key: :danger, message: 'グループの情報を入力してください', redirect_url: step1_orders_url) unless params[:group]
+
       session[:name] = group_params[:name]
       session[:email] = group_params[:email]
       session[:group_number] = group_params[:group_number]
@@ -124,7 +123,6 @@ class OrdersController < ApplicationController
         email: session[:email],
         group_number: session[:group_number]
       )
-
       render 'step1' unless @group.valid?
     end
 end

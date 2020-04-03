@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       end
     end
     resources :events, only: %i[index new create show edit update]
+    resources :orders, only: %i[index]
   end
 
   resources :users, only: [] do
@@ -66,7 +67,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :orders, only: [:index] do
+  resources :orders, only: [] do
     collection do
       get 'step1'
       get 'step2'

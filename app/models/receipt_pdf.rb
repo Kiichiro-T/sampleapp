@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReceiptPdf < Prawn::Document
-  def initialize(debtor, event, transaction)
+  def initialize(debtor:, event:, transaction:)
     super(
       page_size: 'A4'
     )

@@ -3,19 +3,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :set_answer, only: %i[update]
   before_action :other_user_cannot_access, only: %i[update]
-
-  # def index
-  #   @transactions = Event::Transaction.all.limit(5)
-  # end
-
-  # def create
-  #   event = Event.find(params[:event_id])
-  #   @answer = Answer.new(answer_params)
-  #   @answer.save
-  #   redirect_to group_event_path(group_id: event.group_id, id: event.id)
-  # end
 
   def change
     if params[:answer_id]
@@ -40,16 +28,13 @@ class AnswersController < ApplicationController
       params.require(:answer).permit(:status, :user_id, :event_id)
     end
 
-    def set_answer
-      @answer = Answer.find(params[:id])
-    end
-
     def other_user_cannot_access
+      answer = Answer.find(params[:id])
       event = Event.find(params[:event_id])
-      answer = Answer.find_by(user_id: current_user.id, event_id: event.id)
-      return if answer == @answer
+      my_answer = Answer.find_by(user_id: current_user.id, event_id: event.id)
+      return if my_answer == answer
 
-      flash[:danger] = '他のユーザーの回答は変更できません'
-      redirect_to root_url
+      flash[:danger] = 'アクセス権限がありません'
+      raise Forbidden
     end
 end
