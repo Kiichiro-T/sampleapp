@@ -1,7 +1,0 @@
-<%= form_tag batch_group_users_path(group_id: @group.id), multipart: true do %>
-  <%= file_field_tag :file %><br />
-  <%= label :password, "初期パスワード" %>
-  <%= password_field_tag :password %><br />
-  <%= submit_tag "インポート" %>
-  <p><%= link_to "テンプレートを使用する", csv_template_path(format: :csv), class: "btn btn-primary" %></p>
-<% end %>

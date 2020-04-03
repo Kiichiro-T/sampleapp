@@ -3,9 +3,9 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :confirm_definitive_registration
-  before_action :set_group, only: %i[index new batch]
-  before_action :cannot_access_to_other_groups, only: %i[new batch]
-  before_action :only_executives_can_access, only: %i[new batch]
+  before_action :set_group, only: %i[index batch]
+  before_action :cannot_access_to_other_groups, only: %i[index batch]
+  before_action :only_executives_can_access, only: %i[batch]
   require 'csv'
 
   def index
@@ -33,9 +33,6 @@ class UsersController < ApplicationController
         share_csv(users)
       end
     end
-  end
-
-  def new
   end
 
   def csv_template
