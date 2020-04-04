@@ -74,6 +74,15 @@ class EventsController < ApplicationController
     end
   end
 
+  def destroy
+    event = Event.find(params[:id])
+    if event.destroy
+      flash_and_redirect(key: :success, message: 'イベントを削除しました', redirect_url: group_events_url(group_id: event.group_id, id: event.id))
+    else
+      flash_and_render(key: :danger, message: 'エラーにより削除できませんでした', action: 'show')
+    end
+  end
+
   private
 
     def event_params

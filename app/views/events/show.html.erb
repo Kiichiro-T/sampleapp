@@ -43,6 +43,12 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <%# <button id="event-delete-button" class="btn btn-danger col-md-12" onclick="showSwal('warning-message-and-cancel')" %>
+            <%# 削除 %>
+          <%# </button> %>
+          <%= link_to '削除', group_event_path(group_id: @event.group_id, id: @event.id), method: :delete, class: "btn btn-danger col-md-12", data: { confirm: '本当に削除しますか？' } %>
+        </div>
       </div>
       <!-- content-wrapper ends -->
 
@@ -103,5 +109,70 @@
   })(jQuery);
 </script>
 <script>
-<script>
+  // (function($) {
+  //   button = $('#event-delete-button')
+  //   button.on('click', function(e) {
+  //     e.preventDefault();
+  //     let options = {
+  //       title: '本当に削除しますか？',
+  //       text: "イベントに関する情報も失われます！",
+  //       icon: 'warning',
+  //       showCancelButton: true,
+  //       confirmButtonColor: '#3f51b5',
+  //       cancelButtonColor: '#ff4081',
+  //       confirmButtonText: 'Great ',
+  //       buttons: {
+  //         cancel: {
+  //           text: "Cancel",
+  //           value: null,
+  //           visible: true,
+  //           className: "btn btn-danger",
+  //           closeModal: true,
+  //         },
+  //         confirm: {
+  //           text: "OK",
+  //           value: true,
+  //           visible: true,
+  //           className: "btn btn-primary",
+  //           closeModal: true
+  //         }
+  //       }
+  //     };
+  //     swal(options).then(function(val) {
+  //       if (val) {
+  //         // Okボタンが押された時の処理
+  //         let groupId = button.data('group-id');
+  //         let eventId = button.data('event-id');
+  //         let url1 = `/groups/${groupId}/events/${eventId}`;
+  //         $.ajax({
+  //           url: url1,
+  //           type: 'DELETE',
+  //           // processData: false,
+  //           contentType: false,
+  //           async: false
+  //         })
+  //         .done(function() {
+  //           let url2 = `/groups/${groupId}/events/`;
+  //           window.location.href = url2;
+  //         })
+  //         .fail(function() {
+  //           swal({
+  //           text: "エラーが発生しました",
+  //           icon: "warning",
+  //           buttons: false,
+  //           timer: 1000
+  //           });
+  //         });
+  //       } else {
+  //         // キャンセルボタンを押した時の処理
+  //         swal({
+  //           text: "キャンセルされました",
+  //           icon: "warning",
+  //           buttons: false,
+  //           timer: 1000
+  //         });
+  //       }
+  //     })
+  //   });
+  // })(jQuery);
 </script>

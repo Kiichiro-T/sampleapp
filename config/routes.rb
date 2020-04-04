@@ -36,7 +36,7 @@ Rails.application.routes.draw do
         get  :share
       end
     end
-    resources :events, only: %i[index new create show edit update]
+    resources :events
     resources :orders, only: %i[index]
   end
 
