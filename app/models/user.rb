@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :group_users, dependent: :destroy
   has_many :group, through: :group_users
   accepts_nested_attributes_for :group_users
-  has_many :answers
+  has_many :answers, dependent: :destroy
   has_many :events, through: :answers # :nullifyの方がよいか？
   has_many :transactions, dependent: :destroy # :nullifyの方がよいか？
   validates :name, presence: true, length: { maximum: 100 }
