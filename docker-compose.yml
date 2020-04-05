@@ -4,7 +4,7 @@ services:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     environment:
-      - "REDIS_URL=redis://redis:6379"
+      REDIS_URL: ${REDIS_URL}
     volumes:
       - .:/app_name
     ports:
@@ -23,7 +23,10 @@ services:
   db:
     image: mysql:5.7.27
     environment:
-      - MYSQL_ROOT_PASSWORD=password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./docker/mysql/volumes:/var/lib/mysql
     ports:
